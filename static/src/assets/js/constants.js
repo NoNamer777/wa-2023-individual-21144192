@@ -1,0 +1,3 @@
+const PAGES = {
+    header: 'header',
+};
