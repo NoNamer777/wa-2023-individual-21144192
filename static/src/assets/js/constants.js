@@ -1,7 +1,7 @@
 const PAGES = {
     footer: 'footer',
     header: 'header',
-    home: 'home',
+    overview: 'overview',
 };
 
 const APP_TITLE_PREFIX = 'DnD Classes - ';

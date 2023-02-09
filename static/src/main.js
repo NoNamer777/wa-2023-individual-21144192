@@ -37,9 +37,9 @@ function loadPage(name) {
         case PAGES.footer:
             footerController();
             break;
-        case PAGES.home:
+        case PAGES.overview:
             setCurrentPage(name);
-            homeController();
+            overviewController();
             break;
         default:
             return false;
@@ -67,7 +67,7 @@ function initializeApp() {
     loadPage(PAGES.footer);
 
     // Attempt to load the page from the URL, otherwise fallback to the home page.
-    loadPageFromURL(PAGES.home);
+    loadPageFromURL(PAGES.overview);
 }
 
 window.addEventListener('load', () => initializeApp());
