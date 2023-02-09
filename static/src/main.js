@@ -4,6 +4,7 @@ function getCurrentPage() {
 
 function setCurrentPage(name) {
     location.hash = name;
+    document.querySelector('head title').innerText = `${APP_TITLE_PREFIX}${capitalize(name)}`;
 }
 
 /**

@@ -3,3 +3,5 @@ const PAGES = {
     header: 'header',
     home: 'home',
 };
+
+const APP_TITLE_PREFIX = 'DnD Classes - ';
