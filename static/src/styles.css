@@ -1,2 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
+
 @import './assets/styles/header.css';
 @import './assets/styles/footer.css';
+
+html,
+body {
+    height: 100%;
+    
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+}
+
+main {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+main header,
+main footer {
+    flex: 0 0 2em;
+}
+
+main article {
+    flex: 1 1 auto;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
