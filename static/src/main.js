@@ -7,6 +7,9 @@ function loadPage(name) {
         case PAGES.header:
             headerController();
             break;
+        case PAGES.footer:
+            footerController();
+            break;
         default:
             return false;
     }
@@ -15,8 +18,9 @@ function loadPage(name) {
 
 /** Handles initializing the application. */
 function initializeApp() {
-    // Always load the header
+    // Always load the header and footer
     loadPage(PAGES.header);
+    loadPage(PAGES.footer);
 }
 
 window.addEventListener('load', () => initializeApp());
