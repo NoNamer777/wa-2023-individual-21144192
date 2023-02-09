@@ -3,6 +3,12 @@
 @import './assets/styles/header.css';
 @import './assets/styles/footer.css';
 
+:root {
+    --bg-primary: #70839f;
+    --color: #0a0a0a;
+    --color-hover: #2d2d2d;
+}
+
 html,
 body {
     height: 100%;
