@@ -1,3 +1,7 @@
+function getCurrentPage() {
+    return location.hash.slice(1);
+}
+
 function setCurrentPage(name) {
     location.hash = name;
 }
@@ -42,11 +46,27 @@ function loadPage(name) {
     return true;
 }
 
+/**
+ * Handles loading a page from the URL.
+ * @param fallback The page to fall back to if loading the page from the URL fails to load.
+ */
+function loadPageFromURL(fallback) {
+    const currentPage = getCurrentPage();
+
+    if (currentPage && loadPage(currentPage)) {
+        return;
+    }
+    loadPage(fallback);
+}
+
 /** Handles initializing the application. */
 function initializeApp() {
     // Always load the header and footer
     loadPage(PAGES.header);
     loadPage(PAGES.footer);
+
+    // Attempt to load the page from the URL, otherwise fallback to the home page.
+    loadPageFromURL(PAGES.home);
 }
 
 window.addEventListener('load', () => initializeApp());
