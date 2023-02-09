@@ -1,7 +1,7 @@
 const parser = new DOMParser();
 
-async function fetchTemplate(page) {
-    const template = await (await fetch(`templates/${page}.html`)).text();
+async function fetchTemplate(location) {
+    const template = await (await fetch(`${location}.html`)).text();
 
     return parser.parseFromString(template, 'text/html').body.firstChild;
 }

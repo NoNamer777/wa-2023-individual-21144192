@@ -13,7 +13,7 @@ function setCurrentPage(name) {
  */
 function togglePageStyle(name) {
     const link = window.document.querySelector(`head link[href='']`);
-    const stylesheetLocation = `./assets/styles/${name}.css`;
+    const stylesheetLocation = `app/pages/${name}/${name}.css`;
 
     if (!stylesheetLocation) {
         throw new Error(`Could not find the stylesheet for the current page. ('${name}')`);
