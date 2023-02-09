@@ -1,12 +1,12 @@
 {
     "name": "wa-2023-individual-21144192",
+    "author": "NoNamer777",
     "version": "0.0.1",
+    "license": "GPL-3.0 license",
     "repository": {
         "type": "git",
         "url": "https://github.com/nonamer777/wa-2023-individual-21144192"
     },
-    "author": "NoNamer777",
-    "license": "GPL-3.0 license",
     "bugs": {
         "url": "https://github.com/nonamer777/wa-2023-individual-21144192/issues"
     },
