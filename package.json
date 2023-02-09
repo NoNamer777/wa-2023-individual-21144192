@@ -1,14 +1,21 @@
 {
-  "name": "wa-2023-individual-21144192",
-  "version": "0.0.1",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nonamer777/wa-2023-individual-21144192"
-  },
-  "author": "NoNamer777",
-  "license": "GPL-3.0 license",
-  "bugs": {
-    "url": "https://github.com/nonamer777/wa-2023-individual-21144192/issues"
-  },
-  "homepage": "https://github.com/nonamer777/wa-2023-individual-21144192"
+    "name": "wa-2023-individual-21144192",
+    "version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nonamer777/wa-2023-individual-21144192"
+    },
+    "author": "NoNamer777",
+    "license": "GPL-3.0 license",
+    "bugs": {
+        "url": "https://github.com/nonamer777/wa-2023-individual-21144192/issues"
+    },
+    "homepage": "https://github.com/nonamer777/wa-2023-individual-21144192",
+    "scripts": {
+        "format:check": "prettier -l .",
+        "format:write": "prettier -w ."
+    },
+    "devDependencies": {
+        "prettier": "^2.8.3"
+    }
 }
