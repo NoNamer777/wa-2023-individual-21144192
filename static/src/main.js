@@ -1,9 +1,12 @@
 function getCurrentPage() {
-    return location.hash.slice(1);
+    return location.hash.slice(1).replace(/\?.*/, '');
 }
 
-function setCurrentPage(name) {
-    location.hash = name;
+function setCurrentPage(name, queryParams) {
+    const queryParamsString = stringifyQueryParams(queryParams); 
+    
+    location.hash = name + queryParamsString;
+    
     document.querySelector('head title').innerText = `${APP_TITLE_PREFIX}${capitalize(name)}`;
 }
 
@@ -25,7 +28,7 @@ function togglePageStyle(name) {
  * Loads a page.
  * @param name The name of the page to load.
  */
-function loadPage(name) {
+function loadPage(name, queryParams) {
     if (name !== PAGES.header && name !== PAGES.footer) {
         togglePageStyle(name);
     }
@@ -38,7 +41,7 @@ function loadPage(name) {
             footerController();
             break;
         case PAGES.overview:
-            setCurrentPage(name);
+            setCurrentPage(name, queryParams);
             overviewController();
             break;
         default:
@@ -53,8 +56,9 @@ function loadPage(name) {
  */
 function loadPageFromURL(fallback) {
     const currentPage = getCurrentPage();
+    const queryParams = getQueryParams();
 
-    if (currentPage && loadPage(currentPage)) {
+    if (currentPage && loadPage(currentPage, queryParams)) {
         return;
     }
     loadPage(fallback);
