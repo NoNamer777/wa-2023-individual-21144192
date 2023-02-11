@@ -60,7 +60,7 @@ function loadPage(name, queryParams) {
  */
 function loadPageFromURL(fallback) {
     const currentPage = getCurrentPage();
-    const queryParams = getQueryParams();
+    const queryParams = getQueryParams(location.href.split('?')[1]);
 
     if (currentPage && loadPage(currentPage, queryParams)) {
         return;

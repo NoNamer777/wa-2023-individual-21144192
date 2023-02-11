@@ -7,9 +7,10 @@ function handleRouting(event) {
     if (!target.href) {
         target = findParentElement(target, 'A');
     }
-    let controllerName = target.href.split('#')[1];
+    let pageName = target.href.split('#')[1].replace(/\?.*/, '');
+    const queryParams = getQueryParams(target.href.split('?')[1]);
 
-    if (controllerName === '' || !controllerName) controllerName = PAGES.overview;
+    if (pageName === '' || !pageName) pageName = PAGES.overview;
 
-    loadPage(controllerName);
+    loadPage(pageName, queryParams);
 }

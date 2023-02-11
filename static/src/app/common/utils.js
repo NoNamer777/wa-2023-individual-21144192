@@ -37,8 +37,7 @@ function stringifyQueryParams(queryParams) {
 }
 
 /** Extracts the query params from the URL. Returns an empty object if there are no query params set in the current route. */
-function getQueryParams() {
-    const queryParams = location.href.split('?')[1];
+function getQueryParams(queryParams) {
     const params = {};
 
     if (!queryParams) return params;
@@ -53,7 +52,7 @@ function getQueryParams() {
 
 /** Gets the value of a particular query param. Returns undefined if the query param does not exist. */
 function getQueryParam(param) {
-    const queryParams = getQueryParams();
+    const queryParams = getQueryParams(location.href.split('?')[1]);
 
     return JSON.stringify(queryParams) === '{}' ? undefined : queryParams[param];
 }
