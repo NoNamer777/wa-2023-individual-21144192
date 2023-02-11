@@ -3,21 +3,24 @@ function getCurrentPage() {
 }
 
 function setCurrentPage(name, queryParams) {
-    const queryParamsString = stringifyQueryParams(queryParams); 
-    
+    const queryParamsString = stringifyQueryParams(queryParams);
+
     location.hash = name + queryParamsString;
-    
+
     document.querySelector('head title').innerText = `${APP_TITLE_PREFIX}${capitalize(name)}`;
 }
 
 /**
  * Dynamically loads the style for the current page.
- * @param name The name of the page to load the styles for.
+ * @param {string} name The name of the page to load the styles for.
  */
 function togglePageStyle(name) {
-    const link = window.document.querySelector(`head link[href='']`);
     const stylesheetLocation = `app/pages/${name}/${name}.css`;
+    let link = window.document.querySelector(`head link[href='']`);
 
+    if (!link) {
+        link = window.document.querySelector(`head link[href='app/pages/${getCurrentPage()}/${getCurrentPage()}.css']`);
+    }
     if (!stylesheetLocation) {
         throw new Error(`Could not find the stylesheet for the current page. ('${name}')`);
     }
@@ -26,7 +29,8 @@ function togglePageStyle(name) {
 
 /**
  * Loads a page.
- * @param name The name of the page to load.
+ * @param {string} name The name of the page to load.
+ * @param queryParams Optional queryParams
  */
 function loadPage(name, queryParams) {
     if (name !== PAGES.header && name !== PAGES.footer) {
@@ -52,7 +56,7 @@ function loadPage(name, queryParams) {
 
 /**
  * Handles loading a page from the URL.
- * @param fallback The page to fall back to if loading the page from the URL fails to load.
+ * @param {string} fallback The page to fall back to if loading the page from the URL fails to load.
  */
 function loadPageFromURL(fallback) {
     const currentPage = getCurrentPage();

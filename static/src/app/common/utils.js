@@ -57,3 +57,12 @@ function getQueryParam(param) {
 
     return JSON.stringify(queryParams) === '{}' ? undefined : queryParams[param];
 }
+
+function findParentElement(childElem, tagName) {
+    while (childElem !== null && childElem !== undefined) {
+        if (childElem.tagName === tagName) return childElem;
+
+        childElem = childElem.parentElement;
+    }
+    return null;
+}
