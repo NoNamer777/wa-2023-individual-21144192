@@ -1,0 +1,41 @@
+.card-container {
+    width: 20em;
+    height:28em;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-container .card-header {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.card-container .card-header hr {
+    flex: 1 1 auto;
+    height: 1px;
+    margin: 0;
+}
+
+.card-container img {
+    margin-bottom: 1em;
+    width: 16em;
+    height: 16em;
+    object-fit: scale-down;
+}
+
+.card-container .race-attribute {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+}
+
+.card-container .race-attribute p:first-of-type {
+    font-weight: var(--font-weight-bold);
+}
