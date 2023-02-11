@@ -7,14 +7,20 @@
     --bg-primary: #70839f;
     --color: #0a0a0a;
     --color-hover: #2d2d2d;
+    --border-color: #0a0a0a;
+    --border-radius: 1em;
+    --font-size: 16px;
+    --font-weight: 400;
+    --font-weight-bold: 700;
+    --shadow: 3px 3px 10px #0000004c;
 }
 
 html,
 body {
     height: 100%;
-    
-    font-size: 16px;
-    font-weight: 400;
+
+    font-size: var(--font-size);
+    font-weight: var(--font-weight);
     font-family: 'IBM Plex Sans Arabic', sans-serif;
 }
 
