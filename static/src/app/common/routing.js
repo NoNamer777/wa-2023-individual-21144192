@@ -9,7 +9,7 @@ function handleRouting(event) {
     }
     let controllerName = target.href.split('#')[1];
 
-    if (controllerName === '') controllerName = PAGES.overview;
+    if (controllerName === '' || !controllerName) controllerName = PAGES.overview;
 
     loadPage(controllerName);
 }
