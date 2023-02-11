@@ -1,0 +1,8 @@
+@import '../../components/race-card/race-card.css';
+
+.overview .race-container {
+    display: flex;
+    justify-content: center;
+    flex-flow: wrap;
+    gap: 1em;
+}
