@@ -19,7 +19,7 @@ function capitalize(input) {
 
 /** Creates a query param string from an object for the URL. */
 function stringifyQueryParams(queryParams) {
-    if (JSON.stringify(queryParams) === '{}') return '';
+    if (!queryParams || JSON.stringify(queryParams) === '{}') return '';
 
     const keys = Object.keys(queryParams);
     let queryParamString = '?';
