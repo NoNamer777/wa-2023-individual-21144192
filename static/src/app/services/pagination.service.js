@@ -9,6 +9,8 @@ class PaginationService {
     }
     #currentPage;
 
+    #maxPossiblePages;
+
     constructor() {
         this.#initializePageNumber();
         this.#constructIndividualPageLinks();
@@ -24,22 +26,33 @@ class PaginationService {
     async #constructIndividualPageLinks() {
         await raceService.initialized;
 
-        const maxPossiblePages = Math.ceil(raceService.races.length / this.#maxCardsPerPage);
-
+        this.#maxPossiblePages = Math.ceil(raceService.races.length / this.#maxCardsPerPage);
         const template = await fetchTemplate(`app/components/pagination-link/pagination-link`);
 
-        for (let i = maxPossiblePages; i > 0; i--) {
+        for (let i = this.#maxPossiblePages; i > 0; i--) {
             const pageLink = template.cloneNode(true);
 
             pageLink.firstChild.href = `#overview?currentPage=${i}`;
             pageLink.firstChild.innerText = `${i}`;
 
-            pageLink.addEventListener('click', (event) => handleRouting(event));
+            pageLink.addEventListener('click', (event) => {
+                handleRouting(event);
+                this.#updateNextAndPreviousLinks();
+            });
 
             document
                 .querySelector('header nav ul:last-of-type')
                 .firstElementChild.insertAdjacentElement('afterend', pageLink);
         }
+        this.#updateNextAndPreviousLinks();
+    }
+
+    #updateNextAndPreviousLinks() {
+        const previousPage = this.#currentPage === 1 ? 1 : this.#currentPage - 1;
+        const nextPage = this.#currentPage > this.#maxPossiblePages ? this.#currentPage + 1 : this.#maxPossiblePages;
+
+        document.querySelector('a.previous-page').href = `#overview?pageNumber=${previousPage}`;
+        document.querySelector('a.next-page').href = `#overview?pageNumber=${nextPage}`;
     }
 }
 
