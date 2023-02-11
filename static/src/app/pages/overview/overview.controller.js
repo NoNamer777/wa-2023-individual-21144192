@@ -1,14 +1,5 @@
 function overviewController() {
-    const maxCardsPerPage = 5;
-    let pageNumber;
     let template;
-
-    /** Reads the pageNumber query param in the route. */
-    function initializePageNumber() {
-        const pageNumberQueryParam = getQueryParam('pageNumber');
-
-        pageNumber = pageNumberQueryParam ? parseInt(pageNumberQueryParam) : 1;
-    }
 
     /**
      * Fetches a specific slice of data of Races, depending on the pageNumber
@@ -17,7 +8,7 @@ function overviewController() {
     async function initializeCards() {
         await raceService.initialized;
 
-        const races = raceService.fetchPaginatedRaces(maxCardsPerPage, pageNumber);
+        const races = raceService.fetchPaginatedRaces(paginationService.maxCardPerPage, paginationService.pageNumber);
 
         for (const race of races) {
             raceCardController(race);
@@ -28,7 +19,6 @@ function overviewController() {
     async function initialize() {
         template = await fetchTemplate(`app/pages/overview/${PAGES.overview}`);
 
-        initializePageNumber();
         initializeCards();
 
         document.querySelector('article').replaceWith(template);
