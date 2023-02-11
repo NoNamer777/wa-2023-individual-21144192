@@ -4,10 +4,9 @@ class PaginationService {
     }
     #maxCardsPerPage = 5;
 
-    get pageNumber() {
-        return this.#pageNumber;
+    get currentPage() {
+        return this.#currentPage;
     }
-    #pageNumber;
     #currentPage;
 
     constructor() {
@@ -15,11 +14,12 @@ class PaginationService {
         this.#constructIndividualPageLinks();
     }
 
-    /** Reads the pageNumber query param in the route. */
+    /** Reads the page number query param in the route. */
     #initializePageNumber() {
-        const pageNumberQueryParam = getQueryParam('pageNumber');
+        const PageNumberQueryParam = getQueryParam('pageNumber');
 
-        this.#pageNumber = pageNumberQueryParam ? parseInt(pageNumberQueryParam) : 1;
+        this.#currentPage = PageNumberQueryParam ? parseInt(PageNumberQueryParam) : 1;
+    }
     }
 }
 

@@ -8,7 +8,7 @@ function overviewController() {
     async function initializeCards() {
         await raceService.initialized;
 
-        const races = raceService.fetchPaginatedRaces(paginationService.maxCardPerPage, paginationService.pageNumber);
+        const races = raceService.fetchPaginatedRaces(paginationService.maxCardPerPage, paginationService.currentPage);
 
         for (const race of races) {
             raceCardController(race);
