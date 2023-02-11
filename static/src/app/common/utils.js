@@ -55,7 +55,5 @@ function getQueryParams() {
 function getQueryParam(param) {
     const queryParams = getQueryParams();
 
-    return JSON.stringify(queryParams) === '{}'
-        ? undefined
-        : queryParams[param];
+    return JSON.stringify(queryParams) === '{}' ? undefined : queryParams[param];
 }
