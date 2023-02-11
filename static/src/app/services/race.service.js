@@ -1,9 +1,12 @@
 class RaceService {
+    get races() {
+        return this.#races;
+    }
     /** The available Races. */
     #races = [];
 
     /** Whether the service is done fetching the data. */
-    initialized = Promise.any([this.#fetchRaces()]);
+    initialized = Promise.all([this.#fetchRaces()]);
 
     /**
      * Fetches a portion of the available Races.
@@ -19,6 +22,8 @@ class RaceService {
 
     /** Fetches the data of Races in their predefined order as determined in the `races.json`. */
     async #fetchRaces() {
+        if (this.#races.length > 0) return;
+
         const racesToFetch = await fetchJsonFile('assets/data/races');
 
         for (const raceToFetch of racesToFetch) {
