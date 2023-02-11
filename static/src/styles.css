@@ -31,8 +31,14 @@ main footer {
 
 main article {
     flex: 1 1 auto;
-    margin: .2em 1em;
+    padding: 0.2em 1em;
     overflow: auto;
+}
+
+hr {
+    margin: 1em 0;
+    border-style: solid;
+    color: #d5d5d5;
 }
 
 * {
