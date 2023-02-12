@@ -9,12 +9,12 @@ function headerController() {
     async function initialize() {
         template = await fetchTemplate(`app/components/header/${PAGES.header}`);
 
-        template.querySelectorAll('a').forEach((elem) =>
-            elem.addEventListener('click', (event) => {
+        template.querySelectorAll('a').forEach((elem) => {
+            elem.onclick = (event) => {
                 handleRouting(event);
                 updateActiveClass();
-            })
-        );
+            };
+        });
 
         updateActiveClass();
 

@@ -78,4 +78,4 @@ function initializeApp() {
     loadPageFromURL(PAGES.overview);
 }
 
-window.addEventListener('load', () => initializeApp());
+window.onload = () => initializeApp();
