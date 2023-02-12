@@ -65,3 +65,7 @@ function findParentElement(childElem, tagName) {
     }
     return null;
 }
+
+function linkIsActive(elem) {
+    return elem.classList.contains('active');
+}

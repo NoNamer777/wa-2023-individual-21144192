@@ -17,7 +17,7 @@ header li a {
     color: var(--color);
 }
 
-header li a:hover {
+header a:hover:not(.active) {
     color: var(--color-hover);
     text-decoration: underline;
 }
@@ -50,4 +50,9 @@ header ul:last-of-type {
 header ul:last-of-type a {
     text-decoration: none;
     line-height: 2.5em;
+}
+
+header .pagination a.active {
+    cursor: default;
+    color: var(--text-active);
 }

@@ -7,6 +7,9 @@ class PaginationService {
     get currentPage() {
         return this.#currentPage;
     }
+    set currentPage(currentPage) {
+        this.#currentPage = currentPage;
+    }
     #currentPage;
 
     #maxPossiblePages;
@@ -16,11 +19,44 @@ class PaginationService {
         this.#constructIndividualPageLinks();
     }
 
-    /** Reads the page number query param in the route. */
-    #initializePageNumber() {
-        const PageNumberQueryParam = getQueryParam('pageNumber');
+    updateNextAndPreviousLinks() {
+        const previousPage = this.#currentPage === 1 ? 1 : this.#currentPage - 1;
+        const nextPage = this.#currentPage > this.#maxPossiblePages ? this.#currentPage + 1 : this.#maxPossiblePages;
 
-        this.#currentPage = PageNumberQueryParam ? parseInt(PageNumberQueryParam) : 1;
+        const previousPageLink = document.querySelector('a.previous-page');
+        const nextPageLink = document.querySelector('a.next-page');
+
+        previousPageLink.href = `#overview?pageNumber=${previousPage}`;
+        nextPageLink.href = `#overview?pageNumber=${nextPage}`;
+
+        if (this.#currentPage === 1) {
+            if (!linkIsActive(previousPageLink)) {
+                previousPageLink.classList.add('active');
+            }
+        }
+        if (this.#currentPage > 1) {
+            if (linkIsActive(previousPageLink)) {
+                previousPageLink.classList.remove('active');
+            }
+        }
+        if (this.#currentPage < this.#maxPossiblePages) {
+            if (linkIsActive(nextPageLink)) {
+                nextPageLink.classList.remove('active');
+            }
+        }
+        if (this.#currentPage === this.#maxPossiblePages) {
+            if (!linkIsActive(nextPageLink)) {
+                nextPageLink.classList.add('active');
+            }
+        }
+    }
+
+    updateActivePageLink() {
+        document.querySelector('.pagination-item.active').classList.remove('active');
+
+        document
+            .querySelector(`.pagination-item[href='#overview?pageNumber=${this.#currentPage}']`)
+            .classList.add('active');
     }
 
     async #constructIndividualPageLinks() {
@@ -30,29 +66,40 @@ class PaginationService {
         const template = await fetchTemplate(`app/components/pagination-link/pagination-link`);
 
         for (let i = this.#maxPossiblePages; i > 0; i--) {
-            const pageLink = template.cloneNode(true);
+            const pageLink = this.#constructPageLink(template.cloneNode(true), i);
 
-            pageLink.firstChild.href = `#overview?currentPage=${i}`;
-            pageLink.firstChild.innerText = `${i}`;
-
-            pageLink.addEventListener('click', (event) => {
-                handleRouting(event);
-                this.#updateNextAndPreviousLinks();
-            });
-
+            if (i === this.#currentPage) {
+                pageLink.firstChild.classList.add('active');
+            }
             document
                 .querySelector('header nav ul:last-of-type')
                 .firstElementChild.insertAdjacentElement('afterend', pageLink);
         }
-        this.#updateNextAndPreviousLinks();
+        this.updateNextAndPreviousLinks();
     }
 
-    #updateNextAndPreviousLinks() {
-        const previousPage = this.#currentPage === 1 ? 1 : this.#currentPage - 1;
-        const nextPage = this.#currentPage > this.#maxPossiblePages ? this.#currentPage + 1 : this.#maxPossiblePages;
+    /** Reads the page number query param in the route. */
+    #initializePageNumber() {
+        const PageNumberQueryParam = getQueryParam('pageNumber');
 
-        document.querySelector('a.previous-page').href = `#overview?pageNumber=${previousPage}`;
-        document.querySelector('a.next-page').href = `#overview?pageNumber=${nextPage}`;
+        this.#currentPage = PageNumberQueryParam ? parseInt(PageNumberQueryParam) : 1;
+    }
+
+    #constructPageLink(pageLink, pageNumber) {
+        pageLink.firstChild.href = `#overview?pageNumber=${pageNumber}`;
+        pageLink.firstChild.innerText = `${pageNumber}`;
+
+        pageLink.onclick = (event) => {
+            if (linkIsActive(pageLink.firstChild)) return;
+
+            this.#currentPage = pageNumber;
+
+            this.updateActivePageLink();
+
+            this.updateNextAndPreviousLinks();
+            handleRouting(event);
+        };
+        return pageLink;
     }
 }
 

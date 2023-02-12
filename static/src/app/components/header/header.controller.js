@@ -16,6 +16,18 @@ function headerController() {
             };
         });
 
+        template.querySelectorAll('.pagination a').forEach((elem) => {
+            elem.onclick = (event) => {
+                if (linkIsActive(event.target)) return;
+
+                paginationService.currentPage = parseInt(getQueryParams(event.target.href.split('?')[1]).pageNumber);
+                paginationService.updateActivePageLink();
+
+                paginationService.updateNextAndPreviousLinks();
+                handleRouting(event);
+            };
+        });
+
         updateActiveClass();
 
         document.querySelector('header').replaceWith(template);
