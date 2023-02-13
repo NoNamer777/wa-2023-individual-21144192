@@ -21,7 +21,7 @@ class PaginationService {
 
     updateNextAndPreviousLinks() {
         const previousPage = this.#currentPage === 1 ? 1 : this.#currentPage - 1;
-        const nextPage = this.#currentPage > this.#maxPossiblePages ? this.#currentPage + 1 : this.#maxPossiblePages;
+        const nextPage = this.#currentPage < this.#maxPossiblePages ? this.#currentPage + 1 : this.#maxPossiblePages;
 
         const previousPageLink = document.querySelector('a.previous-page');
         const nextPageLink = document.querySelector('a.next-page');
