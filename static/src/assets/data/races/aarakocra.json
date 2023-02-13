@@ -1,0 +1,40 @@
+{
+    "name": "Aarakocra",
+    "speed": 25,
+    "size": "Medium",
+    "imgSrc": "assets/images/races/aarakocra.png",
+    "traits": [
+        {
+            "name": "Ability Score Increase",
+            "description": "Your Dexterity score increases by 2, and your Wisdom score increases by 1."
+        },
+        {
+            "name": "Age",
+            "description": "Aarakocra reach maturity by age 3. Compared to humans, aarakocra don’t usually live longer than 30 years."
+        },
+        {
+            "name": "Alignment",
+            "description": "Most aarakocra are good and rarely choose sides when it comes to law and chaos. Tribal leaders and warriors might be lawful, while explorers and adventurers might tend toward chaotic."
+        },
+        {
+            "name": "Aarakocra are about 5 feet tall. They have thin, lightweight bodies that weigh between 80 and 100 pounds. Your size is Medium.",
+            "description": "size"
+        },
+        {
+            "name": "Speed",
+            "description": "Your base walking speed is 25 feet."
+        },
+        {
+            "name": "Flight",
+            "description": "You have a flying speed of 50 feet. To use this speed, you can’t be wearing medium or heavy armor."
+        },
+        {
+            "name": "Talons",
+            "description": "You are proficient with your unarmed strikes, which deal 1d4 slashing damage on a hit."
+        },
+        {
+            "name": "Languages",
+            "description": "You can speak, read, and write Common, Aarakocra, and Auran."
+        }
+    ]
+}

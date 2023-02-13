@@ -1,0 +1,36 @@
+{
+    "name": "Genasi",
+    "speed": 30,
+    "size": "Medium",
+    "imgSrc": "assets/images/races/genasi.png",
+    "traits": [
+        {
+            "name": "Ability Score Increase",
+            "description": "Your Constitution score increases by 2."
+        },
+        {
+            "name": "Age",
+            "description": "Genasi mature at about the same rate as humans and reach adulthood in their late teens. They live somewhat longer than humans do, up to 120 years."
+        },
+        {
+            "name": "Alignment",
+            "description": "Independent and self-reliant, genasi tend toward a neutral alignment."
+        },
+        {
+            "name": "Size",
+            "description": "Genasi are as varied as their mortal parents but are generally built like humans, standing anywhere from 5 feet to over 6 feet tall. Your size is Medium."
+        },
+        {
+            "name": "Speed",
+            "description": "Your base walking speed is 30 feet."
+        },
+        {
+            "name": "Languages",
+            "description": "You can speak, read, and write Common and Primordial. Primordial is a guttural language, filled with harsh syllables and hard consonants."
+        },
+        {
+            "name": "Subraces",
+            "description": "Four major subraces of genasi are found among the worlds of D&D: air genasi, earth genasi, fire genasi, and water genasi. Choose one of these subraces."
+        }
+    ]
+}
