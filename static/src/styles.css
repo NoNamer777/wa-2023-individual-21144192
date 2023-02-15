@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
 
-@import 'app/components/header/header.css';
-@import 'app/components/footer/footer.css';
+@import 'app/components/header/header.component.css';
+@import 'app/components/footer/footer.component.css';
 
 :root {
     --bg-primary: #70839f;

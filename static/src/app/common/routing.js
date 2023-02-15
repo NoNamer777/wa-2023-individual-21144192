@@ -1,16 +1,44 @@
-function handleRouting(event) {
-    event.stopPropagation();
-    event.preventDefault();
+/** Creates a query param string from an object for the URL. */
+function stringifyQueryParams(queryParams) {
+    if (!queryParams || JSON.stringify(queryParams) === '{}') return '';
 
-    let target = event.target;
+    const keys = Object.keys(queryParams);
+    let queryParamString = '?';
 
-    if (!target.href) {
-        target = findParentElement(target, 'A');
+    Object.entries(queryParams).forEach(([key, value]) => {
+        const isLast = keys[keys.length - 1] === key;
+
+        queryParamString += `${key}=${value}`;
+
+        if (!isLast) {
+            queryParamString += '&';
+        }
+    });
+    return queryParamString;
+}
+
+/** Extracts the query params from the URL. Returns an empty object if there are no query params set in the current route. */
+function getQueryParams(input) {
+    const queryParams = input;
+    const params = {};
+
+    if (!queryParams) return params;
+
+    for (const param of queryParams.split('&')) {
+        const [key, value] = param.split('=');
+
+        params[key] = value;
     }
-    let pageName = target.href.split('#')[1].replace(/\?.*/, '');
-    const queryParams = getQueryParams(target.href.split('?')[1]);
+    return params;
+}
 
-    if (pageName === '' || !pageName) pageName = PAGES.overview;
+/** Gets the value of a particular query param. Returns undefined if the query param does not exist. */
+function getQueryParamFromRoute(param) {
+    const queryParams = getQueryParams(location.href.split('?')[1]);
 
-    loadPage(pageName, queryParams);
+    return JSON.stringify(queryParams) === '{}' ? undefined : queryParams[param];
+}
+
+function setCurrentRoute(route, queryParams) {
+    location.hash = '/' + route + stringifyQueryParams(queryParams);
 }
