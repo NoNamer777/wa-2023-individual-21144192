@@ -13,6 +13,7 @@
     },
     "homepage": "https://github.com/nonamer777/wa-2023-individual-21144192",
     "scripts": {
+        "lint": "eslint .",
         "format:check": "prettier -l .",
         "format:write": "prettier -w ."
     },
@@ -21,6 +22,8 @@
     ],
     "devDependencies": {
         "eslint": "^8.33.0",
+        "eslint-config-prettier": "^8.6.0",
+        "eslint-plugin-prettier": "^4.2.1",
         "prettier": "^2.8.3",
         "servor": "^4.0.2"
     }

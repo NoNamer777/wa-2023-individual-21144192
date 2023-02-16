@@ -1,6 +1,6 @@
 .card-container {
     width: 20em;
-    height:28em;
+    height: 28em;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
