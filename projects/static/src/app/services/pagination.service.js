@@ -9,6 +9,16 @@ class PaginationService {
     }
     static #instance;
 
+    set pageNumber(pageNumber) {
+        this.#currentPage = pageNumber;
+
+        // Move over the active class to the last clicked pagination-item.
+        removeClass(document.querySelector('header .pagination-item.active'), 'active');
+        addClass(document.querySelector(`header .pagination-item[href*='pageNumber=${this.#currentPage}']`), 'active');
+
+        this.#updatePreviousAndNextPageLinks();
+    }
+
     get pageNumber() {
         return this.#currentPage;
     }
@@ -23,8 +33,9 @@ class PaginationService {
 
     async handlePaginationEvent(event, elem) {
         // Prevent default navigation.
-        event.stopPropagation();
         event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
 
         // Prevent pagination when the page is already selected.
         if (elemHasClass(elem, 'active')) return;
@@ -32,14 +43,9 @@ class PaginationService {
         // Update the current page, route, and previous and next page links
         const queryParams = getQueryParams(elem.href.split('?')[1]);
 
-        this.#currentPage = parseInt(queryParams.pageNumber);
+        this.pageNumber = parseInt(queryParams.pageNumber);
+
         setCurrentRoute(AppComponent.instance.currentPage, queryParams);
-
-        // Move over the active class to the last clicked pagination-item.
-        removeClass(document.querySelector('header .pagination-item.active'), 'active');
-        addClass(document.querySelector(`header .pagination-item[href*='pageNumber=${this.#currentPage}']`), 'active');
-
-        this.#updatePreviousAndNextPageLinks();
 
         await OverviewPage.instance.fillRaceContainer();
     }
