@@ -95,9 +95,29 @@
     height: calc(100% - 3.348em);
 }
 
+.overview aside section .reset-btn {
+    border: 1px solid var(--bg-danger);
+    border-radius: 0.4em;
+    background-color: var(--bg-danger);
+    color: var(--on-danger);
     font-size: inherit;
     padding: 0.4em 0;
     margin-top: auto;
+    margin-bottom: 0.5em;
+}
+
+.overview aside section .reset-btn:hover {
+    border: 1px solid var(--bg-danger-hover);
+    background-color: var(--bg-danger-hover);
+    cursor: pointer;
+}
+
+.overview aside section .reset-btn:disabled {
+    border: 1px solid var(--bg-danger-disabled);
+    background-color: var(--bg-danger-disabled);
+    cursor: default;
+}
+
 .overview aside section .apply-btn {
     border: 1px solid var(--bg-success);
     border-radius: 0.4em;

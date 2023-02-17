@@ -67,23 +67,46 @@ class OverviewPage {
     }
 
     async #setupFilteringPanel() {
-        // Add filter-btn click handler.
+        const overlayContainer = this.#filterSidePanelElem.querySelector('.overlay-container');
+        const resetFiltersBtn = this.#filterSidePanelElem.querySelector('.reset-btn');
+        const filterAndSortingForm = this.#filterSidePanelElem.querySelector('form');
+
+        // Handle opening the Filtering and Sorting side panel.
         this.#template.querySelector('.filter-btn').onclick = () => {
             addClass(this.#filterSidePanelElem, 'shown');
 
             this.#setFilteringPanelValues();
         };
 
+        // Handle closing the Filtering and Sorting panel without applying filters or sorting.
         this.#filterSidePanelElem.querySelector('.close-panel-btn').onclick = () =>
             removeClass(this.#filterSidePanelElem, 'shown');
 
-        // Handle clicks on the overlay
-        const overlayContainer = this.#filterSidePanelElem.querySelector('.overlay-container');
-
+        // Handle clicks besides the Filtering and Sorting panel without applying filters or sorting.
         overlayContainer.onclick = (event) => {
             if (event.target !== overlayContainer) return;
             removeClass(this.#filterSidePanelElem, 'shown');
         };
+
+        // Handle resetting the filters and sort order.
+        resetFiltersBtn.onclick = (event) => {
+            if (event.target.disabled) return;
+
+            this.#filters = {
+                sortingBy: null,
+                sortingDirection: SORTING_DIRECTIONS.ascending,
+                trait: null,
+            };
+
+            this.#setFilteringPanelValues();
+            this.#storeSortingInRoute();
+            this.#toggleResetFiltersBtn();
+        };
+
+        filterAndSortingForm.onchange = () => (resetFiltersBtn.disabled = false);
+
+        // Handle Filtering and Sorting form submissions.
+        filterAndSortingForm.onsubmit = async (event) => await this.#handleSortingAndFilteringFormSubmission(event);
 
         // Build options on which Races can be sorted.
         this.#setupSortableOptions();
@@ -92,10 +115,6 @@ class OverviewPage {
         await this.#setupTraitFilteringOptions();
 
         this.#initFilterAndSortingFromRoute();
-
-        // Handle Filtering and Sorting form submissions.
-        this.#filterSidePanelElem.querySelector('form').onsubmit = async (event) =>
-            await this.#handleSortingAndFilteringFormSubmission(event);
     }
 
     async #setupTraitFilteringOptions() {
@@ -136,6 +155,7 @@ class OverviewPage {
         if (traitFilterQueryParam) {
             this.#filters.trait = this.#findTraitByValue(traitFilterQueryParam);
         }
+        this.#toggleResetFiltersBtn();
     }
 
     #setFilteringPanelValues() {
@@ -176,6 +196,8 @@ class OverviewPage {
             : SORTING_DIRECTIONS.descending;
         this.#filters.sortingBy = sortingBy === '' ? null : sortingBy;
         this.#filters.trait = filterByTrait === '' ? null : this.#findTraitByValue(filterByTrait);
+
+        this.#toggleResetFiltersBtn();
     }
 
     #storeSortingInRoute() {
@@ -197,5 +219,14 @@ class OverviewPage {
             value: traitValue,
             name: traitFilterElem.querySelector(`option[value='${traitValue}']`).innerText,
         };
+    }
+
+    #toggleResetFiltersBtn() {
+        const resetFiltersBtn = this.#filterSidePanelElem.querySelector('.reset-btn');
+
+        resetFiltersBtn.disabled =
+            this.#filters.sortingBy === null &&
+            this.#filters.trait === null &&
+            this.#filters.sortingDirection === SORTING_DIRECTIONS.ascending;
     }
 }
