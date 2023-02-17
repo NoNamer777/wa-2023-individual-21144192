@@ -6,3 +6,85 @@
     flex-flow: wrap;
     gap: 1em;
 }
+
+.overview .filter-btn {
+    position: absolute;
+    right: 8em;
+    bottom: 8em;
+    border-radius: 24em;
+    border: 1px solid var(--bg-primary);
+    background-color: var(--bg-primary);
+    box-shadow: var(--shadow);
+    padding: 0.8em;
+}
+
+.overview .filter-btn:hover {
+    cursor: pointer;
+    border-color: var(--bg-primary-hover);
+    background-color: var(--bg-primary-hover);
+    box-shadow: var(--shadow-sm);
+}
+
+.overview .filter-btn svg {
+    height: 2em;
+    width: 2em;
+}
+
+.overview aside {
+    display: none;
+    position: absolute;
+    top: 3.5em; /* Start below the header */
+    bottom: 3.438em; /* Stop above the footer */
+    right: 0;
+    left: 0;
+}
+
+.overview aside .overlay-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    background-color: var(--shadow-color);
+}
+
+.overview aside section {
+    flex: 0 0 auto;
+    padding: 0.8em 1em;
+    background-color: var(--surface);
+    height: 100%;
+}
+
+.overview aside section form {
+    display: flex;
+    font-size: inherit;
+    flex-direction: column;
+    height: calc(100% - 3.348em);
+}
+
+.overview aside section .apply-btn {
+    border: 1px solid var(--bg-primary);
+    background-color: var(--bg-primary);
+    font-size: inherit;
+    padding: 0.4em 0;
+    margin-top: auto;
+}
+
+.overview aside.shown {
+    display: block;
+}
+
+.overview aside section #sorting-by {
+    font-size: inherit;
+}
+
+.overview aside section #sorting-by:focus {
+    outline: none;
+}
+
+.overview aside section .form-group {
+    margin-bottom: 1em;
+}
+
+.overview aside section .form-control {
+    margin-bottom: 0.5em;
+}

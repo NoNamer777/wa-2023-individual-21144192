@@ -7,4 +7,42 @@
     <section class="race-container">
         <!--Will be filled dynamically-->
     </section>
+    <button type="button" class="filter-btn">
+        <!--Will be filled dynamically-->
+    </button>
+
+    <aside>
+        <div class="overlay-container">
+            <section>
+                <h3>Filtering and Sorting</h3>
+                <hr />
+                <form>
+                    <div class="form-group">
+                        <div class="form-control sorting">
+                            <label for="sorting-by">Sorting by</label>
+                            <select id="sorting-by">
+                                <option></option>
+                                <option value="name">Name</option>
+                                <option value="size">Size</option>
+                                <option value="Speed">Speed</option>
+                            </select>
+                        </div>
+                        <div class="form-control sorting-direction">
+                            <input
+                                type="radio"
+                                name="sorting-direction"
+                                id="sorting-direction-asc"
+                                value="ASC"
+                                checked
+                            />
+                            <label for="sorting-direction-asc">Ascending</label><br />
+                            <input type="radio" name="sorting-direction" id="sorting-direction-desc" value="DESC" />
+                            <label for="sorting-direction-desc">Descending</label><br />
+                        </div>
+                    </div>
+                    <button type="submit" class="apply-btn">Apply</button>
+                </form>
+            </section>
+        </div>
+    </aside>
 </article>

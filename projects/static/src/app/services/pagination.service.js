@@ -34,7 +34,6 @@ class PaginationService {
     async handlePaginationEvent(event, elem) {
         // Prevent default navigation.
         event.preventDefault();
-        event.stopPropagation();
         event.stopImmediatePropagation();
 
         // Prevent pagination when the page is already selected.
