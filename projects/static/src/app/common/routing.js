@@ -39,6 +39,14 @@ function getQueryParamFromRoute(param) {
     return JSON.stringify(queryParams) === '{}' ? undefined : queryParams[param];
 }
 
-function setCurrentRoute(route, queryParams) {
-    location.hash = '/' + route + stringifyQueryParams(queryParams);
+function setCurrentRoute(route, queryParams, preserveQueryParams = false) {
+    if (!preserveQueryParams) {
+        location.hash = '/' + route + stringifyQueryParams(queryParams);
+        return;
+    }
+    const routeQueryParams = {
+        ...getQueryParams(location.hash.split('?')[1]),
+        ...queryParams,
+    };
+    location.hash = '/' + route + stringifyQueryParams(routeQueryParams);
 }
