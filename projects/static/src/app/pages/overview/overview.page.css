@@ -95,18 +95,22 @@
     height: calc(100% - 3.348em);
 }
 
-.overview aside section .apply-btn {
-    border: 1px solid var(--bg-primary);
-    background-color: var(--bg-primary);
     font-size: inherit;
     padding: 0.4em 0;
     margin-top: auto;
+.overview aside section .apply-btn {
+    border: 1px solid var(--bg-success);
+    border-radius: 0.4em;
+    background-color: var(--bg-success);
+    color: var(--on-success);
+    font-size: inherit;
+    padding: 0.4em 0;
 }
 
 .overview aside section .apply-btn:hover {
     cursor: pointer;
-    border-color: var(--bg-primary-hover);
-    background-color: var(--bg-primary-hover);
+    border-color: var(--bg-success-hover);
+    background-color: var(--bg-success-hover);
 }
 
 .overview aside section .form-group {
