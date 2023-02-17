@@ -96,6 +96,28 @@ class OverviewPage {
             await this.#handleSortingAndFilteringFormSubmission(event);
     }
 
+    async #setupTraitFilteringOptions() {
+        const traitFilterElem = this.#filterSidePanelElem.querySelector('#trait-filter');
+        const traits = (await RaceService.instance()).races
+            .flatMap((race) =>
+                race.traits.map((trait) => ({
+                    value: trait.name.toLowerCase().replace(/ /g, '-').replace(/'/g, ''),
+                    label: trait.name,
+                }))
+            )
+            .sort((t1, t2) => t1.value.localeCompare(t2.value))
+            .filter((trait, position, self) => position === self.findIndex((tr) => tr.value === trait.value));
+
+        for (const trait of traits) {
+            const optionElem = document.createElement('option');
+
+            optionElem.value = trait.value;
+            optionElem.innerText = trait.label;
+
+            traitFilterElem.appendChild(optionElem);
+        }
+    }
+
     #initFilterAndSortingFromRoute() {
         const sortingDirectionQueryParam = getQueryParamFromRoute('sortingDirection');
 
