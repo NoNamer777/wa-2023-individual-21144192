@@ -39,26 +39,32 @@ class OverviewPage {
         this.#template = await fetchTemplate('app/pages/overview/overview.page');
         this.#filterSidePanelElem = this.#template.querySelector('.overview aside');
 
-        const sortingDirectionQueryParam = getQueryParamFromRoute('sortingDirection');
-
-        if (sortingDirectionQueryParam) {
-            this.#filters.sortingDirection = sortingDirectionQueryParam;
-        }
-        const sortingByQueryParam = getQueryParamFromRoute('sortingBy');
-
-        if (sortingByQueryParam) {
-            this.#filters.sortingBy = sortingByQueryParam;
-        }
+        await this.#setupFilteringPanel();
         await this.fillRaceContainer();
-        this.#setupFilteringPanel();
 
         document.querySelector('article').replaceWith(this.#template);
     }
 
-    #setupFilteringPanel() {
-        const sortingByAttributeSelectElem = this.#filterSidePanelElem.querySelector('select#sorting-by');
-        const optionTemplate = document.createElement('option');
+    async #handleSortingAndFilteringFormSubmission(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
 
+        this.#updateSortingAndFilteringValues();
+
+        // Reset pagination.
+        (await PaginationService.instance()).pageNumber = 1;
+
+        // Save sorting and filtering preferences in route.
+        this.#storeSortingInRoute();
+
+        // Apply filters and sorting rules
+        await this.fillRaceContainer();
+
+        // Close the filtering and sorting side panel
+        removeClass(this.#filterSidePanelElem, 'shown');
+    }
+
+    async #setupFilteringPanel() {
         // Add filter-btn click handler.
         this.#template.querySelector('.filter-btn').onclick = () => {
             addClass(this.#filterSidePanelElem, 'shown');
@@ -69,16 +75,6 @@ class OverviewPage {
         this.#filterSidePanelElem.querySelector('.close-panel-btn').onclick = () =>
             removeClass(this.#filterSidePanelElem, 'shown');
 
-        // Build options on which Races can be sorted.
-        for (const sortableAttribute of Object.values(SORTABLE_ATTRIBUTES)) {
-            const optionElem = optionTemplate.cloneNode();
-
-            optionElem.innerText = capitalize(sortableAttribute);
-            optionElem.value = sortableAttribute;
-
-            sortingByAttributeSelectElem.appendChild(optionElem);
-        }
-
         // Handle clicks on the overlay
         const overlayContainer = this.#filterSidePanelElem.querySelector('.overlay-container');
 
@@ -87,35 +83,31 @@ class OverviewPage {
             removeClass(this.#filterSidePanelElem, 'shown');
         };
 
+        // Build options on which Races can be sorted.
+        this.#setupSortableOptions();
+
+        // Build option for filtering Races by attributes.
+        await this.#setupTraitFilteringOptions();
+
+        this.#initFilterAndSortingFromRoute();
+
         // Handle Filtering and Sorting form submissions.
-        this.#filterSidePanelElem.querySelector('form').onsubmit = async (event) => {
-            event.preventDefault();
-            event.stopImmediatePropagation();
+        this.#filterSidePanelElem.querySelector('form').onsubmit = async (event) =>
+            await this.#handleSortingAndFilteringFormSubmission(event);
+    }
 
-            const sortingBy = this.#filterSidePanelElem.querySelector('#sorting-by').value;
+    #initFilterAndSortingFromRoute() {
+        const sortingDirectionQueryParam = getQueryParamFromRoute('sortingDirection');
 
-            this.#filters.sortingDirection = this.#filterSidePanelElem.querySelector('#sorting-direction-asc').checked
-                ? SORTING_DIRECTIONS.ascending
-                : SORTING_DIRECTIONS.descending;
-            this.#filters.sortingBy = sortingBy === '' ? null : sortingBy;
+        if (sortingDirectionQueryParam) {
+            this.#filters.sortingDirection = sortingDirectionQueryParam;
+        }
+        const sortingByQueryParam = getQueryParamFromRoute('sortingBy');
 
-            // Reset pagination.
-            (await PaginationService.instance()).pageNumber = 1;
+        if (sortingByQueryParam) {
+            this.#filters.sortingBy = sortingByQueryParam;
+        }
 
-            // Save sorting and filtering preferences in route.
-            const queryParams = { pageNumber: 1, sortingDirection: this.#filters.sortingDirection };
-
-            if (this.#filters.sortingBy) {
-                queryParams.sortingBy = this.#filters.sortingBy;
-            }
-            setCurrentRoute(PAGES.overview, queryParams);
-
-            // Apply filters and sorting rules
-            await this.fillRaceContainer();
-
-            // Close the filtering and sorting side panel
-            removeClass(this.#filterSidePanelElem, 'shown');
-        };
     }
 
     #setFilteringPanelValues() {
@@ -128,5 +120,37 @@ class OverviewPage {
         if (this.#filters.sortingBy) {
             this.#filterSidePanelElem.querySelector('#sorting-by').value = this.#filters.sortingBy;
         }
+
+    #setupSortableOptions() {
+        const sortingByAttributeSelectElem = this.#filterSidePanelElem.querySelector('select#sorting-by');
+        const optionTemplate = document.createElement('option');
+
+        for (const sortableAttribute of Object.values(SORTABLE_ATTRIBUTES)) {
+            const optionElem = optionTemplate.cloneNode();
+
+            optionElem.innerText = capitalize(sortableAttribute);
+            optionElem.value = sortableAttribute;
+
+            sortingByAttributeSelectElem.appendChild(optionElem);
+        }
+    }
+
+    #updateSortingAndFilteringValues() {
+        const sortingBy = this.#filterSidePanelElem.querySelector('#sorting-by').value;
+
+        this.#filters.sortingDirection = this.#filterSidePanelElem.querySelector('#sorting-direction-asc').checked
+            ? SORTING_DIRECTIONS.ascending
+            : SORTING_DIRECTIONS.descending;
+        this.#filters.sortingBy = sortingBy === '' ? null : sortingBy;
+    }
+
+    #storeSortingInRoute() {
+        const queryParams = { pageNumber: 1, sortingDirection: this.#filters.sortingDirection };
+
+        if (this.#filters.sortingBy) {
+            queryParams.sortingBy = this.#filters.sortingBy;
+        }
+        setCurrentRoute(PAGES.overview, queryParams);
+    }
     }
 }
