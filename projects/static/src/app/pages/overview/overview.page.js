@@ -56,6 +56,19 @@ class OverviewPage {
     }
 
     #setupFilterPanel() {
+        const sortingByAttributeSelectElem = this.#filterSidePanelElem.querySelector('select#sorting-by');
+        const optionTemplate = document.createElement('option');
+
+        // Build options on which Races can be sorted.
+        for (const sortableAttribute of Object.values(SORTABLE_ATTRIBUTES)) {
+            const optionElem = optionTemplate.cloneNode();
+
+            optionElem.innerText = capitalize(sortableAttribute);
+            optionElem.value = sortableAttribute;
+
+            sortingByAttributeSelectElem.appendChild(optionElem);
+        }
+
         // Handle Filtering and Sorting form submissions.
         this.#filterSidePanelElem.querySelector('form').onsubmit = async (event) => {
             event.preventDefault();
