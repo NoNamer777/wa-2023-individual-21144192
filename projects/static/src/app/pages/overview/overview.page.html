@@ -7,4 +7,39 @@
     <section class="race-container">
         <!--Will be filled dynamically-->
     </section>
+    <button type="button" class="filter-btn">
+        <img src="assets/images/icons/filter.icon.svg" alt="Open Filtering and Sorting panel" />
+    </button>
+
+    <aside>
+        <div class="overlay-container">
+            <section>
+                <div class="row">
+                    <h3>Filtering and Sorting</h3>
+                    <button type="button" class="close-panel-btn">
+                        <img src="assets/images/icons/close.icon.svg" alt="Close Filtering and Sorting panel" />
+                    </button>
+                </div>
+                <hr />
+                <form>
+                    <div class="form-group">
+                        <div class="form-control sorting">
+                            <label for="sorting-by">Sorting by</label>
+                            <select id="sorting-by">
+                                <option></option>
+                                <!--Sortable options will be added dynamically-->
+                            </select>
+                        </div>
+                        <div class="form-control sorting-direction">
+                            <input type="radio" name="sorting-direction" id="sorting-direction-asc" value="ASC" />
+                            <label for="sorting-direction-asc">Ascending</label><br />
+                            <input type="radio" name="sorting-direction" id="sorting-direction-desc" value="DESC" />
+                            <label for="sorting-direction-desc">Descending</label><br />
+                        </div>
+                    </div>
+                    <button type="submit" class="apply-btn">Apply</button>
+                </form>
+            </section>
+        </div>
+    </aside>
 </article>

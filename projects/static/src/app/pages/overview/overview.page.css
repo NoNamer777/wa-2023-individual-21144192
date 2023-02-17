@@ -6,3 +6,121 @@
     flex-flow: wrap;
     gap: 1em;
 }
+
+.overview .filter-btn {
+    position: absolute;
+    right: 8em;
+    bottom: 8em;
+    border-radius: 24em;
+    border: 1px solid var(--bg-primary);
+    background-color: var(--bg-primary);
+    box-shadow: var(--shadow);
+    padding: 0.8em;
+}
+
+.overview .filter-btn:hover {
+    cursor: pointer;
+    border-color: var(--bg-primary-hover);
+    background-color: var(--bg-primary-hover);
+    box-shadow: var(--shadow-sm);
+}
+
+.overview .filter-btn img {
+    height: 2em;
+    width: 2em;
+}
+
+.overview aside {
+    display: none;
+    position: absolute;
+    top: 3.5em; /* Start below the header */
+    bottom: 3.438em; /* Stop above the footer */
+    right: 0;
+    left: 0;
+}
+
+.overview aside.shown {
+    display: block;
+}
+
+.overview aside .overlay-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    background-color: var(--shadow-color);
+    cursor: pointer;
+}
+
+.overview aside section {
+    flex: 0 0 auto;
+    padding: 0.8em 1em;
+    background-color: var(--surface);
+    height: 100%;
+    cursor: default;
+}
+
+.overview aside section .row {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    gap: 2em;
+}
+
+.overview aside section .close-panel-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--surface);
+    border-radius: 24em;
+    background-color: var(--surface);
+    padding: 0.4em;
+}
+
+.overview aside section .close-panel-btn:hover {
+    cursor: pointer;
+    border-color: var(--surface-hover);
+    background-color: var(--surface-hover);
+}
+
+.overview aside section .close-panel-btn img {
+    flex: 1 1 auto;
+    height: 1.2em;
+}
+
+.overview aside section form {
+    display: flex;
+    font-size: inherit;
+    flex-direction: column;
+    height: calc(100% - 3.348em);
+}
+
+.overview aside section .apply-btn {
+    border: 1px solid var(--bg-primary);
+    background-color: var(--bg-primary);
+    font-size: inherit;
+    padding: 0.4em 0;
+    margin-top: auto;
+}
+
+.overview aside section .apply-btn:hover {
+    cursor: pointer;
+    border-color: var(--bg-primary-hover);
+    background-color: var(--bg-primary-hover);
+}
+
+.overview aside section .form-group {
+    margin-bottom: 1em;
+}
+
+.overview aside section .form-control {
+    margin-bottom: 0.5em;
+}
+
+.overview aside section #sorting-by {
+    font-size: inherit;
+}
+
+.overview aside section #sorting-by:focus {
+    outline: none;
+}

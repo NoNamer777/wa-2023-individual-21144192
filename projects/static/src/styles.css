@@ -5,6 +5,9 @@
 
 :root {
     --bg-primary: #70839f;
+    --bg-primary-hover: #778ba9;
+    --surface: #fff;
+    --surface-hover: #f3f3f3;
     --text-active: #4c5f77;
     --color: #0a0a0a;
     --color-hover: #2d2d2d;
@@ -13,7 +16,9 @@
     --font-size: 16px;
     --font-weight: 400;
     --font-weight-bold: 700;
-    --shadow: 3px 3px 10px #0000004c;
+    --shadow-color: #0000004c;
+    --shadow: 3px 3px 10px var(--shadow-color);
+    --shadow-sm: 1px 1px 5px var(--shadow-color);
 }
 
 html,
