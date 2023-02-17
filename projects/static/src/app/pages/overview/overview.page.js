@@ -80,6 +80,14 @@ class OverviewPage {
             sortingByAttributeSelectElem.appendChild(optionElem);
         }
 
+        // Handle clicks on the overlay
+        const overlayContainer = this.#filterSidePanelElem.querySelector('.overlay-container');
+
+        overlayContainer.onclick = (event) => {
+            if (event.target !== overlayContainer) return;
+            removeClass(this.#filterSidePanelElem, 'shown');
+        };
+
         // Handle Filtering and Sorting form submissions.
         this.#filterSidePanelElem.querySelector('form').onsubmit = async (event) => {
             event.preventDefault();

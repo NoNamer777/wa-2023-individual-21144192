@@ -45,6 +45,7 @@
     flex-direction: column-reverse;
     align-items: flex-end;
     background-color: var(--shadow-color);
+    cursor: pointer;
 }
 
 .overview aside section {
@@ -52,6 +53,7 @@
     padding: 0.8em 1em;
     background-color: var(--surface);
     height: 100%;
+    cursor: default;
 }
 
 .overview aside section form {
@@ -67,6 +69,12 @@
     font-size: inherit;
     padding: 0.4em 0;
     margin-top: auto;
+}
+
+.overview aside section .apply-btn:hover {
+    cursor: pointer;
+    border-color: var(--bg-primary-hover);
+    background-color: var(--bg-primary-hover);
 }
 
 .overview aside.shown {
