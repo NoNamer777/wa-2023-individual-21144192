@@ -34,6 +34,7 @@ class OverviewPage {
             const raceCard = new RaceCardComponent(raceData, this.#raceCardTemplate.cloneNode(true));
             raceContainerElem.appendChild(raceCard.template);
         }
+        await (await PaginationService.instance()).setupPagination();
     }
 
     async #initialize() {
