@@ -39,9 +39,16 @@ class OverviewPage {
         this.#template = await fetchTemplate('app/pages/overview/overview.page');
         this.#filterSidePanelElem = this.#template.querySelector('.overview aside');
 
+        this.#filters.sortingDirection = getQueryParamFromRoute('sortingDirection');
+
+        const sortingByQueryParam = getQueryParamFromRoute('sortingBy');
+
+        if (sortingByQueryParam) {
+            this.#filters.sortingBy = sortingByQueryParam;
+        }
         await this.fillRaceContainer();
         await this.#setupFilterButton();
-        this.#setupFilterPanel();
+        this.#setupFilteringPanel();
 
         document.querySelector('article').replaceWith(this.#template);
     }
@@ -52,10 +59,14 @@ class OverviewPage {
 
         button.appendChild(filterIcon);
 
-        button.onclick = () => addClass(this.#filterSidePanelElem, 'shown');
+        button.onclick = () => {
+            addClass(this.#filterSidePanelElem, 'shown');
+
+            this.#setFilteringPanelValues();
+        };
     }
 
-    #setupFilterPanel() {
+    #setupFilteringPanel() {
         const sortingByAttributeSelectElem = this.#filterSidePanelElem.querySelector('select#sorting-by');
         const optionTemplate = document.createElement('option');
 
@@ -81,12 +92,34 @@ class OverviewPage {
                 : SORTING_DIRECTIONS.descending;
             this.#filters.sortingBy = sortingBy === '' ? null : sortingBy;
 
+            // Reset pagination.
             (await PaginationService.instance()).pageNumber = 1;
-            setCurrentRoute(PAGES.overview, { pageNumber: 1 });
 
+            // Save sorting and filtering preferences in route.
+            const queryParams = { pageNumber: 1, sortingDirection: this.#filters.sortingDirection };
+
+            if (this.#filters.sortingBy) {
+                queryParams.sortingBy = this.#filters.sortingBy;
+            }
+            setCurrentRoute(PAGES.overview, queryParams);
+
+            // Apply filters and sorting rules
             await this.fillRaceContainer();
 
+            // Close the filtering and sorting side panel
             removeClass(this.#filterSidePanelElem, 'shown');
         };
+    }
+
+    #setFilteringPanelValues() {
+        this.#filterSidePanelElem.querySelector('#sorting-direction-asc').checked =
+            this.#filters.sortingDirection === SORTING_DIRECTIONS.ascending;
+
+        this.#filterSidePanelElem.querySelector('#sorting-direction-desc').checked =
+            this.#filters.sortingDirection === SORTING_DIRECTIONS.descending;
+
+        if (this.#filters.sortingBy) {
+            this.#filterSidePanelElem.querySelector('#sorting-by').value = this.#filters.sortingBy;
+        }
     }
 }
