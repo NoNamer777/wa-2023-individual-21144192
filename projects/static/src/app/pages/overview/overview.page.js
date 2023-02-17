@@ -19,6 +19,7 @@ class OverviewPage {
     #filters = {
         sortingBy: null,
         sortingDirection: SORTING_DIRECTIONS.ascending,
+        trait: null,
     };
 
     async fillRaceContainer() {
@@ -159,11 +160,13 @@ class OverviewPage {
 
     #updateSortingAndFilteringValues() {
         const sortingBy = this.#filterSidePanelElem.querySelector('#sorting-by').value;
+        const filterByTrait = this.#filterSidePanelElem.querySelector('#trait-filter').value;
 
         this.#filters.sortingDirection = this.#filterSidePanelElem.querySelector('#sorting-direction-asc').checked
             ? SORTING_DIRECTIONS.ascending
             : SORTING_DIRECTIONS.descending;
         this.#filters.sortingBy = sortingBy === '' ? null : sortingBy;
+        this.#filters.trait = filterByTrait === '' ? null : this.#findTraitByValue(filterByTrait);
     }
 
     #storeSortingInRoute() {
@@ -174,5 +177,13 @@ class OverviewPage {
         }
         setCurrentRoute(PAGES.overview, queryParams);
     }
+
+    #findTraitByValue(traitValue) {
+        const traitFilterElem = this.#filterSidePanelElem.querySelector('#trait-filter');
+
+        return {
+            value: traitValue,
+            name: traitFilterElem.querySelector(`option[value='${traitValue}']`).innerText,
+        };
     }
 }
