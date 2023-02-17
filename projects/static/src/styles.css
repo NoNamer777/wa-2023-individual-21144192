@@ -6,6 +6,13 @@
 :root {
     --bg-primary: #70839f;
     --bg-primary-hover: #778ba9;
+    --bg-success: #2aa120;
+    --bg-success-hover: #36c42b;
+    --on-success: #fff;
+    --bg-danger: #e73b2e;
+    --bg-danger-hover: #ef3d2f;
+    --bg-danger-disabled: #e88880;
+    --on-danger: #fff;
     --surface: #fff;
     --surface-hover: #f3f3f3;
     --text-active: #4c5f77;
