@@ -1,37 +1,34 @@
 class RaceService {
-    get races() {
-        return this.#races;
+    static async instance() {
+        if (!this.#instance) {
+            this.#instance = new RaceService();
+
+            await this.#instance.#initialize();
+        }
+        return this.#instance;
     }
-    /** The available Races. */
+    static #instance;
+
     #races = [];
 
-    /** Whether the service is done fetching the data. */
-    initialized = Promise.all([this.#fetchRaces()]);
-
-    /**
-     * Fetches a portion of the available Races.
-     * @param {number} maxNumberOfEntries The maximum amount of Races to get at a time.
-     * @param {number} pageNumber The number of the specific slice of Races to get.
-     */
-    fetchPaginatedRaces(maxNumberOfEntries, pageNumber) {
-        const start = (pageNumber - 1) * maxNumberOfEntries;
-        const end = maxNumberOfEntries * pageNumber;
-
-        return this.#races.slice(start, end);
+    get numberOfRaces() {
+        return this.#races.length;
     }
 
-    /** Fetches the data of Races in their predefined order as determined in the `races.json`. */
-    async #fetchRaces() {
-        if (this.#races.length > 0) return;
+    async getRacesInRange() {
+        const pageNumber = (await PaginationService.instance()).pageNumber;
+        const maxItemsPerPage = (await PaginationService.instance()).maxItemsPerPage;
 
-        const racesToFetch = await fetchJsonFile('assets/data/races');
+        return this.#races.slice((pageNumber - 1) * maxItemsPerPage, maxItemsPerPage * pageNumber);
+    }
 
-        for (const raceToFetch of racesToFetch) {
-            const race = await fetchJsonFile(`assets/data/races/${raceToFetch}`);
+    async #initialize() {
+        const races = await fetchJsonFile('assets/data/races');
 
-            this.#races = [...this.#races, race];
+        for (const raceName of races) {
+            const raceData = await fetchJsonFile('assets/data/races/' + raceName);
+
+            this.#races = [...this.#races, raceData];
         }
     }
 }
-
-const raceService = new RaceService();

@@ -1,4 +1,4 @@
-@import '../../components/race-card/race-card.css';
+@import '../../components/race-card/race-card.component.css';
 
 .overview .race-container {
     display: flex;
