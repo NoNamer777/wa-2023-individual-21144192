@@ -131,7 +131,11 @@ class OverviewPage {
         if (sortingByQueryParam) {
             this.#filters.sortingBy = sortingByQueryParam;
         }
+        const traitFilterQueryParam = getQueryParamFromRoute('trait');
 
+        if (traitFilterQueryParam) {
+            this.#filters.trait = this.#findTraitByValue(traitFilterQueryParam);
+        }
     }
 
     #setFilteringPanelValues() {
@@ -144,6 +148,10 @@ class OverviewPage {
         if (this.#filters.sortingBy) {
             this.#filterSidePanelElem.querySelector('#sorting-by').value = this.#filters.sortingBy;
         }
+        if (this.#filters.trait) {
+            this.#filterSidePanelElem.querySelector('#trait-filter').value = this.#filters.trait.value;
+        }
+    }
 
     #setupSortableOptions() {
         const sortingByAttributeSelectElem = this.#filterSidePanelElem.querySelector('select#sorting-by');
@@ -175,6 +183,9 @@ class OverviewPage {
 
         if (this.#filters.sortingBy) {
             queryParams.sortingBy = this.#filters.sortingBy;
+        }
+        if (this.#filters.trait) {
+            queryParams.trait = this.#filters.trait.value;
         }
         setCurrentRoute(PAGES.overview, queryParams);
     }
