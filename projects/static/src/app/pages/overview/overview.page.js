@@ -57,6 +57,13 @@ class OverviewPage {
             event.preventDefault();
             event.stopImmediatePropagation();
 
+            const sortingBy = this.#filterSidePanelElem.querySelector('#sorting-by').value;
+
+            this.#filters.sortingDirection = this.#filterSidePanelElem.querySelector('#sorting-direction-asc').checked
+                ? SORTING_DIRECTIONS.ascending
+                : SORTING_DIRECTIONS.descending;
+            this.#filters.sortingBy = sortingBy === '' ? null : sortingBy;
+
             removeClass(this.#filterSidePanelElem, 'shown');
         };
     }
