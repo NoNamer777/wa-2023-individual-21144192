@@ -11,8 +11,11 @@ class OverviewPage {
     static #instance;
 
     #template;
+
     #raceCardTemplate;
+
     #filterSidePanelElem;
+
     #filters = {
         sortingBy: null,
         sortingDirection: SORTING_DIRECTIONS.ascending,
@@ -26,7 +29,7 @@ class OverviewPage {
         }
         raceContainerElem.innerHTML = '';
 
-        for (const raceData of await (await RaceService.instance()).getRacesInRange()) {
+        for (const raceData of await (await RaceService.instance()).getRacesInRange(this.#filters)) {
             const raceCard = new RaceCardComponent(raceData, this.#raceCardTemplate.cloneNode(true));
             raceContainerElem.appendChild(raceCard.template);
         }
@@ -53,6 +56,7 @@ class OverviewPage {
     }
 
     #setupFilterPanel() {
+        // Handle Filtering and Sorting form submissions.
         this.#filterSidePanelElem.querySelector('form').onsubmit = async (event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
@@ -63,6 +67,11 @@ class OverviewPage {
                 ? SORTING_DIRECTIONS.ascending
                 : SORTING_DIRECTIONS.descending;
             this.#filters.sortingBy = sortingBy === '' ? null : sortingBy;
+
+            (await PaginationService.instance()).pageNumber = 1;
+            setCurrentRoute(PAGES.overview, { pageNumber: 1 });
+
+            await this.fillRaceContainer();
 
             removeClass(this.#filterSidePanelElem, 'shown');
         };

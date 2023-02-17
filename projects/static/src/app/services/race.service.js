@@ -15,11 +15,24 @@ class RaceService {
         return this.#races.length;
     }
 
-    async getRacesInRange() {
+    async getRacesInRange(filters) {
         const pageNumber = (await PaginationService.instance()).pageNumber;
         const maxItemsPerPage = (await PaginationService.instance()).maxItemsPerPage;
 
-        return this.#races.slice((pageNumber - 1) * maxItemsPerPage, maxItemsPerPage * pageNumber);
+        return [...this.#races]
+            .sort((r1, r2) => {
+                switch (filters.sortingBy) {
+                    case SORTABLE_ATTRIBUTES.name:
+                        return this.#sortByName(filters.sortingDirection, r1.name, r2.name);
+                    case SORTABLE_ATTRIBUTES.size:
+                        return this.#sortBySize(filters.sortingDirection, r1, r2);
+                    case SORTABLE_ATTRIBUTES.speed:
+                        return this.#sortBySpeed(filters.sortingDirection, r1, r2);
+                    default:
+                        return this.#isSortingDirectionASC(filters.sortingDirection) ? 1 : -1;
+                }
+            })
+            .slice((pageNumber - 1) * maxItemsPerPage, maxItemsPerPage * pageNumber);
     }
 
     async #initialize() {
@@ -30,5 +43,43 @@ class RaceService {
 
             this.#races = [...this.#races, raceData];
         }
+    }
+
+    #sortByName(sortDirection, raceName1, raceName2) {
+        if (raceName1.localeCompare(raceName2) === 0) return 0;
+
+        return this.#isSortingDirectionASC(sortDirection)
+            ? raceName1.localeCompare(raceName2)
+            : raceName2.localeCompare(raceName1);
+    }
+
+    #sortBySize(sortingDirection, race1, race2) {
+        const sizeDelta = this.#getRaceSizeValue(race1.size) - this.#getRaceSizeValue(race2.size);
+
+        // Sort by name if size of the comparing Races is the same.
+        if (sizeDelta === 0) {
+            return this.#sortByName(sortingDirection, race1.name, race2.name);
+        }
+        return sizeDelta < 0 && this.#isSortingDirectionASC(sortingDirection) ? -1 : 1;
+    }
+
+    #sortBySpeed(sortingDirection, race1, race2) {
+        const speedDelta = this.#isSortingDirectionASC(sortingDirection)
+            ? race1.speed - race2.speed
+            : race2.speed - race1.speed;
+
+        // Sort by name if speed of the comparing Races is the same.
+        if (speedDelta === 0) {
+            return this.#sortByName(sortingDirection, race1.name, race2.name);
+        }
+        return speedDelta;
+    }
+
+    #getRaceSizeValue(size) {
+        return SIZES[size.toLowerCase()];
+    }
+
+    #isSortingDirectionASC(sortingDirection) {
+        return sortingDirection === SORTING_DIRECTIONS.ascending;
     }
 }
