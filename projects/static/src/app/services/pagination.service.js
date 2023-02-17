@@ -3,7 +3,7 @@ class PaginationService {
         if (!this.#instance) {
             this.#instance = new PaginationService();
 
-            await this.#instance.#initialize();
+            await this.#instance.setupPagination();
         }
         return this.#instance;
     }
@@ -31,6 +31,8 @@ class PaginationService {
 
     #maxNumberOfPages = 1;
 
+    #paginationItemTemplate;
+
     async handlePaginationEvent(event, elem) {
         // Prevent default navigation.
         event.preventDefault();
@@ -49,15 +51,23 @@ class PaginationService {
         await OverviewPage.instance.fillRaceContainer();
     }
 
-    async #initialize() {
+    async setupPagination() {
+        document
+            .querySelectorAll('header ul.pagination .pagination-item')
+            .forEach((elem) => elem.parentElement.remove());
+
         this.#maxNumberOfPages = Math.ceil((await RaceService.instance()).numberOfRaces / this.#maxItemsPerPage);
 
         this.#initializeCurrentPage();
 
-        const template = await fetchTemplate('app/components/pagination-link/pagination-link.component');
+        if (!this.#paginationItemTemplate) {
+            this.#paginationItemTemplate = await fetchTemplate(
+                'app/components/pagination-link/pagination-link.component'
+            );
+        }
 
         for (let i = this.#maxNumberOfPages; i > 0; i--) {
-            const pageLinkTemplate = this.#constructPaginationLink(template.cloneNode(true), i);
+            const pageLinkTemplate = this.#constructPaginationLink(this.#paginationItemTemplate.cloneNode(true), i);
 
             document
                 .querySelector('header ul.pagination li:first-of-type')

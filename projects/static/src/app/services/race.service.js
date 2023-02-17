@@ -11,15 +11,21 @@ class RaceService {
 
     #races = [];
 
+    get races() {
+        return this.#races;
+    }
+    #activeRaces = [];
+
     get numberOfRaces() {
-        return this.#races.length;
+        return this.#activeRaces.length;
     }
 
     async getRacesInRange(filters) {
         const pageNumber = (await PaginationService.instance()).pageNumber;
         const maxItemsPerPage = (await PaginationService.instance()).maxItemsPerPage;
 
-        return [...this.#races]
+        this.#activeRaces = this.#races
+            .slice()
             .sort((r1, r2) => {
                 switch (filters.sortingBy) {
                     case SORTABLE_ATTRIBUTES.name:
@@ -32,7 +38,11 @@ class RaceService {
                         return this.#isSortingDirectionASC(filters.sortingDirection) ? 1 : -1;
                 }
             })
-            .slice((pageNumber - 1) * maxItemsPerPage, maxItemsPerPage * pageNumber);
+            .filter((race) =>
+                !filters.trait ? true : race.traits.map((trait) => trait.name).includes(filters.trait.name)
+            );
+
+        return this.#activeRaces.slice((pageNumber - 1) * maxItemsPerPage, maxItemsPerPage * pageNumber);
     }
 
     async #initialize() {
@@ -43,6 +53,7 @@ class RaceService {
 
             this.#races = [...this.#races, raceData];
         }
+        this.#activeRaces = this.#races.slice();
     }
 
     #sortByName(sortDirection, raceName1, raceName2) {

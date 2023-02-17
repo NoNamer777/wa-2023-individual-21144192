@@ -25,17 +25,26 @@
                     <div class="form-group">
                         <div class="form-control sorting">
                             <label for="sorting-by">Sort by</label>
-                            <select id="sorting-by">
+                            <select name="sorting-by" id="sorting-by">
                                 <option></option>
                                 <!--Sortable options will be added dynamically-->
                             </select>
                         </div>
                         <div class="form-control sorting-direction">
                             <input type="radio" name="sorting-direction" id="sorting-direction-asc" value="ASC" />
-                            <label for="sorting-direction-asc">Ascending</label><br />
+                            <label for="sorting-direction-asc">Ascending</label>
+                            <br />
                             <input type="radio" name="sorting-direction" id="sorting-direction-desc" value="DESC" />
-                            <label for="sorting-direction-desc">Descending</label><br />
+                            <label for="sorting-direction-desc">Descending</label>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="trait-filter">Filter by Trait</label>
+                        <br />
+                        <select name="trait-filter" id="trait-filter">
+                            <option></option>
+                            <!--Attribute filter options will be added dynamically-->
+                        </select>
                     </div>
                     <button type="submit" class="apply-btn">Apply</button>
                 </form>
