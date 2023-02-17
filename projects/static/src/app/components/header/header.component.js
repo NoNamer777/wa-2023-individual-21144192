@@ -20,7 +20,7 @@ class HeaderComponent {
     }
 
     async #initialize() {
-        this.#template = await fetchTemplate(`app/components/header/header.component`);
+        this.#template = await fetchTemplate('app/components/header/header.component');
 
         this.#template.querySelectorAll('.pagination a').forEach((elem) => {
             elem.onclick = async (event) =>

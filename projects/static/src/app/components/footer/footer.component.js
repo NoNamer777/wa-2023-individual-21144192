@@ -7,7 +7,7 @@ class FooterComponent {
     static #instance;
 
     async #initialize() {
-        const template = await fetchTemplate(`app/components/footer/footer.component`);
+        const template = await fetchTemplate('app/components/footer/footer.component');
 
         document.querySelector('footer').replaceWith(template);
     }

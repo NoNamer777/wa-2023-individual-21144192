@@ -28,7 +28,7 @@ class OverviewPage {
     }
 
     async #initialize() {
-        this.#template = await fetchTemplate(`app/pages/overview/overview.page`);
+        this.#template = await fetchTemplate('app/pages/overview/overview.page');
 
         await this.fillRaceContainer();
 
