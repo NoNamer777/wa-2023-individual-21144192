@@ -46,7 +46,7 @@ class PaginationService {
 
         this.pageNumber = parseInt(queryParams.pageNumber);
 
-        setCurrentRoute(AppComponent.instance.currentPage, queryParams);
+        setCurrentRoute(AppComponent.instance.currentPage, queryParams, true);
 
         await OverviewPage.instance.fillRaceContainer();
     }
