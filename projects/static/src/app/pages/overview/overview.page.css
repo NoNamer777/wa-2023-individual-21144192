@@ -25,7 +25,7 @@
     box-shadow: var(--shadow-sm);
 }
 
-.overview .filter-btn svg {
+.overview .filter-btn img {
     height: 2em;
     width: 2em;
 }
@@ -37,6 +37,10 @@
     bottom: 3.438em; /* Stop above the footer */
     right: 0;
     left: 0;
+}
+
+.overview aside.shown {
+    display: block;
 }
 
 .overview aside .overlay-container {
@@ -77,8 +81,12 @@
     background-color: var(--bg-primary-hover);
 }
 
-.overview aside.shown {
-    display: block;
+.overview aside section .form-group {
+    margin-bottom: 1em;
+}
+
+.overview aside section .form-control {
+    margin-bottom: 0.5em;
 }
 
 .overview aside section #sorting-by {
@@ -87,12 +95,4 @@
 
 .overview aside section #sorting-by:focus {
     outline: none;
-}
-
-.overview aside section .form-group {
-    margin-bottom: 1em;
-}
-
-.overview aside section .form-control {
-    margin-bottom: 0.5em;
 }

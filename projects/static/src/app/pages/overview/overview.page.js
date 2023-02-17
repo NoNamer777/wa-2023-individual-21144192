@@ -47,28 +47,22 @@ class OverviewPage {
             this.#filters.sortingBy = sortingByQueryParam;
         }
         await this.fillRaceContainer();
-        await this.#setupFilterButton();
         this.#setupFilteringPanel();
 
         document.querySelector('article').replaceWith(this.#template);
     }
 
-    async #setupFilterButton() {
-        const button = this.#template.querySelector('.filter-btn');
-        const filterIcon = await fetchSVG('assets/images/icons/filter.icon');
+    #setupFilteringPanel() {
+        const sortingByAttributeSelectElem = this.#filterSidePanelElem.querySelector('select#sorting-by');
+        const optionTemplate = document.createElement('option');
 
-        button.appendChild(filterIcon);
-
-        button.onclick = () => {
+        // Add filter-btn click handler.
+        this.#template.querySelector('.filter-btn').onclick = () => {
             addClass(this.#filterSidePanelElem, 'shown');
 
             this.#setFilteringPanelValues();
         };
-    }
 
-    #setupFilteringPanel() {
-        const sortingByAttributeSelectElem = this.#filterSidePanelElem.querySelector('select#sorting-by');
-        const optionTemplate = document.createElement('option');
 
         // Build options on which Races can be sorted.
         for (const sortableAttribute of Object.values(SORTABLE_ATTRIBUTES)) {
