@@ -2,7 +2,8 @@
     "name": "dnd-mapp-races-static",
     "version": "0.0.1",
     "author": "NoNamer777",
+    "private": true,
     "scripts": {
-        "start:static": "servor projects/static/src index.html 4200 --reload"
+        "start:static": "servor src index.html 4200 --reload"
     }
 }
