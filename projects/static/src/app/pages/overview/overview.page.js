@@ -39,8 +39,11 @@ class OverviewPage {
         this.#template = await fetchTemplate('app/pages/overview/overview.page');
         this.#filterSidePanelElem = this.#template.querySelector('.overview aside');
 
-        this.#filters.sortingDirection = getQueryParamFromRoute('sortingDirection');
+        const sortingDirectionQueryParam = getQueryParamFromRoute('sortingDirection');
 
+        if (sortingDirectionQueryParam) {
+            this.#filters.sortingDirection = sortingDirectionQueryParam;
+        }
         const sortingByQueryParam = getQueryParamFromRoute('sortingBy');
 
         if (sortingByQueryParam) {
