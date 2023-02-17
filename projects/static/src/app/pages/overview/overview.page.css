@@ -117,8 +117,9 @@
     margin-bottom: 0.5em;
 }
 
-.overview aside section #sorting-by {
+.overview aside section select {
     font-size: inherit;
+    width: 100%;
 }
 
 .overview aside section #sorting-by:focus {
