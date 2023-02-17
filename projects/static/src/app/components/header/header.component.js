@@ -27,6 +27,21 @@ class HeaderComponent {
                 await (await PaginationService.instance()).handlePaginationEvent(event, elem);
         });
 
+        this.#template.querySelectorAll('a:not(.pagination li > a)').forEach((elem) => {
+            elem.onclick = (event) => {
+                event.stopImmediatePropagation();
+                event.preventDefault();
+
+                let route = findParentElement(event.target, 'A').href.split('#')[1].replace('/', '');
+
+                if (route === '') {
+                    route = PAGES.overview;
+                }
+                setCurrentRoute(route, {});
+                AppComponent.instance.loadPage(route);
+            };
+        });
+
         document.querySelector('header').replaceWith(this.#template);
     }
 }

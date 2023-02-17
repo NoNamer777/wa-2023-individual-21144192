@@ -19,17 +19,7 @@ class AppComponent {
     }
     #currentPage;
 
-    async #loadPageFromURL() {
-        const page = location.hash.slice(2).replace(/\?.*/, '');
-
-        if (!(await this.#loadPage(page))) {
-            setCurrentRoute(PAGES.overview);
-
-            await this.#loadPage(PAGES.overview);
-        }
-    }
-
-    async #loadPage(page) {
+    async loadPage(page) {
         this.#currentPage = page;
 
         switch (page) {
@@ -44,6 +34,16 @@ class AppComponent {
         HeaderComponent.instance.activateLinkFromActivePage();
 
         return true;
+    }
+
+    async #loadPageFromURL() {
+        const page = location.hash.slice(2).replace(/\?.*/, '');
+
+        if (!(await this.loadPage(page))) {
+            setCurrentRoute(PAGES.overview, {});
+
+            await this.loadPage(PAGES.overview);
+        }
     }
 
     #setPageStyle() {
