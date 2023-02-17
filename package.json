@@ -3,6 +3,7 @@
     "author": "NoNamer777",
     "version": "0.0.1",
     "license": "GPL-3.0 license",
+    "private": true,
     "repository": {
         "type": "git",
         "url": "https://github.com/nonamer777/wa-2023-individual-21144192"
@@ -12,12 +13,17 @@
     },
     "homepage": "https://github.com/nonamer777/wa-2023-individual-21144192",
     "scripts": {
-        "start:static": "servor static/src index.html 4200 --reload",
+        "lint": "eslint .",
         "format:check": "prettier -l .",
         "format:write": "prettier -w ."
     },
+    "workspaces": [
+        "projects/*"
+    ],
     "devDependencies": {
         "eslint": "^8.33.0",
+        "eslint-config-prettier": "^8.6.0",
+        "eslint-plugin-prettier": "^4.2.1",
         "prettier": "^2.8.3",
         "servor": "^4.0.2"
     }
