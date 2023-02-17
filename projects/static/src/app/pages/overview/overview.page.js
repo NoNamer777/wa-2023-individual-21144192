@@ -63,6 +63,8 @@ class OverviewPage {
             this.#setFilteringPanelValues();
         };
 
+        this.#filterSidePanelElem.querySelector('.close-panel-btn').onclick = () =>
+            removeClass(this.#filterSidePanelElem, 'shown');
 
         // Build options on which Races can be sorted.
         for (const sortableAttribute of Object.values(SORTABLE_ATTRIBUTES)) {

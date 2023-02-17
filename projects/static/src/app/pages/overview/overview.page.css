@@ -60,6 +60,34 @@
     cursor: default;
 }
 
+.overview aside section .row {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    gap: 2em;
+}
+
+.overview aside section .close-panel-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--surface);
+    border-radius: 24em;
+    background-color: var(--surface);
+    padding: 0.4em;
+}
+
+.overview aside section .close-panel-btn:hover {
+    cursor: pointer;
+    border-color: var(--surface-hover);
+    background-color: var(--surface-hover);
+}
+
+.overview aside section .close-panel-btn img {
+    flex: 1 1 auto;
+    height: 1.2em;
+}
+
 .overview aside section form {
     display: flex;
     font-size: inherit;
