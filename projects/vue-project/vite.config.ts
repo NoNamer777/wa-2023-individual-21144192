@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 export default defineConfig({
     assetsInclude: ['./src/favicon.ico', './src/assets/**/*'],
     build: {
-        emptyOutDir: false,
+        emptyOutDir: true,
         outDir: '../../../dist/vue-project',
         sourcemap: true,
     },
