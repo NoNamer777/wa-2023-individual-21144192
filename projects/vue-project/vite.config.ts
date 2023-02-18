@@ -6,6 +6,11 @@ import { fileURLToPath } from 'url';
 // https://vitejs.dev/config/
 export default defineConfig({
     assetsInclude: ['./favicon.ico'],
+    build: {
+        emptyOutDir: false,
+        outDir: '../../../dist/vue-project',
+        sourcemap: true,
+    },
     cacheDir: '../../../.vite',
     plugins: [vue(), vueJsx()],
     publicDir: './assets',
