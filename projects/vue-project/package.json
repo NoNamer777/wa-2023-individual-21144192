@@ -3,13 +3,12 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "dev": "vite",
-        "build": "run-p type-check build-only",
-        "preview": "vite preview",
-        "test:unit": "vitest --environment jsdom --root src/",
-        "build-only": "vite build",
-        "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-        "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+        "vue-project:start": "servor ../../dist/vue-project index.html 4200 --reload",
+        "vue-project:build-dev": "vite build --watch",
+        "vue-project:build": "run-p type-check build-only",
+        "vue-project:build-only": "vite build",
+        "vue-project:type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+        "vue-project:test-dev": "vitest --environment jsdom --root src/"
     },
     "dependencies": {
         "pinia": "^2.0.28",
