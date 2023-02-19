@@ -1,5 +1,4 @@
 <template src="./app.component.html"></template>
-<style scoped lang="scss" src="./app.component.scss"></style>
 
 <script setup lang="ts">
 import CenterComponent from './components/center/center.component.vue';

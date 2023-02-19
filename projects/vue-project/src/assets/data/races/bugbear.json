@@ -1,0 +1,52 @@
+{
+    "name": "Bugbear",
+    "speed": 30,
+    "size": "Medium",
+    "imgSrc": "images/races/bugbear.png",
+    "traits": [
+        {
+            "name": "Ability Score Increase",
+            "description": "Your Strength score increases by 2, and your Dexterity score increases by 1."
+        },
+        {
+            "name": "Age",
+            "description": "Bugbears reach adulthood at age 16 and live up to 80 years."
+        },
+        {
+            "name": "Alignment",
+            "description": "Bugbears endure a harsh existence that demands each of them to remain self-sufficient, even at the expense of their fellows. They tend to be chaotic evil."
+        },
+        {
+            "name": "Size",
+            "description": "Bugbears are between 6 and 8 feet tall and weigh between 250 and 350 pounds. Your size is Medium."
+        },
+        {
+            "name": "Speed",
+            "description": "Your base walking speed is 30 feet."
+        },
+        {
+            "name": "Darkvision",
+            "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+        },
+        {
+            "name": "Long-Limbed",
+            "description": "When you make a melee attack on your turn, your reach for it is 5 feet greater than normal."
+        },
+        {
+            "name": "Powerful Build",
+            "description": "You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift."
+        },
+        {
+            "name": "Sneaky",
+            "description": "You are proficient in the Stealth skill."
+        },
+        {
+            "name": "Surprise Attack",
+            "description": "If you surprise a creature and hit it with an attack on your first turn in combat, the attack deals an extra 2d6 damage to it. You can use this trait only once per combat."
+        },
+        {
+            "name": "Languages",
+            "description": "You can speak, read, and write Common and Goblin."
+        }
+    ]
+}

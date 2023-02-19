@@ -1,3 +1,11 @@
-<article>
-    <p>overview.page works!</p>
+<article class="h-100 d-flex flex-column">
+    <h2 class="flex-grow-0 flex-shrink-0">Races</h2>
+    <p class="flex-grow-0 flex-shrink-0">
+        Below here is an overview of some of the playable Races that you can choose for you for your player character.
+    </p>
+    <hr class="flex-grow-0 flex-shrink-0" />
+    <section class="flex-grow-1 flex-shrink-1 d-flex flex-wrap justify-content-center align-items-center gap-3">
+        <div class="spinner-border" v-if="shouldShowRaces"></div>
+        <race-card-component v-else v-for="race in store.getFilteredRaces" :race="race" />
+    </section>
 </article>

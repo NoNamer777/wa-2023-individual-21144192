@@ -1,0 +1,14 @@
+<div class="card shadow-sm">
+    <img :src="race.imgSrc" :alt="race.name + ' image'" class="card-img-top border-bottom" />
+    <div class="card-body">
+        <h5 class="card-title">{{ race.name }}</h5>
+        <p class="card-text d-flex justify-content-between">
+            <span>Size:</span>
+            <span>{{ race.size }}</span>
+        </p>
+        <p class="card-text d-flex justify-content-between">
+            <span>Speed:</span>
+            <span>{{ race.speed }}</span>
+        </p>
+    </div>
+</div>
