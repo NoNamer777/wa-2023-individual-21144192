@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia';
+import { useRoute } from 'vue-router';
+import { watch } from 'vue';
 
 export interface PaginationStoreState {
     currentPage: number;
@@ -17,6 +19,17 @@ export const usePaginationStore = defineStore('pagination', {
     actions: {
         determineTotalNumberOfPages(numberOfItems: number): void {
             this.totalNumberOfPages = Math.ceil(numberOfItems / this.pageSize);
+        },
+        watchPageNumberParam(): void {
+            const route = useRoute();
+
+            watch(
+                () => route.query.pageNumber as string,
+                (pageNumber) => {
+                    if (!pageNumber) return;
+                    this.currentPage = parseInt(pageNumber);
+                }
+            );
         },
     },
     getters: {
