@@ -8,4 +8,22 @@
         <div class="spinner-border" v-if="shouldShowRaces"></div>
         <race-card-component v-else v-for="race in raceStore.getFilteredRaces" :race="race" />
     </section>
+    <button
+        type="button"
+        class="btn btn-primary rounded-circle position-absolute p-3 filter-btn"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#filter-sorting-panel"
+    >
+        <fa-icon icon="filter" size="2x" />
+    </button>
 </article>
+
+<aside class="offcanvas offcanvas-end" tabindex="-1" id="filter-sorting-panel">
+    <section class="offcanvas-header">
+        <h5 class="offcanvas-title">Filters and Sorting</h5>
+        <button type="button" class="btn btn-close" data-bs-dismiss="offcanvas" />
+    </section>
+    <section class="offcanvas-body">
+        <!--TODO - Add component for handling filtering and sorting-->
+    </section>
+</aside>
