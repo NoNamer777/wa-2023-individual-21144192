@@ -5,13 +5,13 @@ import RaceCardComponent from '@vue-project/app/components/race-card/race-card.c
 import { computed, onBeforeMount, reactive } from 'vue';
 import { useRaceStore } from '@vue-project/app/stores/race.store';
 
-const store = useRaceStore();
+const raceStore = useRaceStore();
 
 onBeforeMount(async () => {
-    await store.initialize();
+    await raceStore.initialize();
 });
 
 const shouldShowRaces = computed(() => {
-    return store.getFilteredRaces === null || store.getFilteredRaces.length === 0;
+    return raceStore.getFilteredRaces === null || raceStore.getFilteredRaces.length === 0;
 });
 </script>
