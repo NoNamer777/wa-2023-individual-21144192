@@ -1,4 +1,4 @@
-<template src="./pagination.component.html"></template>
+<template src="./pagination.component.html" />
 
 <script setup lang="ts">
 import { usePaginationStore } from '@vue-project/app/stores/pagination.store';

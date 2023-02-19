@@ -1,4 +1,5 @@
-<template src="./overview.page.html"></template>
+<template src="./overview.page.html" />
+<style scoped lang="scss" src="./overview.page.scss" />
 
 <script setup lang="ts">
 import RaceCardComponent from '@vue-project/app/components/race-card/race-card.component.vue';
