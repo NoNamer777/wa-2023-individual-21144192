@@ -2,7 +2,7 @@
 
 <script setup lang="ts">
 import RaceCardComponent from '@vue-project/app/components/race-card/race-card.component.vue';
-import { computed, onBeforeMount, reactive } from 'vue';
+import { computed, onBeforeMount } from 'vue';
 import { useRaceStore } from '@vue-project/app/stores/race.store';
 
 const raceStore = useRaceStore();
