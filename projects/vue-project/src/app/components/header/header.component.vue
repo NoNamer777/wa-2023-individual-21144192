@@ -1,4 +1,4 @@
-<template src="./header.component.html"></template>
+<template src="./header.component.html" />
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
