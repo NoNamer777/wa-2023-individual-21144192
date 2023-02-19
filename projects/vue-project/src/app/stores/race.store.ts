@@ -18,6 +18,7 @@ export const useRaceStore = defineStore('races', {
     }),
     actions: {
         async initialize(): Promise<void> {
+            const paginationStore = usePaginationStore();
             const racesList = await fetchJson<string[]>('./data/races');
             this.races = [];
 
@@ -26,6 +27,8 @@ export const useRaceStore = defineStore('races', {
                 this.races = [...this.races, race];
             }
             this.filtered = [...this.races];
+
+            paginationStore.determineTotalNumberOfPages(this.filtered.length);
         },
     },
     getters: {
