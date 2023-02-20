@@ -2,7 +2,7 @@
     <li class="page-item" :class="{ disabled: isOnFirstPage }">
         <router-link
             class="page-link"
-            :to="{ name: 'Overview', query: { pageNumber: previousPage } }"
+            :to="{ name: 'Overview', query: { ...queryParams, pageNumber: previousPage } }"
             active-class="_active"
         >
             Previous
@@ -13,7 +13,7 @@
         <router-link
             class="page-link"
             v-else
-            :to="{ name: 'Overview', query: { pageNumber: pageNumber } }"
+            :to="{ name: 'Overview', query: { ...queryParams, pageNumber: pageNumber  } }"
             active-class="_active"
         >
             {{ pageNumber }}
@@ -22,7 +22,7 @@
     <li class="page-item" :class="{ disabled: isOnLastPage }">
         <router-link
             class="page-link"
-            :to="{ name: 'Overview', query: { pageNumber: nextPage } }"
+            :to="{ name: 'Overview', query: { ...queryParams, pageNumber: nextPage } }"
             active-class="_active"
         >
             Next
