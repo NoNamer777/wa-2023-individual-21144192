@@ -8,6 +8,8 @@ export const usePaginationStore = defineStore('pagination', {
         currentPage: 1,
         totalNumberOfPages: 1,
         pageSize: DEFAULT_PAGE_SIZE,
+        sortOrder: 'asc',
+        sortByAttribute: null,
     }),
     actions: {
         determineTotalNumberOfPages(numberOfItems: number): void {
