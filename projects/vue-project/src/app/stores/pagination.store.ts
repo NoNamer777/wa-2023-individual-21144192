@@ -1,14 +1,7 @@
 import { defineStore } from 'pinia';
 import { useRoute } from 'vue-router';
 import { watch } from 'vue';
-
-export interface PaginationStoreState {
-    currentPage: number;
-    totalNumberOfPages: number;
-    pageSize: number;
-}
-
-export const DEFAULT_PAGE_SIZE = 5;
+import { DEFAULT_PAGE_SIZE, type PaginationStoreState } from '@vue-project/app/models/pagination';
 
 export const usePaginationStore = defineStore('pagination', {
     state: (): PaginationStoreState => ({
