@@ -33,6 +33,7 @@ async function onSubmit(): Promise<void> {
     const queryParams: SortingAndFilteringQueryParams = {
         ...route.query,
         sortingOrder: form.value.sortingOrder,
+        pageNumber: '1',
     };
 
     if (form.value.sortingByAttribute) {
