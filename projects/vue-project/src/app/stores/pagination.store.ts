@@ -9,7 +9,7 @@ import { defineStore } from 'pinia';
 export const usePaginationStore = defineStore('pagination', {
     state: (): PaginationStoreState => ({
         currentPage: 1,
-        totalNumberOfPages: 1,
+        totalNumberOfPages: 0,
         pageSize: DEFAULT_PAGE_SIZE,
         sortOrder: 'asc',
         sortByAttribute: null,
@@ -38,6 +38,12 @@ export const usePaginationStore = defineStore('pagination', {
         },
         getTotalNumberOfPages(): number {
             return this.totalNumberOfPages;
+        },
+        getSortingOrder(): SortingOrder {
+            return this.sortOrder;
+        },
+        getSortingByAttributes(): SortableAttribute {
+            return this.sortByAttribute;
         },
     },
 });

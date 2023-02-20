@@ -12,14 +12,18 @@ import RaceCardComponent from '@vue-project/app/pages/overview/race-card/race-ca
 import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
 import { useRaceStore } from '@vue-project/app/stores/race.store';
 import { computed, onBeforeMount, onBeforeUnmount } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
-const raceStore = useRaceStore();
 const paginationStore = usePaginationStore();
+const raceStore = useRaceStore();
 
-const unsubscribeRouterQueryParams = useRouter().afterEach((to) => watchQueryParams(to.query));
+const unsubscribeRouterQueryParams = useRouter().afterEach((to) => updatePagination(to.query));
 
-onBeforeMount(async () => await raceStore.initialize());
+onBeforeMount(async () => {
+    updatePagination(useRoute().query);
+
+    await raceStore.initialize();
+});
 
 onBeforeUnmount(() => {
     unsubscribeRouterAfterEachHook();
@@ -28,7 +32,7 @@ onBeforeUnmount(() => {
 
 const shouldShowRaces = computed<boolean>(() => paginationStore.getTotalNumberOfPages > 0);
 
-function watchQueryParams(queryParams: SortingAndFilteringQueryParams): void {
+function updatePagination(queryParams: SortingAndFilteringQueryParams): void {
     if (queryParams.pageNumber) {
         paginationStore.setCurrentPage(parseInt(queryParams.pageNumber));
     }
