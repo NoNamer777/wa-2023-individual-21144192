@@ -26,7 +26,7 @@ onBeforeUnmount(() => {
     unsubscribeRouterQueryParams();
 });
 
-const shouldShowRaces = computed(() => raceStore.getFilteredRaces.length === 0);
+const shouldShowRaces = computed<boolean>(() => paginationStore.getTotalNumberOfPages > 0);
 
 function watchQueryParams(queryParams: SortingAndFilteringQueryParams): void {
     if (queryParams.pageNumber) {
