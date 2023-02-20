@@ -7,15 +7,12 @@ import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import '~bootstrap';
 
-const app = createApp(App);
-
 // Add Font Awesome icons.
 library.add(faFilter, faTimes);
 
-// Make the Font Awesome Icon component available.
-app.component('fa-icon', FontAwesomeIcon);
-
-app.use(createPinia());
-app.use(router);
-
-app.mount('#app');
+createApp(App)
+    .use(createPinia())
+    .use(router)
+    // Make the Font Awesome Icon component available.
+    .component('fa-icon', FontAwesomeIcon)
+    .mount('#app');
