@@ -10,6 +10,10 @@ export const SORTABLE_ATTRIBUTES = ref([
 
 export type SortableAttribute = 'name' | 'size' | 'speed' | null;
 
+export function isValidSortableByAttribute(value: string): boolean {
+    return Boolean(value && SORTABLE_ATTRIBUTES.value.find((sortable) => sortable.value === value));
+}
+
 export const SORTING_ORDERS = ref([
     { value: 'asc', label: 'Ascending' },
     { value: 'desc', label: 'Descending' },
@@ -17,12 +21,19 @@ export const SORTING_ORDERS = ref([
 
 export type SortingOrder = 'asc' | 'desc';
 
+export function isValidSortingOrder(value: string): boolean {
+    return Boolean(value && Boolean(SORTING_ORDERS.value.find((order) => order.value === value)));
+}
+
 export interface SortingAndFilteringForm {
     sortingByAttribute: SortableAttribute;
     sortingOrder: SortingOrder;
 
     [key: string]: string | null;
 }
+
+export type SortingAndFilteringQueryParams = Partial<SortingAndFilteringForm> & { pageNumber?: string };
+
 export interface PaginationStoreState {
     currentPage: number;
     totalNumberOfPages: number;
@@ -31,3 +42,23 @@ export interface PaginationStoreState {
     sortByAttribute: SortableAttribute;
 }
 
+export const DEFAULT_SORTING_AND_FILTERING_FORM_STATE: SortingAndFilteringForm = {
+    sortingByAttribute: null,
+    sortingOrder: 'asc',
+};
+
+export function formEquals(form1: SortingAndFilteringForm, form2: SortingAndFilteringForm): boolean {
+    if (form1 === form2) return true;
+
+    let isEqual = true;
+
+    Object.entries(form1).forEach(([key, value]) => {
+        if (!isEqual) return;
+
+        if (form2[key] !== value) {
+            isEqual = false;
+        }
+    });
+
+    return isEqual;
+}
