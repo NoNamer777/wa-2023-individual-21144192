@@ -2,7 +2,7 @@
 
 <script setup lang="ts">
 import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 const paginationStore = usePaginationStore();
 
