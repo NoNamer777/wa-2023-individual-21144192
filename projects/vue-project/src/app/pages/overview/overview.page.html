@@ -5,8 +5,10 @@
     </p>
     <hr class="flex-grow-0 flex-shrink-0" />
     <section class="flex-grow-1 flex-shrink-1 d-flex flex-wrap justify-content-center align-items-center gap-3">
-        <div class="spinner-border" v-if="shouldShowRaces"></div>
-        <race-card-component v-else v-for="race in raceStore.getFilteredRaces" :race="race" />
+        <div class="spinner-border" v-if="!shouldShowRaces"></div>
+        <template v-else v-for="race in races" :key="race.name">
+            <race-card-component :race="race" />
+        </template>
     </section>
     <button
         type="button"
@@ -24,6 +26,6 @@
         <button type="button" class="btn btn-close" data-bs-dismiss="offcanvas" />
     </section>
     <section class="offcanvas-body">
-        <!--TODO - Add component for handling filtering and sorting-->
+        <filtering-and-sorting-form-component :racial-traits="racialTraits" @change="onChange" />
     </section>
 </aside>

@@ -2,17 +2,58 @@
 <style scoped lang="scss" src="./overview.page.scss" />
 
 <script setup lang="ts">
-import RaceCardComponent from '@vue-project/app/components/race-card/race-card.component.vue';
-import { computed, onBeforeMount } from 'vue';
+import {
+    isValidSortableByAttribute,
+    isValidSortingOrder,
+    type SortingAndFilteringQueryParams,
+} from '@vue-project/app/models/pagination';
+import FilteringAndSortingFormComponent from '@vue-project/app/pages/overview/filtering-and-sorting/filtering-and-sorting-form.component.vue';
+import RaceCardComponent from '@vue-project/app/pages/overview/race-card/race-card.component.vue';
+import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
 import { useRaceStore } from '@vue-project/app/stores/race.store';
+import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
+const paginationStore = usePaginationStore();
 const raceStore = useRaceStore();
 
+const shouldShowRaces = computed<boolean>(() => paginationStore.getTotalNumberOfPages > 0);
+
+const races = ref([]);
+const racialTraits = ref([]);
+
+const unsubscribeRouterQueryParams = useRouter().afterEach((to) => updatePagination(to.query));
+
 onBeforeMount(async () => {
+    updatePagination(useRoute().query);
+
     await raceStore.initialize();
+
+    racialTraits.value = raceStore.getAllTraits;
+    onChange();
 });
 
-const shouldShowRaces = computed(() => {
-    return raceStore.getFilteredRaces === null || raceStore.getFilteredRaces.length === 0;
+onBeforeUnmount(() => {
+    unsubscribeRouterAfterEachHook();
+    unsubscribeRouterQueryParams();
 });
+
+function onChange(): void {
+    races.value = raceStore.getFilteredRaces;
+}
+
+function updatePagination(queryParams: SortingAndFilteringQueryParams): void {
+    if (queryParams.pageNumber) {
+        paginationStore.setCurrentPage(parseInt(queryParams.pageNumber));
+    }
+    if (isValidSortingOrder(queryParams.sortingOrder)) {
+        paginationStore.setSortOrder(queryParams.sortingOrder);
+    }
+    if (isValidSortableByAttribute(queryParams.sortingByAttribute)) {
+        paginationStore.setSortingByAttribute(queryParams.sortingByAttribute);
+    }
+    if (queryParams.filteringByTrait) {
+        paginationStore.setFilteringByTrait(queryParams.filteringByTrait);
+    }
+}
 </script>

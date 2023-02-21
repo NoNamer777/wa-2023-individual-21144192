@@ -1,0 +1,29 @@
+<form class="h-100 d-flex flex-column gap-2" @submit.prevent="onSubmit">
+    <div class="mb-3">
+        <label class="form-label">Sorting on</label>
+        <select class="form-select" v-model="form.sortingByAttribute">
+            <template v-for="sortable of SORTABLE_ATTRIBUTES" :key="sortable.value">
+                <option :value="sortable.value">{{ sortable.label }}</option>
+            </template>
+        </select>
+        <template v-for="order of SORTING_ORDERS" :key="order.value">
+            <div class="form-check mt-2">
+                <input type="radio" class="form-check-input" v-model="form.sortingOrder" :value="order.value" />
+                <label class="form-check-label">{{ order.label }}</label>
+            </div>
+        </template>
+    </div>
+    <div class="mb-auto">
+        <label class="form-label">Filter by Trait</label>
+        <select class="form-select" v-model="form.filteringByTrait">
+            <option :value="null"></option>
+            <template v-for="traitOption in racialTraits" :key="value">
+                <option :value="traitOption.value">{{ traitOption.label }}</option>
+            </template>
+        </select>
+    </div>
+    <button type="reset" class="btn btn-danger" :disabled="!hasFilters && !formIsDirty" @click.prevent="onReset">
+        Reset
+    </button>
+    <button type="submit" class="btn btn-success" data-bs-dismiss="offcanvas" :disabled="!formIsDirty">Apply</button>
+</form>
