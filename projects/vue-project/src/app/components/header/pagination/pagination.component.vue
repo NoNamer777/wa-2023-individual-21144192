@@ -1,7 +1,7 @@
 <template src="./pagination.component.html" />
 
 <script setup lang="ts">
-import { type SortingAndFilteringQueryParams } from '@vue-project/app/models/pagination';
+import type { SortingAndFilteringQueryParams } from '@vue-project/app/models/pagination';
 import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
