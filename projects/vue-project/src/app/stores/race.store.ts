@@ -70,6 +70,12 @@ export const useRaceStore = defineStore('races', () => {
         paginationStore.determineTotalNumberOfPages(sortedRaces.length);
     }
 
+    function addNewRace(raceData: Race): void {
+        races.value = [...(races.value as Race[]), raceData];
+
+        paginationStore.determineTotalNumberOfPages(races.value.length);
+    }
+
     const getFilteredRaces = computed<Race[]>(() => {
         const start = (paginationStore.getCurrentPage - 1) * paginationStore.getPageSize;
         const end = paginationStore.getCurrentPage * paginationStore.getPageSize;
@@ -95,5 +101,5 @@ export const useRaceStore = defineStore('races', () => {
 
     const getActiveCollectionSize = computed<number>(() => filtered.value.length);
 
-    return { filtered, getFilteredRaces, getAllTraits, initialize, getActiveCollectionSize };
+    return { filtered, getFilteredRaces, getAllTraits, initialize, getActiveCollectionSize, addNewRace };
 });

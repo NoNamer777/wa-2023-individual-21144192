@@ -7,8 +7,9 @@ import {
     isValidSortingOrder,
     type SortingAndFilteringQueryParams,
 } from '@vue-project/app/models/pagination';
-import FilteringAndSortingFormComponent from '@vue-project/app/pages/overview/filtering-and-sorting/filtering-and-sorting-form.component.vue';
-import RaceCardComponent from '@vue-project/app/pages/overview/race-card/race-card.component.vue';
+import CreateRaceModalComponent from './create-race-modal/create-race-modal.component.vue';
+import FilteringAndSortingFormComponent from './filtering-and-sorting/filtering-and-sorting-form.component.vue';
+import RaceCardComponent from './race-card/race-card.component.vue';
 import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
 import { useRaceStore } from '@vue-project/app/stores/race.store';
 import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
