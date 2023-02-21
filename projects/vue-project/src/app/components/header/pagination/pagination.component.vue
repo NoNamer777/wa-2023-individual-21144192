@@ -5,6 +5,7 @@ import { type SortingAndFilteringQueryParams } from '@vue-project/app/models/pag
 import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { useRaceStore } from '@vue-project/app/stores/race.store';
 
 const route = useRoute();
 const paginationStore = usePaginationStore();
@@ -17,6 +18,7 @@ const nextPage = computed<number>(() =>
     isOnLastPage.value ? paginationStore.getTotalNumberOfPages : paginationStore.getCurrentPage + 1
 );
 const queryParams = computed<SortingAndFilteringQueryParams>(() => route.query as SortingAndFilteringQueryParams);
+const activeCollectionSize = computed<number>(() => useRaceStore().getActiveCollectionSize);
 
 function isOnPage(pageNumber: number): boolean {
     return paginationStore.getCurrentPage === pageNumber;
