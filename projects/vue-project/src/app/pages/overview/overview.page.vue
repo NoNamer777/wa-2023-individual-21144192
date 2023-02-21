@@ -26,9 +26,11 @@ const racialTraits = ref([]);
 const unsubscribeRouterQueryParams = useRouter().afterEach((to) => updatePagination(to.query));
 
 onBeforeMount(async () => {
-    updatePagination(useRoute().query);
+    const queryParams = useRoute().query;
 
     await raceStore.initialize();
+
+    updatePagination(queryParams);
 
     racialTraits.value = raceStore.getAllTraits;
     races.value = raceStore.getFilteredRaces;
