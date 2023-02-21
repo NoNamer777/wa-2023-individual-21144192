@@ -14,6 +14,19 @@ export const useRaceStore = defineStore('races', () => {
     const filtered = ref<Race[]>([]);
     const races = ref<Race[] | null>([]);
 
+    async function initialize(): Promise<void> {
+        const racesList = await fetchJson<string[]>('./data/races');
+        races.value = [];
+
+        for (const raceName of racesList) {
+            const race = await fetchJson<Race>('./data/races/' + raceName);
+            races.value = [...races.value, race];
+        }
+        filtered.value = [...races.value];
+
+        paginationStore.determineTotalNumberOfPages(filtered.value.length);
+    }
+
     function sortByName(name1: string, name2: string): number {
         return name1.localeCompare(name2);
     }
@@ -57,19 +70,6 @@ export const useRaceStore = defineStore('races', () => {
         paginationStore.determineTotalNumberOfPages(sortedRaces.length);
     }
 
-    async function initialize(): Promise<void> {
-        const racesList = await fetchJson<string[]>('./data/races');
-        races.value = [];
-
-        for (const raceName of racesList) {
-            const race = await fetchJson<Race>('./data/races/' + raceName);
-            races.value = [...races.value, race];
-        }
-        filtered.value = [...races.value];
-
-        paginationStore.determineTotalNumberOfPages(filtered.value.length);
-    }
-
     const getFilteredRaces = computed<Race[]>(() => {
         const start = (paginationStore.getCurrentPage - 1) * paginationStore.getPageSize;
         const end = paginationStore.getCurrentPage * paginationStore.getPageSize;
@@ -93,5 +93,7 @@ export const useRaceStore = defineStore('races', () => {
             .filter((trait, position, self) => position === self.findIndex((tr) => tr.value === trait.value))
     );
 
-    return { filtered, getFilteredRaces, getAllTraits, initialize };
+    const getActiveCollectionSize = computed<number>(() => filtered.value.length);
+
+    return { filtered, getFilteredRaces, getAllTraits, initialize, getActiveCollectionSize };
 });
