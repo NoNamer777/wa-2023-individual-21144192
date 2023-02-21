@@ -37,12 +37,18 @@ export const usePaginationStore = defineStore('pagination', {
             };
             this.filteringByTrait = trait;
 
-            if (trait === null && !!route.query?.filteringByTrait) {
+            if (trait === null && Boolean(route?.query?.filteringByTrait)) {
                 const queryParams = route.query;
 
                 delete queryParams.filteringByTrait;
                 router.push({ name: 'Overview', query: queryParams });
             }
+        },
+        reset(): void {
+            this.setCurrentPage(1);
+            this.setSortOrder('asc');
+            this.setSortingByAttribute(null);
+            this.setFilteringByTrait(null);
         },
     },
     getters: {

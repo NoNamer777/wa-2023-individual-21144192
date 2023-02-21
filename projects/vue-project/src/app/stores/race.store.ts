@@ -1,8 +1,8 @@
-import { defineStore } from 'pinia';
 import { type Race, sizeOrder } from '@vue-project/app/models/race';
 import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
-import { computed, ref } from 'vue';
 import type { TraitOption } from '@vue-project/app/models/pagination';
+import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
 
 async function fetchJson<T>(location: string): Promise<T> {
     return (await (await fetch(location + '.json')).json()) as Promise<T>;

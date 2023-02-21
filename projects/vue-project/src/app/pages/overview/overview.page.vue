@@ -30,7 +30,7 @@ onBeforeMount(async () => {
     await raceStore.initialize();
 
     racialTraits.value = raceStore.getAllTraits;
-    onChange();
+    races.value = raceStore.getFilteredRaces;
 });
 
 onBeforeUnmount(() => {
@@ -56,4 +56,6 @@ function updatePagination(queryParams: SortingAndFilteringQueryParams): void {
         paginationStore.setFilteringByTrait(queryParams.filteringByTrait);
     }
 }
+
+paginationStore.$onAction(({ after }) => after(() => onChange()));
 </script>
