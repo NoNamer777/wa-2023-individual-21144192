@@ -5,8 +5,12 @@
 import {
     isValidSortableByAttribute,
     isValidSortingOrder,
+    type SortableAttribute,
     type SortingAndFilteringQueryParams,
+    type SortingOrder,
+    type TraitOption,
 } from '@vue-project/app/models/pagination';
+import type { Race } from '@vue-project/app/models/race';
 import CreateRaceModalComponent from './create-race-modal/create-race-modal.component.vue';
 import FilteringAndSortingFormComponent from './filtering-and-sorting/filtering-and-sorting-form.component.vue';
 import RaceCardComponent from './race-card/race-card.component.vue';
@@ -20,13 +24,15 @@ const raceStore = useRaceStore();
 
 const shouldShowRaces = computed<boolean>(() => paginationStore.getTotalNumberOfPages > 0);
 
-const races = ref([]);
-const racialTraits = ref([]);
+const races = ref<Race[]>([]);
+const racialTraits = ref<TraitOption[]>([]);
 
-const unsubscribeRouterQueryParams = useRouter().afterEach((to) => updatePagination(to.query));
+const unsubscribeRouterQueryParams = useRouter().afterEach((to) =>
+    updatePagination(to.query as SortingAndFilteringQueryParams)
+);
 
 onBeforeMount(async () => {
-    const queryParams = useRoute().query;
+    const queryParams = useRoute().query as SortingAndFilteringQueryParams;
 
     await raceStore.initialize();
 
@@ -37,7 +43,6 @@ onBeforeMount(async () => {
 });
 
 onBeforeUnmount(() => {
-    unsubscribeRouterAfterEachHook();
     unsubscribeRouterQueryParams();
 });
 
@@ -50,10 +55,10 @@ function updatePagination(queryParams: SortingAndFilteringQueryParams): void {
         paginationStore.setCurrentPage(parseInt(queryParams.pageNumber));
     }
     if (isValidSortingOrder(queryParams.sortingOrder)) {
-        paginationStore.setSortOrder(queryParams.sortingOrder);
+        paginationStore.setSortOrder(queryParams.sortingOrder as SortingOrder);
     }
     if (isValidSortableByAttribute(queryParams.sortingByAttribute)) {
-        paginationStore.setSortingByAttribute(queryParams.sortingByAttribute);
+        paginationStore.setSortingByAttribute(queryParams.sortingByAttribute as SortableAttribute);
     }
     if (queryParams.filteringByTrait) {
         paginationStore.setFilteringByTrait(queryParams.filteringByTrait);

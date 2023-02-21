@@ -1,52 +1,44 @@
 # vue-project
 
-This template should help get you started developing with Vue 3 in Vite.
+This project is created with Vue 3 in vite. On top of that, this project uses Bootstrap for styling, TypeScript, and SCSS.
 
-## Recommended IDE Setup
+## Running the application
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+First, make sure that you've installed the dependencies for the repository, if you've not done this already,
+by running the following command in the root of the repository (`./wa-2023-individual-21144192/`):
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+```shell
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+Now you need to make a build of the project. This, you can do by running the following command in your terminal, while
+in the vue-project directory (`./wa-2023-individual-21144192/projects/vue-project/`):
 
-```sh
-npm run dev
+```shell
+npm run vue-project:build
 ```
 
-### Type-Check, Compile and Minify for Production
+If all goes well, in the project structure panel (directories and files), you should find a build output in the root of
+the repository under the following path: `dist/vue-project/`.
 
-```sh
-npm run build
+After that it's only a matter of running Servor by using the following command in the same directory as the previous command
+and using the link in the terminal output to open the web application is your browser:
+
+```shell
+npm run vue-project:start
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+Alternatively, you can run the command above, and open a browser yourself and navigate to the following address:
 
-```sh
-npm run test:unit
-```
+http://localhost:4200/
 
-### Lint with [ESLint](https://eslint.org/)
+### Availability local private network
 
-```sh
-npm run lint
-```
+By using Servor, the web application is also available on your local network, and thus you can also try it out on other
+devices, besides the machine you have cloned the repo to. For the available local private address that the web application
+is running on, I advise you to look at the terminal output after you've run the command above to start Servor.
+
+### Running from File Explorer (or Finder)
+
+Because the web application makes use of the `fetch` method, opening the web application by finding the `index.html`
+in your File Explorer or Finder, and opening it that way is not advisable, because that will break the application.

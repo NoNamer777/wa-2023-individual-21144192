@@ -15,7 +15,7 @@ export const SORTABLE_ATTRIBUTES = ref([
 
 export type SortableAttribute = 'name' | 'size' | 'speed' | null;
 
-export function isValidSortableByAttribute(value: string): boolean {
+export function isValidSortableByAttribute(value: string | undefined | null): boolean {
     return Boolean(value && SORTABLE_ATTRIBUTES.value.find((sortable) => sortable.value === value));
 }
 
@@ -26,7 +26,7 @@ export const SORTING_ORDERS = ref([
 
 export type SortingOrder = 'asc' | 'desc';
 
-export function isValidSortingOrder(value: string): boolean {
+export function isValidSortingOrder(value: string | undefined): boolean {
     return Boolean(value && Boolean(SORTING_ORDERS.value.find((order) => order.value === value)));
 }
 
