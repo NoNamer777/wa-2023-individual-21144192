@@ -1,12 +1,11 @@
 .card {
     width: 20em;
 
-    .card-img-top {
-        height: 20em;
-        object-fit: contain;
-    }
-
     p.card-text:first-of-type {
         margin-bottom: 0;
     }
+}
+
+.modal-dialog {
+    --bs-modal-width: 700px;
 }
