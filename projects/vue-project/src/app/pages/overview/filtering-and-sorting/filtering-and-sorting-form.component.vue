@@ -16,6 +16,7 @@ import {
 } from '@vue-project/app/models/pagination';
 import { ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
 
 interface FilteringAndSortingFormComponentProps {
     racialTraits: TraitOption[];
@@ -34,7 +35,6 @@ const initialFormState = ref<SortingAndFilteringForm>({
 });
 
 const props = defineProps<FilteringAndSortingFormComponentProps>();
-const emit = defineEmits(['change']);
 
 const form = ref<SortingAndFilteringForm>({ ...initialFormState.value });
 
@@ -54,15 +54,15 @@ async function onSubmit(): Promise<void> {
     initialFormState.value = { ...form.value };
 
     await router.push({ query: queryParams });
-    emit('change');
 }
 
-function onReset(): void {
+async function onReset(): Promise<void> {
     form.value = { ...DEFAULT_SORTING_AND_FILTERING_FORM_STATE };
     initialFormState.value = { ...DEFAULT_SORTING_AND_FILTERING_FORM_STATE };
 
-    router.push({ query: {} });
-    emit('change');
+    usePaginationStore().reset();
+
+    await router.push({ query: {} });
 }
 
 function getSortingByAttributeFromRoute(): SortableAttribute {
