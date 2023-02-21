@@ -5,7 +5,7 @@
     "scripts": {
         "vue-project:start": "servor ../../dist/vue-project index.html 4200 --reload",
         "vue-project:build-dev": "vite build --watch",
-        "vue-project:build": "run-p type-check build-only",
+        "vue-project:build": "run-p vue-project:type-check vue-project:build-only",
         "vue-project:build-only": "vite build",
         "vue-project:type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
         "vue-project:test-dev": "vitest --environment jsdom --root src/"
