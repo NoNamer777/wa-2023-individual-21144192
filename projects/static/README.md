@@ -18,7 +18,7 @@ After that it's only a matter of running Servor by using the following command i
 is your browser:
 
 ```shell
-npm run start:static
+npm run static:start
 ```
 
 Alternatively, you can run the command above, and open a browser yourself and navigate to the following address:

@@ -4,6 +4,6 @@
     "author": "NoNamer777",
     "private": true,
     "scripts": {
-        "start:static": "servor src index.html 4200 --reload"
+        "static:start": "servor src index.html 4200 --reload"
     }
 }
