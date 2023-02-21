@@ -19,9 +19,10 @@ const raceStore = useRaceStore();
 
 const shouldShowRaces = computed<boolean>(() => paginationStore.getTotalNumberOfPages > 0);
 
-const unsubscribeRouterQueryParams = useRouter().afterEach((to) => updatePagination(to.query));
-
+const races = ref([]);
 const racialTraits = ref([]);
+
+const unsubscribeRouterQueryParams = useRouter().afterEach((to) => updatePagination(to.query));
 
 onBeforeMount(async () => {
     updatePagination(useRoute().query);
@@ -29,12 +30,17 @@ onBeforeMount(async () => {
     await raceStore.initialize();
 
     racialTraits.value = raceStore.getAllTraits;
+    onChange();
 });
 
 onBeforeUnmount(() => {
     unsubscribeRouterAfterEachHook();
     unsubscribeRouterQueryParams();
 });
+
+function onChange(): void {
+    races.value = raceStore.getFilteredRaces;
+}
 
 function updatePagination(queryParams: SortingAndFilteringQueryParams): void {
     if (queryParams.pageNumber) {

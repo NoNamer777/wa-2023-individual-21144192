@@ -34,6 +34,7 @@ const initialFormState = ref<SortingAndFilteringForm>({
 });
 
 const props = defineProps<FilteringAndSortingFormComponentProps>();
+const emit = defineEmits(['change']);
 
 const form = ref<SortingAndFilteringForm>({ ...initialFormState.value });
 
@@ -53,6 +54,7 @@ async function onSubmit(): Promise<void> {
     initialFormState.value = { ...form.value };
 
     await router.push({ query: queryParams });
+    emit('change');
 }
 
 function onReset(): void {
@@ -60,6 +62,7 @@ function onReset(): void {
     initialFormState.value = { ...DEFAULT_SORTING_AND_FILTERING_FORM_STATE };
 
     router.push({ query: {} });
+    emit('change');
 }
 
 function getSortingByAttributeFromRoute(): SortableAttribute {
