@@ -11,26 +11,30 @@ import FilteringAndSortingFormComponent from '@vue-project/app/pages/overview/fi
 import RaceCardComponent from '@vue-project/app/pages/overview/race-card/race-card.component.vue';
 import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
 import { useRaceStore } from '@vue-project/app/stores/race.store';
-import { computed, onBeforeMount, onBeforeUnmount } from 'vue';
+import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const paginationStore = usePaginationStore();
 const raceStore = useRaceStore();
 
+const shouldShowRaces = computed<boolean>(() => paginationStore.getTotalNumberOfPages > 0);
+
 const unsubscribeRouterQueryParams = useRouter().afterEach((to) => updatePagination(to.query));
+
+const racialTraits = ref([]);
 
 onBeforeMount(async () => {
     updatePagination(useRoute().query);
 
     await raceStore.initialize();
+
+    racialTraits.value = raceStore.getAllTraits;
 });
 
 onBeforeUnmount(() => {
     unsubscribeRouterAfterEachHook();
     unsubscribeRouterQueryParams();
 });
-
-const shouldShowRaces = computed<boolean>(() => paginationStore.getTotalNumberOfPages > 0);
 
 function updatePagination(queryParams: SortingAndFilteringQueryParams): void {
     if (queryParams.pageNumber) {
@@ -41,6 +45,9 @@ function updatePagination(queryParams: SortingAndFilteringQueryParams): void {
     }
     if (isValidSortableByAttribute(queryParams.sortingByAttribute)) {
         paginationStore.setSortingByAttribute(queryParams.sortingByAttribute);
+    }
+    if (queryParams.filteringByTrait) {
+        paginationStore.setFilteringByTrait(queryParams.filteringByTrait);
     }
 }
 </script>

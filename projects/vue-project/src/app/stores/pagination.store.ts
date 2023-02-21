@@ -5,6 +5,7 @@ import {
     type SortingOrder,
 } from '@vue-project/app/models/pagination';
 import { defineStore } from 'pinia';
+import { useRoute, useRouter } from 'vue-router';
 
 export const usePaginationStore = defineStore('pagination', {
     state: (): PaginationStoreState => ({
@@ -13,6 +14,7 @@ export const usePaginationStore = defineStore('pagination', {
         pageSize: DEFAULT_PAGE_SIZE,
         sortOrder: 'asc',
         sortByAttribute: null,
+        filteringByTrait: null,
     }),
     actions: {
         determineTotalNumberOfPages(numberOfItems: number): void {
@@ -27,6 +29,20 @@ export const usePaginationStore = defineStore('pagination', {
         },
         setSortingByAttribute(attribute: SortableAttribute): void {
             this.sortByAttribute = attribute;
+        },
+        setFilteringByTrait(trait: string | null): void {
+            const { route, router } = {
+                route: useRoute(),
+                router: useRouter(),
+            };
+            this.filteringByTrait = trait;
+
+            if (trait === null && !!route.query?.filteringByTrait) {
+                const queryParams = route.query;
+
+                delete queryParams.filteringByTrait;
+                router.push({ name: 'Overview', query: queryParams });
+            }
         },
     },
     getters: {
@@ -44,6 +60,9 @@ export const usePaginationStore = defineStore('pagination', {
         },
         getSortingByAttributes(): SortableAttribute {
             return this.sortByAttribute;
+        },
+        getFilteringByTrait(): string | null {
+            return this.filteringByTrait;
         },
     },
 });

@@ -4,17 +4,22 @@
 import {
     DEFAULT_SORTING_AND_FILTERING_FORM_STATE,
     formEquals,
+    isValidSortableByAttribute,
+    isValidSortingOrder,
     SORTABLE_ATTRIBUTES,
     type SortableAttribute,
     type SortingAndFilteringForm,
     type SortingAndFilteringQueryParams,
     SORTING_ORDERS,
     type SortingOrder,
-    isValidSortingOrder,
-    isValidSortableByAttribute,
+    type TraitOption,
 } from '@vue-project/app/models/pagination';
 import { ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+
+interface FilteringAndSortingFormComponentProps {
+    racialTraits: TraitOption[];
+}
 
 const router = useRouter();
 const route = useRoute();
@@ -25,7 +30,10 @@ const formIsDirty = ref<boolean>(false);
 const initialFormState = ref<SortingAndFilteringForm>({
     sortingByAttribute: getSortingByAttributeFromRoute(),
     sortingOrder: getSortingOrderFromRoute(),
+    filteringByTrait: getFilteringByTraitFromRoute(),
 });
+
+const props = defineProps<FilteringAndSortingFormComponentProps>();
 
 const form = ref<SortingAndFilteringForm>({ ...initialFormState.value });
 
@@ -38,6 +46,9 @@ async function onSubmit(): Promise<void> {
 
     if (form.value.sortingByAttribute) {
         queryParams.sortingByAttribute = form.value.sortingByAttribute;
+    }
+    if (form.value.filteringByTrait) {
+        queryParams.filteringByTrait = form.value.filteringByTrait;
     }
     initialFormState.value = { ...form.value };
 
@@ -67,6 +78,15 @@ function getSortingOrderFromRoute(): SortingOrder {
         return sortingOrderQueryParam as SortingOrder;
     }
     return 'asc';
+}
+
+function getFilteringByTraitFromRoute(): string | null {
+    const traitFilterQueryParam = route.query?.filteringByTrait as string;
+
+    if (traitFilterQueryParam) {
+        return traitFilterQueryParam as string;
+    }
+    return null;
 }
 
 watchEffect(() => {

@@ -2,6 +2,11 @@ import { ref } from 'vue';
 
 export const DEFAULT_PAGE_SIZE = 5;
 
+export interface TraitOption {
+    value: string;
+    label: string;
+}
+
 export const SORTABLE_ATTRIBUTES = ref([
     { value: 'name', label: 'Name' },
     { value: 'size', label: 'Size' },
@@ -28,6 +33,7 @@ export function isValidSortingOrder(value: string): boolean {
 export interface SortingAndFilteringForm {
     sortingByAttribute: SortableAttribute;
     sortingOrder: SortingOrder;
+    filteringByTrait: string | null;
 
     [key: string]: string | null;
 }
@@ -40,11 +46,13 @@ export interface PaginationStoreState {
     pageSize: number;
     sortOrder: SortingOrder;
     sortByAttribute: SortableAttribute;
+    filteringByTrait: string | null;
 }
 
 export const DEFAULT_SORTING_AND_FILTERING_FORM_STATE: SortingAndFilteringForm = {
     sortingByAttribute: null,
     sortingOrder: 'asc',
+    filteringByTrait: null,
 };
 
 export function formEquals(form1: SortingAndFilteringForm, form2: SortingAndFilteringForm): boolean {

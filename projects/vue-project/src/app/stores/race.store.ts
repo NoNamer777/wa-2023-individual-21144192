@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { type Race, sizeOrder } from '@vue-project/app/models/race';
 import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
 import { computed, ref } from 'vue';
+import type { TraitOption } from '@vue-project/app/models/pagination';
 
 async function fetchJson<T>(location: string): Promise<T> {
     return (await (await fetch(location + '.json')).json()) as Promise<T>;
@@ -17,8 +18,8 @@ export const useRaceStore = defineStore('races', () => {
         return name1.localeCompare(name2);
     }
 
-    function applySorting(): void {
-        const sortedRaces = [...filtered.value];
+    function applySortingAndSorting(): void {
+        let sortedRaces = [...filtered.value];
 
         if (paginationStore.getSortingByAttributes) {
             sortedRaces.sort((r1, r2) => {
@@ -41,7 +42,19 @@ export const useRaceStore = defineStore('races', () => {
         if (paginationStore.getSortingOrder === 'desc') {
             sortedRaces.reverse();
         }
+        if (paginationStore.getFilteringByTrait) {
+            const trait = getAllTraits.value.find((item) => item.value === paginationStore.getFilteringByTrait);
+
+            if (!trait) {
+                paginationStore.setFilteringByTrait(null);
+            } else {
+                sortedRaces = sortedRaces.filter((race) =>
+                    Boolean(race.traits.find((item) => item.name === trait.label))
+                );
+            }
+        }
         filtered.value = [...sortedRaces];
+        paginationStore.determineTotalNumberOfPages(sortedRaces.length);
     }
 
     async function initialize(): Promise<void> {
@@ -63,10 +76,22 @@ export const useRaceStore = defineStore('races', () => {
 
         filtered.value = [...(races.value as Race[])];
 
-        applySorting();
+        applySortingAndSorting();
 
         return filtered.value.slice(start, end);
     });
 
-    return { filtered, getFilteredRaces, initialize };
+    const getAllTraits = computed<TraitOption[]>(() =>
+        races
+            .value!.flatMap((race) =>
+                race.traits.map((trait) => ({
+                    value: trait.name.toLowerCase().replace(/ /g, '-').replace(/'/g, ''),
+                    label: trait.name,
+                }))
+            )
+            .sort((t1, t2) => t1.value.localeCompare(t2.value))
+            .filter((trait, position, self) => position === self.findIndex((tr) => tr.value === trait.value))
+    );
+
+    return { filtered, getFilteredRaces, getAllTraits, initialize };
 });

@@ -15,8 +15,11 @@
     </div>
     <div class="mb-auto">
         <label class="form-label">Filter by Trait</label>
-        <select class="form-select">
-            <!--TODO - Fill with options, provided by the Races-->
+        <select class="form-select" v-model="form.filteringByTrait">
+            <option :value="null"></option>
+            <template v-for="traitOption in racialTraits" :key="value">
+                <option :value="traitOption.value">{{ traitOption.label }}</option>
+            </template>
         </select>
     </div>
     <button type="reset" class="btn btn-danger" :disabled="!hasFilters && !formIsDirty" @click.prevent="onReset">
