@@ -1,5 +1,7 @@
 # wa-2023-individual-21144192
 
+Vue Project: [![Build and Deploy](https://github.com/NoNamer777/wa-2023-individual-21144192/actions/workflows/build-and-deploy.yaml/badge.svg)](https://github.com/NoNamer777/wa-2023-individual-21144192/actions/workflows/build-and-deploy.yaml)
+
 This project houses 2 projects, but serve both the same application.
 
 The application resolves around displaying a part of a collection of available Race options that D&D players can choose when
