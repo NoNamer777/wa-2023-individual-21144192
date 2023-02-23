@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "servor ../../dist/vue-project index.html 4200 --reload",
+        "start": "vite ../../dist/vue-project --mode=production --host --port=4200 --strictPort",
         "build-dev": "vite build --watch",
         "build": "run-p type-check build-only",
         "build-only": "vite build",
