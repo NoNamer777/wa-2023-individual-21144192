@@ -12,6 +12,7 @@ This project is created with Vue 3 in vite. On top of that, this project uses Bo
 - Fix position of the filter btn on smaller devices
 - Fix the title of the app
 - Add unit tests
+- Lazy load the overview.page
 
 ---
 
