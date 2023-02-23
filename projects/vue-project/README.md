@@ -2,6 +2,19 @@
 
 This project is created with Vue 3 in vite. On top of that, this project uses Bootstrap for styling, TypeScript, and SCSS.
 
+---
+
+### To do list:
+
+- Filter on multiple Racial traits
+- Add Racial descriptions where ever possible
+- Add source books info
+- Fix position of the filter btn on smaller devices
+- Fix the title of the app
+- Add unit tests
+
+---
+
 ## Running the application
 
 First, make sure that you've installed the dependencies for the repository, if you've not done this already,
