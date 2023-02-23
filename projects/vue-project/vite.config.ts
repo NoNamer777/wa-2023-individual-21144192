@@ -13,7 +13,7 @@ export default defineConfig({
         sourcemap: true,
     },
     cacheDir: '../../../.vite',
-    plugins: [vue()],
+    plugins: [vue(), checker({ vueTsc: { root: './' }, eslint: { lintCommand: 'npm run lint' } })],
     publicDir: './assets',
     mode: 'production',
     resolve: {
