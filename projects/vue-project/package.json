@@ -3,14 +3,14 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "vue-project:start": "servor ../../dist/vue-project index.html 4200 --reload",
-        "vue-project:build-dev": "vite build --watch",
-        "vue-project:build": "run-p vue-project:type-check vue-project:build-only",
-        "vue-project:build-only": "vite build",
-        "vue-project:type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-        "vue-project:test-dev": "vitest --environment jsdom --root src/",
-        "vue-project:deploy": "cross-env DEPLOYING=true npm run vue-project:build && npm run vue-project:prepare-404",
-        "vue-project:prepare-404": "cd ../../dist/vue-project && cp index.html 404.html"
+        "start": "servor ../../dist/vue-project index.html 4200 --reload",
+        "build-dev": "vite build --watch",
+        "build": "run-p type-check build-only",
+        "build-only": "vite build",
+        "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+        "test-dev": "vitest --environment jsdom --root src/",
+        "deploy": "cross-env DEPLOYING=true npm run build && npm run prepare-404",
+        "prepare-404": "cd ../../dist/vue-project && cp index.html 404.html"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.3.0",
