@@ -23,4 +23,14 @@ export default defineConfig({
         },
     },
     root: './src',
+    server: {
+        host: true,
+        port: 4200,
+        strictPort: true,
+    },
+    preview: {
+        host: true,
+        port: 4200,
+        strictPort: true,
+    },
 });
