@@ -27,14 +27,14 @@
         </div>
         <hr />
         <!--TODO - Create separate component for editing Racial Traits-->
-        <template v-if="newRace.traits.length > 0" v-for="trait of newRace.traits" :key="trait.name">
+        <template v-if="newRace.traits.length > 0" v-for="trait of newRace.traits">
             <div class="mb-3">
                 <label>Trait Name</label>
-                <input type="text" class="form-control" />
+                <input type="text" class="form-control" v-model="trait.name" />
             </div>
             <div class="mb-3">
                 <label>Description</label>
-                <textarea class="form-control"></textarea>
+                <textarea class="form-control" v-model="trait.description"></textarea>
             </div>
         </template>
         <p v-else>This Race currently has no Traits yet...</p>
