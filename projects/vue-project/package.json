@@ -10,7 +10,8 @@
         "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
         "test-dev": "vitest --environment jsdom --root src/",
         "deploy": "cross-env DEPLOYING=true npm run build && npm run prepare-404",
-        "prepare-404": "cd ../../dist/vue-project && cp index.html 404.html"
+        "prepare-404": "cd ../../dist/vue-project && cp index.html 404.html",
+        "lint": "eslint \"./src/**/*{.js,ts,vue,html}\""
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.3.0",
