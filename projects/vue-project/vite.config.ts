@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import vueJsx from '@vitejs/plugin-vue-jsx';
 import { fileURLToPath } from 'url';
+import checker from 'vite-plugin-checker';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,7 +13,7 @@ export default defineConfig({
         sourcemap: true,
     },
     cacheDir: '../../../.vite',
-    plugins: [vue(), vueJsx()],
+    plugins: [vue()],
     publicDir: './assets',
     mode: 'production',
     resolve: {
