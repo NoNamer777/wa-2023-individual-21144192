@@ -3,7 +3,6 @@ import vue from '@vitejs/plugin-vue';
 import { fileURLToPath } from 'url';
 import checker from 'vite-plugin-checker';
 
-// https://vitejs.dev/config/
 export default defineConfig({
     assetsInclude: ['./src/favicon.ico', './src/assets/**/*'],
     base: process.env.DEPLOYING ? '/wa-2023-individual-21144192/' : '/',

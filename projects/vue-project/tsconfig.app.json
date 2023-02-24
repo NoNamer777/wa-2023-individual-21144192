@@ -3,6 +3,7 @@
     "include": ["src/environments/env.d.ts", "src/**/*", "src/**/*.vue"],
     "exclude": ["src/**/*.spec.ts"],
     "compilerOptions": {
+        "alwaysStrict": true,
         "baseUrl": ".",
         "composite": true,
         "isolatedModules": true,
