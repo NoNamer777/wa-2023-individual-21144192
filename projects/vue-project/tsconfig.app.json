@@ -8,6 +8,7 @@
         "composite": true,
         "isolatedModules": true,
         "lib": ["ES2021", "DOM", "DOM.Iterable"],
+        "module": "ES2022",
         "noImplicitAny": true,
         "noImplicitOverride": true,
         "noImplicitReturns": true,

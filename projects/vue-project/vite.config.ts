@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { fileURLToPath } from 'url';
@@ -31,5 +32,32 @@ export default defineConfig({
         host: true,
         port: 4200,
         strictPort: true,
+    },
+    test: {
+        allowOnly: true,
+        cache: {
+            dir: '../../.vitest',
+        },
+        coverage: {
+            branches: 80,
+            clean: true,
+            cleanOnRerun: true,
+            enabled: true,
+            functions: 80,
+            lines: 80,
+            provider: 'istanbul',
+            reporter: ['text', 'json', 'html'],
+            reportsDirectory: '../../coverage',
+            statements: 80,
+        },
+        environment: 'jsdom',
+        globals: true,
+        include: ['./**/*.spec.ts'],
+        mockReset: true,
+        passWithNoTests: true,
+        root: './',
+        sequence: {
+            shuffle: true,
+        },
     },
 });
