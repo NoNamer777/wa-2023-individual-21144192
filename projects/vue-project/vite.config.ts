@@ -13,7 +13,7 @@ export default defineConfig({
         sourcemap: true,
     },
     cacheDir: '../../../.vite',
-    plugins: [vue(), checker({ vueTsc: true, eslint: { lintCommand: 'eslint "./src/**/*{.js,ts,vue,html}"' } })],
+    plugins: [vue(), checker({ vueTsc: true, eslint: { lintCommand: 'eslint "**/*{.js,ts,vue,html}"' } })],
     publicDir: './assets',
     mode: 'production',
     resolve: {
@@ -35,7 +35,7 @@ export default defineConfig({
     },
     test: {
         cache: {
-            dir: '../../.vitest',
+            dir: '../../../.vitest',
         },
         coverage: {
             branches: 80,
@@ -46,12 +46,12 @@ export default defineConfig({
             lines: 80,
             provider: 'istanbul',
             reporter: ['text', 'json', 'html'],
-            reportsDirectory: '../../coverage',
+            reportsDirectory: '../../../coverage',
             statements: 80,
         },
         environment: 'jsdom',
         globals: true,
-        include: ['./**/*.spec.ts'],
+        include: ['**/*.spec.ts'],
         mockReset: true,
         passWithNoTests: true,
         sequence: {
