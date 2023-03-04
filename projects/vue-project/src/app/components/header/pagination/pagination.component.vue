@@ -1,4 +1,42 @@
-<template src="./pagination.component.html" />
+<template>
+    <span class="navbar-text me-3">Showing {{ activeCollectionSize }} Races</span>
+    <ul class="pagination pagination-sm mb-0">
+        <li class="page-item" :class="{ disabled: isOnFirstPage }">
+            <router-link
+                class="page-link"
+                :to="{ name: 'Overview', query: { ...queryParams, pageNumber: previousPage } }"
+                active-class="_active"
+            >
+                Previous
+            </router-link>
+        </li>
+        <li
+            class="page-item"
+            v-for="pageNumber in numberOfPages"
+            :key="pageNumber"
+            :class="{ active: isOnPage(pageNumber) }"
+        >
+            <span class="page-link" v-if="isOnPage(pageNumber)">{{ pageNumber }}</span>
+            <router-link
+                class="page-link"
+                v-else
+                :to="{ name: 'Overview', query: { ...queryParams, pageNumber: pageNumber } }"
+                active-class="_active"
+            >
+                {{ pageNumber }}
+            </router-link>
+        </li>
+        <li class="page-item" :class="{ disabled: isOnLastPage }">
+            <router-link
+                class="page-link"
+                :to="{ name: 'Overview', query: { ...queryParams, pageNumber: nextPage } }"
+                active-class="_active"
+            >
+                Next
+            </router-link>
+        </li>
+    </ul>
+</template>
 
 <script setup lang="ts">
 import type { SortingAndFilteringQueryParams } from '@vue-project/app/models/pagination';

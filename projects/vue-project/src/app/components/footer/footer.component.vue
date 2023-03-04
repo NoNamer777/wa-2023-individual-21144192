@@ -1,2 +1,20 @@
-<template src="./footer.component.html" />
-<style scoped lang="scss" src="./footer.component.scss" />
+<template>
+    <footer class="flex-grow-0 flex-shrink-0">
+        <nav class="navbar navbar-expand-lg bg-secondary border-top">
+            <div class="container-fluid justify-content-start">
+                <router-link to="/" class="navbar-brand">
+                    <img src="@vue-project/assets/images/logo.png" alt="logo" class="logo" />
+                    © 2023 DnD Mapp
+                </router-link>
+            </div>
+        </nav>
+    </footer>
+</template>
+
+<style scoped lang="scss">
+footer {
+    .navbar-brand {
+        --bs-navbar-brand-font-size: 1em;
+    }
+}
+</style>
