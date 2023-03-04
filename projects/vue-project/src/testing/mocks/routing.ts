@@ -1,8 +1,15 @@
-import type { RouteRecordRaw, RouteComponent } from 'vue-router';
+import type { RouteRecordRaw, RouteComponent, Router } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
-export const mockRoutes: (component: RouteComponent) => RouteRecordRaw[] = (component) => [
+const mockRoutes: (component: RouteComponent) => RouteRecordRaw[] = (component) => [
     {
         path: '/',
         component: component,
     },
 ];
+
+export const createMockRouter: (component: RouteComponent) => Router = (component) =>
+    createRouter({
+        history: createWebHistory(),
+        routes: mockRoutes(component),
+    });

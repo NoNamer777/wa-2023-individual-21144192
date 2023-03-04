@@ -1,13 +1,9 @@
 import { mount } from '@vue/test-utils';
 import FooterComponent from './footer.component.vue';
-import { createRouter, createWebHistory } from 'vue-router';
-import { mockRoutes } from '../../../testing';
+import { createMockRouter } from '../../../testing';
 
 describe('FooterComponent', () => {
-    const router = createRouter({
-        history: createWebHistory(),
-        routes: mockRoutes(FooterComponent),
-    });
+    const router = createMockRouter(FooterComponent);
 
     const testContainer = mount(FooterComponent, {
         global: {
