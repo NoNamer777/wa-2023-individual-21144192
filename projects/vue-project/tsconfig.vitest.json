@@ -1,7 +1,9 @@
 {
     "extends": "./tsconfig.app.json",
+    "include": ["src/**/*.spec.ts"],
     "exclude": [],
     "compilerOptions": {
+        "isolatedModules": false,
         "composite": true,
         "lib": [],
         "types": ["node", "jsdom", "vitest/globals"]
