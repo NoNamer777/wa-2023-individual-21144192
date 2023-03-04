@@ -42,6 +42,7 @@ export default defineConfig({
             clean: true,
             cleanOnRerun: true,
             enabled: true,
+            exclude: ['testing/**/*'],
             functions: 80,
             lines: 80,
             provider: 'istanbul',
