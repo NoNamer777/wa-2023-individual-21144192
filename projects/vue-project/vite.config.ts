@@ -47,7 +47,7 @@ export default defineConfig({
             lines: 80,
             provider: 'istanbul',
             reporter: ['text', 'json', 'html'],
-            reportsDirectory: '../../../coverage',
+            reportsDirectory: '../../../coverage/vue-project',
             statements: 80,
         },
         environment: 'jsdom',
