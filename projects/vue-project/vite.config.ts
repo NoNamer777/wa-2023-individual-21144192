@@ -34,7 +34,6 @@ export default defineConfig({
         strictPort: true,
     },
     test: {
-        allowOnly: true,
         cache: {
             dir: '../../.vitest',
         },
@@ -55,7 +54,6 @@ export default defineConfig({
         include: ['./**/*.spec.ts'],
         mockReset: true,
         passWithNoTests: true,
-        root: './',
         sequence: {
             shuffle: true,
         },
