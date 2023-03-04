@@ -41,9 +41,9 @@
 <script setup lang="ts">
 import type { SortingAndFilteringQueryParams } from '@vue-project/app/models/pagination';
 import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
+import { useRaceStore } from '@vue-project/app/stores/race.store';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { useRaceStore } from '@vue-project/app/stores/race.store';
 
 const route = useRoute();
 const paginationStore = usePaginationStore();
