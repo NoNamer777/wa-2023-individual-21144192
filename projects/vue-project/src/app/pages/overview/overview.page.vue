@@ -43,10 +43,10 @@
         </section>
     </aside>
 
-    <Teleport to="#modals">
+    <Teleport to="#dialogs">
         <div class="modal fade" id="create-race-modal" tabindex="-1">
             <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-fullscreen-md-down">
-                <create-race-modal-component />
+                <create-race-dialog-component />
             </div>
         </div>
     </Teleport>
@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import {
-    CreateRaceModalComponent,
+    CreateRaceDialogComponent,
     FilteringAndSortingFormComponent,
     RaceCardComponent,
 } from '@vue-project/app/components';
