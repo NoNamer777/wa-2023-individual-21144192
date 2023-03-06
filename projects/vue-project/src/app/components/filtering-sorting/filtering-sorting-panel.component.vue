@@ -117,7 +117,7 @@ function getSortingByAttributeFromRoute(): SortableAttribute {
     if (isValidSortableByAttribute(sortingByAttributeQueryParam)) {
         return sortingByAttributeQueryParam as SortableAttribute;
     }
-    return null;
+    return DEFAULT_SORTING.onAttribute;
 }
 
 function getSortingOrderFromRoute(): SortingOrder {
@@ -126,7 +126,7 @@ function getSortingOrderFromRoute(): SortingOrder {
     if (isValidSortingOrder(sortingOrderQueryParam)) {
         return sortingOrderQueryParam as SortingOrder;
     }
-    return 'asc';
+    return DEFAULT_SORTING.order;
 }
 
 function getFilteringByTraitFromRoute(): string | null {
@@ -135,7 +135,7 @@ function getFilteringByTraitFromRoute(): string | null {
     if (traitFilterQueryParam) {
         return traitFilterQueryParam as string;
     }
-    return null;
+    return DEFAULT_FILTERS.byTrait;
 }
 
 watchEffect(() => {
