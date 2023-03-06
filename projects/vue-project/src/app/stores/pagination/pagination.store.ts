@@ -1,5 +1,6 @@
-import { DEFAULT_PAGE_SIZE, DEFAULT_SORTING } from '@vue-project/app/models/pagination';
+import { DEFAULT_FILTERS, DEFAULT_PAGE_SIZE, DEFAULT_SORTING } from '@vue-project/app/models/pagination';
 import type {
+    FilterOptions,
     PaginationStoreState,
     SortableAttribute,
     SortingOptions,
@@ -12,9 +13,11 @@ export const usePaginationStore = defineStore('pagination', {
         page: 1,
         totalNumberOfPages: 0,
         pageSize: DEFAULT_PAGE_SIZE,
-        filteringByTrait: null,
         sorting: {
             ...DEFAULT_SORTING,
+        },
+        filters: {
+            ...DEFAULT_FILTERS,
         },
     }),
     actions: {
@@ -31,14 +34,16 @@ export const usePaginationStore = defineStore('pagination', {
                 ...sorting,
             };
         },
-        setFilteringByTrait(trait: string | null): void {
+        setFilters(filters: Partial<FilterOptions>): void {
+            this.filters = {
+                ...this.filters,
+                ...filters,
             };
-            this.filteringByTrait = trait;
         },
         reset(): void {
             this.setCurrentPage(1);
-            this.setFilteringByTrait(null);
             this.setSorting(DEFAULT_SORTING);
+            this.setFilters(DEFAULT_FILTERS);
         },
     },
     getters: {
@@ -57,8 +62,8 @@ export const usePaginationStore = defineStore('pagination', {
         getSortingOnAttribute(): SortableAttribute {
             return this.sorting.onAttribute;
         },
-            return this.filteringByTrait;
         getFiltersByTrait(): string | null {
+            return this.filters.byTrait;
         },
     },
 });

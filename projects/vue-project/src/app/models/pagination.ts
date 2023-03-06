@@ -40,6 +40,14 @@ export function isValidSortingOrder(value: string | undefined): boolean {
     return Boolean(value && Boolean(SORTING_ORDERS.value.find((order) => order.value === value)));
 }
 
+export interface FilterOptions {
+    byTrait: string | null;
+}
+
+export const DEFAULT_FILTERS: FilterOptions = {
+    byTrait: null,
+};
+
 export interface SortingAndFilteringForm {
     sortingByAttribute: SortableAttribute;
     sortingOrder: SortingOrder;
@@ -54,14 +62,14 @@ export interface PaginationStoreState {
     page: number;
     totalNumberOfPages: number;
     pageSize: number;
-    filteringByTrait: string | null;
     sorting: SortingOptions;
+    filters: FilterOptions;
 }
 
 export const DEFAULT_SORTING_AND_FILTERING_FORM_STATE: SortingAndFilteringForm = {
-    filteringByTrait: null,
     sortingByAttribute: DEFAULT_SORTING.onAttribute,
     sortingOrder: DEFAULT_SORTING.order,
+    filteringByTrait: DEFAULT_FILTERS.byTrait,
 };
 
 export function formEquals(form1: SortingAndFilteringForm, form2: SortingAndFilteringForm): boolean {
