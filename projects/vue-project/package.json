@@ -8,7 +8,7 @@
         "build-dev": "vite build --watch",
         "test": "vitest",
         "test-dev": "vitest --watch",
-        "deploy": "cross-env DEPLOYING=true run-p check prepare-404",
+        "deploy": "cross-env DEPLOYING=true run-s check prepare-404",
         "build-only": "vite build",
         "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
         "prepare-404": "cd ../../dist/vue-project && cp index.html 404.html",
