@@ -6,7 +6,6 @@ import type {
     SortingOrder,
 } from '@vue-project/app/models/pagination';
 import { defineStore } from 'pinia';
-import { useRoute, useRouter } from 'vue-router';
 
 export const usePaginationStore = defineStore('pagination', {
     state: (): PaginationStoreState => ({
@@ -33,18 +32,8 @@ export const usePaginationStore = defineStore('pagination', {
             };
         },
         setFilteringByTrait(trait: string | null): void {
-            const { route, router } = {
-                route: useRoute(),
-                router: useRouter(),
             };
             this.filteringByTrait = trait;
-
-            if (trait === null && Boolean(route?.query?.filteringByTrait)) {
-                const queryParams = route.query;
-
-                delete queryParams.filteringByTrait;
-                router.push({ name: 'Overview', query: queryParams });
-            }
         },
         reset(): void {
             this.setCurrentPage(1);
