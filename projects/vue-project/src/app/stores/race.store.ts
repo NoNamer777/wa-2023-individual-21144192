@@ -55,8 +55,8 @@ export const useRaceStore = defineStore('races', () => {
         if (paginationStore.getSortingOrder === 'desc') {
             sortedRaces.reverse();
         }
-        if (paginationStore.getFilteringByTrait) {
-            const trait = getAllTraits.value.find((item) => item.value === paginationStore.getFilteringByTrait);
+        if (paginationStore.getFiltersByTrait) {
+            const trait = getAllTraits.value.find((item) => item.value === paginationStore.getFiltersByTrait);
 
             if (!trait) {
                 paginationStore.setFilteringByTrait(null);

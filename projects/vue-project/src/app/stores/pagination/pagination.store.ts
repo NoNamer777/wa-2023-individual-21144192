@@ -67,8 +67,8 @@ export const usePaginationStore = defineStore('pagination', {
         getSortingByAttributes(): SortableAttribute {
             return this.sortByAttribute;
         },
-        getFilteringByTrait(): string | null {
             return this.filteringByTrait;
+        getFiltersByTrait(): string | null {
         },
     },
 });
