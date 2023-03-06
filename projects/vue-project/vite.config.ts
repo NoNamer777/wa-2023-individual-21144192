@@ -43,7 +43,7 @@ export default defineConfig({
             functions: 80,
             lines: 80,
             provider: 'istanbul',
-            reporter: ['html-spa', 'text-summary'],
+            reporter: ['html', 'text-summary'],
             reportsDirectory: '../../../coverage/vue-project',
             statements: 80,
         },
