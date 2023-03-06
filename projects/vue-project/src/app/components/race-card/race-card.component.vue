@@ -27,7 +27,7 @@
     <Teleport to="#modals">
         <div class="modal fade" :id="buildModalTarget" tabindex="-1">
             <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-fullscreen-md-down">
-                <race-details-component :race="race" />
+                <race-details-dialog-component :race="race" />
             </div>
         </div>
     </Teleport>
@@ -48,7 +48,7 @@
 </style>
 
 <script setup lang="ts">
-import RaceDetailsComponent from '../race-details/race-details.component.vue';
+import RaceDetailsDialogComponent from '../race-details-dialog/race-details-dialog.component.vue';
 import type { Race } from '@vue-project/app/models';
 import { computed } from 'vue';
 

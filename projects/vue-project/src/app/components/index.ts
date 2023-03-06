@@ -5,7 +5,7 @@ import FooterComponent from './footer/footer.component.vue';
 import HeaderComponent from './header/header.component.vue';
 import PaginationComponent from './pagination/pagination.component.vue';
 import RaceCardComponent from './race-card/race-card.component.vue';
-import RaceDetailsComponent from './race-details/race-details.component.vue';
+import RaceDetailsDialogComponent from './race-details-dialog/race-details-dialog.component.vue';
 
 export {
     CenterComponent,
@@ -15,5 +15,5 @@ export {
     HeaderComponent,
     PaginationComponent,
     RaceCardComponent,
-    RaceDetailsComponent,
+    RaceDetailsDialogComponent,
 };
