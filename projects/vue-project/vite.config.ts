@@ -47,6 +47,7 @@ export default defineConfig({
             reportsDirectory: '../../../coverage/vue-project',
             statements: 80,
         },
+        css: true,
         environment: 'jsdom',
         globals: true,
         include: ['**/*.spec.ts'],
