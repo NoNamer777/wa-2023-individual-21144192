@@ -1,6 +1,6 @@
 import { type Race, sizeOrder } from '@vue-project/app/models/race';
 import { usePaginationStore } from '@vue-project/app/stores/pagination/pagination.store';
-import type { TraitOption } from '@vue-project/app/models/pagination';
+import type { TraitOption } from '@vue-project/app/models/race';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
@@ -34,11 +34,11 @@ export const useRaceStore = defineStore('races', () => {
     function applySortingAndSorting(): void {
         let sortedRaces = [...filtered.value];
 
-        if (paginationStore.getSortingByAttributes) {
+        if (paginationStore.getSortingOnAttribute) {
             sortedRaces.sort((r1, r2) => {
                 const sortedByName = sortByName(r1.name, r2.name);
 
-                switch (paginationStore.getSortingByAttributes) {
+                switch (paginationStore.getSortingOnAttribute) {
                     case 'name':
                         return sortedByName;
                     case 'size':
@@ -59,7 +59,7 @@ export const useRaceStore = defineStore('races', () => {
             const trait = getAllTraits.value.find((item) => item.value === paginationStore.getFiltersByTrait);
 
             if (!trait) {
-                paginationStore.setFilteringByTrait(null);
+                paginationStore.setFilters({ byTrait: null });
             } else {
                 sortedRaces = sortedRaces.filter((race) =>
                     Boolean(race.traits.find((item) => item.name === trait.label))

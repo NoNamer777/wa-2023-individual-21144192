@@ -109,13 +109,13 @@ function updatePagination(queryParams: SortingAndFilteringQueryParams): void {
         paginationStore.setCurrentPage(parseInt(queryParams.pageNumber));
     }
     if (isValidSortingOrder(queryParams.sortingOrder)) {
-        paginationStore.setSortOrder(queryParams.sortingOrder as SortingOrder);
+        paginationStore.setSorting({ order: queryParams.sortingOrder });
     }
     if (isValidSortableByAttribute(queryParams.sortingByAttribute)) {
-        paginationStore.setSortingByAttribute(queryParams.sortingByAttribute as SortableAttribute);
+        paginationStore.setSorting({ onAttribute: queryParams.sortingByAttribute });
     }
     if (queryParams.filteringByTrait) {
-        paginationStore.setFilteringByTrait(queryParams.filteringByTrait);
+        paginationStore.setFilters({ byTrait: queryParams.filteringByTrait });
     }
 }
 
