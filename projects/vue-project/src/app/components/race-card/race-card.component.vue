@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <Teleport to="#modals">
+    <Teleport to="#dialogs">
         <div class="modal fade" :id="buildModalTarget" tabindex="-1">
             <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-fullscreen-md-down">
                 <race-details-dialog-component :race="race" />
