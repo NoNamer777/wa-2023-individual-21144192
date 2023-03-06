@@ -9,8 +9,18 @@
             </select>
             <template v-for="order of SORTING_ORDERS" :key="order.value">
                 <div class="form-check mt-2">
-                    <input type="radio" class="form-check-input" v-model="form.sortingOrder" :value="order.value" />
-                    <label class="form-check-label">{{ order.label }}</label>
+                    <label class="form-check-label">
+                        <input
+                            type="radio"
+                            class="form-check-input"
+                            :id="'sort-order-input-' + order.value"
+                            name="sorting-order"
+                            :value="order.value"
+                            :checked="form.sortingOrder === order.value"
+                            @click="form.sortingOrder = order.value"
+                        />
+                        {{ order.label }}
+                    </label>
                 </div>
             </template>
         </div>
