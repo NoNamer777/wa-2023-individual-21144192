@@ -13,7 +13,7 @@
         "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
         "prepare-404": "cd ../../dist/vue-project && cp index.html 404.html",
         "lint": "eslint \"./src/**/*{.js,ts,vue,html}\"",
-        "check": "run-p lint test build"
+        "check": "run-s -l lint test build"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.3.0",
