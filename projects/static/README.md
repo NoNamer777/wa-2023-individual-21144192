@@ -34,4 +34,4 @@ is running on, I advise you to look at the terminal output after you've run the 
 ### Running from File Explorer (or Finder)
 
 Because the web application is making use of the `fetch` method, opening the web application by finding the `index.html`
-in your File Explorer or Finder, and opening it that way is not advisable, because that will break the application.  
+in your File Explorer or Finder, and opening it that way is not advisable, because that will break the application.
