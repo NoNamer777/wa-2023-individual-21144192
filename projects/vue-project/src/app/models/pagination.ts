@@ -2,11 +2,6 @@ import { ref } from 'vue';
 
 export const DEFAULT_PAGE_SIZE = 5;
 
-export interface TraitOption {
-    value: string;
-    label: string;
-}
-
 export const SORTABLE_ATTRIBUTES = ref([
     { value: 'name', label: 'Name' },
     { value: 'size', label: 'Size' },

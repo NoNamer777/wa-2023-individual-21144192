@@ -39,16 +39,18 @@ import {
     isValidSortableByAttribute,
     isValidSortingOrder,
     SORTABLE_ATTRIBUTES,
-    type SortableAttribute,
-    type SortingAndFilteringForm,
-    type SortingAndFilteringQueryParams,
     SORTING_ORDERS,
-    type SortingOrder,
-    type TraitOption,
 } from '@vue-project/app/models/pagination';
+import type {
+    SortableAttribute,
+    SortingAndFilteringForm,
+    SortingAndFilteringQueryParams,
+    SortingOrder,
+} from '@vue-project/app/models/pagination';
+import type { TraitOption } from '@vue-project/app/models/race';
+import { usePaginationStore } from '@vue-project/app/stores/pagination/pagination.store';
 import { ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { usePaginationStore } from '@vue-project/app/stores/pagination/pagination.store';
 
 interface FilteringAndSortingFormComponentProps {
     racialTraits: TraitOption[];

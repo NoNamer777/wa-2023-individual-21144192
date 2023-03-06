@@ -21,3 +21,8 @@ export interface Race {
     imgSrc: string;
     traits: Trait[];
 }
+
+export interface TraitOption {
+    value: string;
+    label: string;
+}
