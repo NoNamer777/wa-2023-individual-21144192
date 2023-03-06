@@ -1,8 +1,9 @@
-import {
-    DEFAULT_PAGE_SIZE,
-    type PaginationStoreState,
-    type SortableAttribute,
-    type SortingOrder,
+import { DEFAULT_PAGE_SIZE, DEFAULT_SORTING } from '@vue-project/app/models/pagination';
+import type {
+    PaginationStoreState,
+    SortableAttribute,
+    SortingOptions,
+    SortingOrder,
 } from '@vue-project/app/models/pagination';
 import { defineStore } from 'pinia';
 import { useRoute, useRouter } from 'vue-router';
@@ -12,9 +13,10 @@ export const usePaginationStore = defineStore('pagination', {
         page: 1,
         totalNumberOfPages: 0,
         pageSize: DEFAULT_PAGE_SIZE,
-        sortOrder: 'asc',
-        sortByAttribute: null,
         filteringByTrait: null,
+        sorting: {
+            ...DEFAULT_SORTING,
+        },
     }),
     actions: {
         determineTotalNumberOfPages(numberOfItems: number): void {
@@ -22,13 +24,13 @@ export const usePaginationStore = defineStore('pagination', {
         },
         setCurrentPage(pageNumber: number): void {
             if (pageNumber < 0 || pageNumber > this.totalNumberOfPages) return;
-        },
-        setSortOrder(order: SortingOrder): void {
-            this.sortOrder = order;
             this.page = pageNumber;
         },
-        setSortingByAttribute(attribute: SortableAttribute): void {
-            this.sortByAttribute = attribute;
+        setSorting(sorting: Partial<SortingOptions>): void {
+            this.sorting = {
+                ...this.sorting,
+                ...sorting,
+            };
         },
         setFilteringByTrait(trait: string | null): void {
             const { route, router } = {
@@ -46,9 +48,8 @@ export const usePaginationStore = defineStore('pagination', {
         },
         reset(): void {
             this.setCurrentPage(1);
-            this.setSortOrder('asc');
-            this.setSortingByAttribute(null);
             this.setFilteringByTrait(null);
+            this.setSorting(DEFAULT_SORTING);
         },
     },
     getters: {
@@ -62,10 +63,10 @@ export const usePaginationStore = defineStore('pagination', {
             return this.totalNumberOfPages;
         },
         getSortingOrder(): SortingOrder {
-            return this.sortOrder;
+            return this.sorting.order;
         },
-        getSortingByAttributes(): SortableAttribute {
-            return this.sortByAttribute;
+        getSortingOnAttribute(): SortableAttribute {
+            return this.sorting.onAttribute;
         },
             return this.filteringByTrait;
         getFiltersByTrait(): string | null {

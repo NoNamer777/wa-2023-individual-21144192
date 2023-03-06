@@ -26,6 +26,16 @@ export const SORTING_ORDERS = ref([
 
 export type SortingOrder = 'asc' | 'desc';
 
+export interface SortingOptions {
+    order: SortingOrder;
+    onAttribute: SortableAttribute;
+}
+
+export const DEFAULT_SORTING: SortingOptions = {
+    order: 'asc',
+    onAttribute: null,
+};
+
 export function isValidSortingOrder(value: string | undefined): boolean {
     return Boolean(value && Boolean(SORTING_ORDERS.value.find((order) => order.value === value)));
 }
@@ -44,15 +54,14 @@ export interface PaginationStoreState {
     page: number;
     totalNumberOfPages: number;
     pageSize: number;
-    sortOrder: SortingOrder;
-    sortByAttribute: SortableAttribute;
     filteringByTrait: string | null;
+    sorting: SortingOptions;
 }
 
 export const DEFAULT_SORTING_AND_FILTERING_FORM_STATE: SortingAndFilteringForm = {
-    sortingByAttribute: null,
-    sortingOrder: 'asc',
     filteringByTrait: null,
+    sortingByAttribute: DEFAULT_SORTING.onAttribute,
+    sortingOrder: DEFAULT_SORTING.order,
 };
 
 export function formEquals(form1: SortingAndFilteringForm, form2: SortingAndFilteringForm): boolean {
