@@ -39,7 +39,7 @@
             <button type="button" class="btn btn-close" data-bs-dismiss="offcanvas" />
         </section>
         <section class="offcanvas-body">
-            <filtering-and-sorting-form-component :racial-traits="racialTraits" />
+            <filtering-sorting-panel-component :racial-traits="racialTraits" />
         </section>
     </aside>
 
@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import {
     CreateRaceDialogComponent,
-    FilteringAndSortingFormComponent,
+    FilteringSortingPanelComponent,
     RaceCardComponent,
 } from '@vue-project/app/components';
 import { isValidSortableByAttribute, isValidSortingOrder } from '@vue-project/app/models';
