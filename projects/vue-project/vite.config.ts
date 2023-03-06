@@ -59,5 +59,6 @@ export default defineConfig({
         sequence: {
             shuffle: true,
         },
+        watch: false,
     },
 });
