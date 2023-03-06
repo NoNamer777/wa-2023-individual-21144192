@@ -46,7 +46,7 @@ export default defineConfig({
             functions: 80,
             lines: 80,
             provider: 'istanbul',
-            reporter: ['text', 'json', 'html'],
+            reporter: ['html-spa', 'text-summary'],
             reportsDirectory: '../../../coverage/vue-project',
             statements: 80,
         },
@@ -55,6 +55,7 @@ export default defineConfig({
         include: ['**/*.spec.ts'],
         mockReset: true,
         passWithNoTests: true,
+        reporters: ['dot'],
         sequence: {
             shuffle: true,
         },
