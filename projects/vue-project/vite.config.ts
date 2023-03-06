@@ -34,6 +34,8 @@ export default defineConfig({
         strictPort: true,
     },
     test: {
+        allowOnly: true,
+        cache: false,
         coverage: {
             branches: 80,
             clean: true,
