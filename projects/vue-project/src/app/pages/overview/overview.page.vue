@@ -61,17 +61,13 @@
 
 <script setup lang="ts">
 import {
-    isValidSortableByAttribute,
-    isValidSortingOrder,
-    type SortableAttribute,
-    type SortingAndFilteringQueryParams,
-    type SortingOrder,
-    type TraitOption,
-} from '@vue-project/app/models/pagination';
-import type { Race } from '@vue-project/app/models/race';
-import CreateRaceModalComponent from './create-race-modal/create-race-modal.component.vue';
-import FilteringAndSortingFormComponent from './filtering-and-sorting/filtering-and-sorting-form.component.vue';
-import RaceCardComponent from './race-card/race-card.component.vue';
+    CreateRaceModalComponent,
+    FilteringAndSortingFormComponent,
+    RaceCardComponent,
+} from '@vue-project/app/components';
+import { isValidSortableByAttribute, isValidSortingOrder } from '@vue-project/app/models/pagination';
+import type { SortingAndFilteringQueryParams } from '@vue-project/app/models/pagination';
+import type { Race, TraitOption } from '@vue-project/app/models/race';
 import { usePaginationStore } from '@vue-project/app/stores/pagination/pagination.store';
 import { useRaceStore } from '@vue-project/app/stores/race/race.store';
 import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
