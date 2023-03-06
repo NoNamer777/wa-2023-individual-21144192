@@ -13,9 +13,14 @@ export default defineConfig({
         sourcemap: true,
     },
     cacheDir: '../../../.vite',
+    mode: 'production',
     plugins: [vue(), checker({ vueTsc: true, eslint: { lintCommand: 'eslint "**/*{.js,ts,vue,html}"' } })],
     publicDir: './assets',
-    mode: 'production',
+    preview: {
+        host: true,
+        port: 4200,
+        strictPort: true,
+    },
     resolve: {
         alias: {
             '@vue-project': fileURLToPath(new URL('./src', import.meta.url)),
@@ -24,11 +29,6 @@ export default defineConfig({
     },
     root: './src',
     server: {
-        host: true,
-        port: 4200,
-        strictPort: true,
-    },
-    preview: {
         host: true,
         port: 4200,
         strictPort: true,
