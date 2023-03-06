@@ -1,8 +1,8 @@
-import { type Race, sizeOrder } from '@vue-project/app/models/race';
-import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
-import type { TraitOption } from '@vue-project/app/models/pagination';
+import { sizeOrder } from '@vue-project/app/models';
+import type { TraitOption, Race } from '@vue-project/app/models';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
+import { usePaginationStore } from '../pagination/pagination.store';
 
 async function fetchJson<T>(location: string): Promise<T> {
     return (await (await fetch(location + '.json')).json()) as Promise<T>;
@@ -34,11 +34,11 @@ export const useRaceStore = defineStore('races', () => {
     function applySortingAndSorting(): void {
         let sortedRaces = [...filtered.value];
 
-        if (paginationStore.getSortingByAttributes) {
+        if (paginationStore.getSortingOnAttribute) {
             sortedRaces.sort((r1, r2) => {
                 const sortedByName = sortByName(r1.name, r2.name);
 
-                switch (paginationStore.getSortingByAttributes) {
+                switch (paginationStore.getSortingOnAttribute) {
                     case 'name':
                         return sortedByName;
                     case 'size':
@@ -55,11 +55,11 @@ export const useRaceStore = defineStore('races', () => {
         if (paginationStore.getSortingOrder === 'desc') {
             sortedRaces.reverse();
         }
-        if (paginationStore.getFilteringByTrait) {
-            const trait = getAllTraits.value.find((item) => item.value === paginationStore.getFilteringByTrait);
+        if (paginationStore.getFiltersByTrait) {
+            const trait = getAllTraits.value.find((item) => item.value === paginationStore.getFiltersByTrait);
 
             if (!trait) {
-                paginationStore.setFilteringByTrait(null);
+                paginationStore.setFilters({ byTrait: null });
             } else {
                 sortedRaces = sortedRaces.filter((race) =>
                     Boolean(race.traits.find((item) => item.name === trait.label))

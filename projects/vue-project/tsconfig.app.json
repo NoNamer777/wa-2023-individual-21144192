@@ -3,11 +3,28 @@
     "include": ["src/environments/env.d.ts", "src/**/*", "src/**/*.vue"],
     "exclude": ["src/**/*.spec.ts"],
     "compilerOptions": {
-        "composite": true,
+        "alwaysStrict": true,
         "baseUrl": ".",
+        "composite": true,
+        "isolatedModules": true,
         "lib": ["ES2021", "DOM", "DOM.Iterable"],
+        "module": "ES2022",
+        "moduleResolution": "NodeNext",
+        "noImplicitAny": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedParameters": true,
         "paths": {
             "@vue-project/*": ["./src/*"]
-        }
+        },
+        "skipLibCheck": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "target": "ES2022",
+        "useDefineForClassFields": true,
+        "useUnknownInCatchVariables": true
     }
 }

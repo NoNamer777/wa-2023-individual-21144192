@@ -1,24 +1,18 @@
-name: Build and Deploy
+name: Build and Test
 on:
     push:
-        branches:
+        branch-ignore:
             - main
-permissions:
-    contents: write
 jobs:
-    build-and-deploy:
+    build-and-test:
         concurrency: ci-${{ github.ref }}
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v3
-            - name: Install and Build
+            - name: Install, Build, and Test
               run: |
                   npm ci
                   npm run format:check
                   cd projects/vue-project
-                  npm run deploy
-            - name: Deploy
-              uses: JamesIves/github-pages-deploy-action@v4
-              with:
-                  folder: dist/vue-project
+                  npm run check

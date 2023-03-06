@@ -38,7 +38,6 @@
         "quote-props": ["error", "consistent-as-needed"],
         "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
         "require-await": "error",
-        "spaced-comment": ["error", "always"],
         "semi": ["error", "always"]
     }
 }
