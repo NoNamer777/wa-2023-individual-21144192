@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import type { SortingAndFilteringQueryParams } from '@vue-project/app/models';
+import type { SortingFilteringQueryParams } from '@vue-project/app/models';
 import { usePaginationStore, useRaceStore } from '@vue-project/app/stores';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
@@ -54,7 +54,7 @@ const previousPage = computed<number>(() => (isOnFirstPage.value ? 1 : paginatio
 const nextPage = computed<number>(() =>
     isOnLastPage.value ? paginationStore.getTotalNumberOfPages : paginationStore.getCurrentPage + 1
 );
-const queryParams = computed<SortingAndFilteringQueryParams>(() => route.query as SortingAndFilteringQueryParams);
+const queryParams = computed<SortingFilteringQueryParams>(() => route.query as SortingFilteringQueryParams);
 const activeCollectionSize = computed<number>(() => useRaceStore().getActiveCollectionSize);
 
 function isOnPage(pageNumber: number): boolean {

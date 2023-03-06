@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import type { Ref } from 'vue';
 
 export const DEFAULT_PAGE_SIZE = 5;
 
@@ -14,9 +15,9 @@ export function isValidSortableByAttribute(value: string | undefined | null): bo
     return Boolean(value && SORTABLE_ATTRIBUTES.value.find((sortable) => sortable.value === value));
 }
 
-export const SORTING_ORDERS = ref([
-    { value: 'asc', label: 'Ascending' },
-    { value: 'desc', label: 'Descending' },
+export const SORTING_ORDERS: Ref<{ value: SortingOrder; label: string }[]> = ref([
+    { value: 'asc' as SortingOrder, label: 'Ascending' },
+    { value: 'desc' as SortingOrder, label: 'Descending' },
 ]);
 
 export type SortingOrder = 'asc' | 'desc';
@@ -43,7 +44,7 @@ export const DEFAULT_FILTERS: FilterOptions = {
     byTrait: null,
 };
 
-export interface SortingAndFilteringForm {
+export interface SortingFilteringForm {
     sortingByAttribute: SortableAttribute;
     sortingOrder: SortingOrder;
     filteringByTrait: string | null;
@@ -51,7 +52,7 @@ export interface SortingAndFilteringForm {
     [key: string]: string | null;
 }
 
-export type SortingAndFilteringQueryParams = Partial<SortingAndFilteringForm> & { pageNumber?: string };
+export type SortingFilteringQueryParams = Partial<SortingFilteringForm> & { pageNumber?: string };
 
 export interface PaginationStoreState {
     page: number;
@@ -61,13 +62,13 @@ export interface PaginationStoreState {
     filters: FilterOptions;
 }
 
-export const DEFAULT_SORTING_AND_FILTERING_FORM_STATE: SortingAndFilteringForm = {
+export const DEFAULT_SORTING_FILTERING_FORM_STATE: SortingFilteringForm = {
     sortingByAttribute: DEFAULT_SORTING.onAttribute,
     sortingOrder: DEFAULT_SORTING.order,
     filteringByTrait: DEFAULT_FILTERS.byTrait,
 };
 
-export function formEquals(form1: SortingAndFilteringForm, form2: SortingAndFilteringForm): boolean {
+export function formEquals(form1: SortingFilteringForm, form2: SortingFilteringForm): boolean {
     if (form1 === form2) return true;
 
     let isEqual = true;

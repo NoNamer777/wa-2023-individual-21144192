@@ -44,7 +44,9 @@
 
 <script setup lang="ts">
 import {
-    DEFAULT_SORTING_AND_FILTERING_FORM_STATE,
+    DEFAULT_FILTERS,
+    DEFAULT_SORTING,
+    DEFAULT_SORTING_FILTERING_FORM_STATE,
     formEquals,
     isValidSortableByAttribute,
     isValidSortingOrder,
@@ -53,8 +55,8 @@ import {
 } from '@vue-project/app/models';
 import type {
     SortableAttribute,
-    SortingAndFilteringForm,
-    SortingAndFilteringQueryParams,
+    SortingFilteringForm,
+    SortingFilteringQueryParams,
     SortingOrder,
 } from '@vue-project/app/models';
 import type { TraitOption } from '@vue-project/app/models';
@@ -74,16 +76,16 @@ const route = useRoute();
 const hasFilters = ref<boolean>(false);
 const formIsDirty = ref<boolean>(false);
 
-const initialFormState = ref<SortingAndFilteringForm>({
+const initialFormState = ref<SortingFilteringForm>({
     sortingByAttribute: getSortingByAttributeFromRoute(),
     sortingOrder: getSortingOrderFromRoute(),
     filteringByTrait: getFilteringByTraitFromRoute(),
 });
 
-const form = ref<SortingAndFilteringForm>({ ...initialFormState.value });
+const form = ref<SortingFilteringForm>({ ...initialFormState.value });
 
 async function onSubmit(): Promise<void> {
-    const queryParams: SortingAndFilteringQueryParams = {
+    const queryParams: SortingFilteringQueryParams = {
         ...route.query,
         sortingOrder: form.value.sortingOrder,
         pageNumber: '1',
@@ -101,8 +103,8 @@ async function onSubmit(): Promise<void> {
 }
 
 async function onReset(): Promise<void> {
-    form.value = { ...DEFAULT_SORTING_AND_FILTERING_FORM_STATE };
-    initialFormState.value = { ...DEFAULT_SORTING_AND_FILTERING_FORM_STATE };
+    form.value = { ...DEFAULT_SORTING_FILTERING_FORM_STATE };
+    initialFormState.value = { ...DEFAULT_SORTING_FILTERING_FORM_STATE };
 
     usePaginationStore().reset();
 
@@ -140,7 +142,7 @@ watchEffect(() => {
     const formValue = { ...form.value };
     const initFormValue = { ...initialFormState.value };
 
-    hasFilters.value = !formEquals(DEFAULT_SORTING_AND_FILTERING_FORM_STATE, formValue);
+    hasFilters.value = !formEquals(DEFAULT_SORTING_FILTERING_FORM_STATE, formValue);
     formIsDirty.value = !formEquals(initFormValue, formValue);
 });
 </script>

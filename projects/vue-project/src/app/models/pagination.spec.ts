@@ -1,4 +1,5 @@
-import { formEquals, isValidSortableByAttribute, isValidSortingOrder, SortingAndFilteringForm } from './pagination';
+import { formEquals, isValidSortableByAttribute, isValidSortingOrder } from './pagination';
+import type { SortingFilteringForm } from './pagination';
 
 describe('PaginationModel', () => {
     it('should resolve valid sortable attributes', () => {
@@ -22,13 +23,13 @@ describe('PaginationModel', () => {
     });
 
     it('should resolve equal forms', () => {
-        const form1: SortingAndFilteringForm = {
+        const form1: SortingFilteringForm = {
             sortingByAttribute: 'name',
             sortingOrder: 'asc',
             filteringByTrait: 'Darkvision',
         };
 
-        let form2: SortingAndFilteringForm = { ...form1 };
+        let form2: SortingFilteringForm = { ...form1 };
 
         expect(formEquals(form1, form2)).toEqual(true);
 

@@ -66,7 +66,7 @@ import {
     RaceCardComponent,
 } from '@vue-project/app/components';
 import { isValidSortableByAttribute, isValidSortingOrder } from '@vue-project/app/models';
-import type { SortingAndFilteringQueryParams, Race, TraitOption } from '@vue-project/app/models';
+import type { SortingFilteringQueryParams, Race, TraitOption } from '@vue-project/app/models';
 import { usePaginationStore, useRaceStore } from '@vue-project/app/stores';
 import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -80,11 +80,11 @@ const races = ref<Race[]>([]);
 const racialTraits = ref<TraitOption[]>([]);
 
 const unsubscribeRouterQueryParams = useRouter().afterEach((to) =>
-    updatePagination(to.query as SortingAndFilteringQueryParams)
+    updatePagination(to.query as SortingFilteringQueryParams)
 );
 
 onBeforeMount(async () => {
-    const queryParams = useRoute().query as SortingAndFilteringQueryParams;
+    const queryParams = useRoute().query as SortingFilteringQueryParams;
 
     await raceStore.initialize();
 
@@ -102,7 +102,7 @@ function onChange(): void {
     races.value = raceStore.getFilteredRaces;
 }
 
-function updatePagination(queryParams: SortingAndFilteringQueryParams): void {
+function updatePagination(queryParams: SortingFilteringQueryParams): void {
     if (queryParams.pageNumber) {
         paginationStore.setCurrentPage(parseInt(queryParams.pageNumber));
     }
