@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import { type Race, sizeOrder, type Trait } from '@vue-project/app/models/race';
-import { useRaceStore } from '@vue-project/app/stores/race.store';
+import { useRaceStore } from '@vue-project/app/stores/race/race.store';
 import { ref } from 'vue';
 
 const newRace = ref<Race>({ traits: [] as Trait[] } as Race);
