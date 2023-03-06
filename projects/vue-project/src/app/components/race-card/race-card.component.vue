@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import RaceDetailsComponent from '../race-details/race-details.component.vue';
-import type { Race } from '@vue-project/app/models/race';
+import type { Race } from '@vue-project/app/models';
 import { computed } from 'vue';
 
 interface RaceCardProps {

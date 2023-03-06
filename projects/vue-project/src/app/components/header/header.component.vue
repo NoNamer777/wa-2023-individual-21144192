@@ -19,5 +19,5 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import PaginationComponent from '@vue-project/app/components/pagination/pagination.component.vue';
+import PaginationComponent from '../pagination/pagination.component.vue';
 </script>

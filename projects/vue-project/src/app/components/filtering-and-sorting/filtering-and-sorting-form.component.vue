@@ -40,15 +40,15 @@ import {
     isValidSortingOrder,
     SORTABLE_ATTRIBUTES,
     SORTING_ORDERS,
-} from '@vue-project/app/models/pagination';
+} from '@vue-project/app/models';
 import type {
     SortableAttribute,
     SortingAndFilteringForm,
     SortingAndFilteringQueryParams,
     SortingOrder,
-} from '@vue-project/app/models/pagination';
-import type { TraitOption } from '@vue-project/app/models/race';
-import { usePaginationStore } from '@vue-project/app/stores/pagination/pagination.store';
+} from '@vue-project/app/models';
+import type { TraitOption } from '@vue-project/app/models';
+import { usePaginationStore } from '@vue-project/app/stores';
 import { ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 

@@ -65,11 +65,9 @@ import {
     FilteringAndSortingFormComponent,
     RaceCardComponent,
 } from '@vue-project/app/components';
-import { isValidSortableByAttribute, isValidSortingOrder } from '@vue-project/app/models/pagination';
-import type { SortingAndFilteringQueryParams } from '@vue-project/app/models/pagination';
-import type { Race, TraitOption } from '@vue-project/app/models/race';
-import { usePaginationStore } from '@vue-project/app/stores/pagination/pagination.store';
-import { useRaceStore } from '@vue-project/app/stores/race/race.store';
+import { isValidSortableByAttribute, isValidSortingOrder } from '@vue-project/app/models';
+import type { SortingAndFilteringQueryParams, Race, TraitOption } from '@vue-project/app/models';
+import { usePaginationStore, useRaceStore } from '@vue-project/app/stores';
 import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 

@@ -1,11 +1,11 @@
-import { DEFAULT_FILTERS, DEFAULT_PAGE_SIZE, DEFAULT_SORTING } from '@vue-project/app/models/pagination';
+import { DEFAULT_FILTERS, DEFAULT_PAGE_SIZE, DEFAULT_SORTING } from '@vue-project/app/models';
 import type {
     FilterOptions,
     PaginationStoreState,
     SortableAttribute,
     SortingOptions,
     SortingOrder,
-} from '@vue-project/app/models/pagination';
+} from '@vue-project/app/models';
 import { defineStore } from 'pinia';
 
 export const usePaginationStore = defineStore('pagination', {
