@@ -15,6 +15,7 @@ jobs:
             - name: Install and Build
               run: |
                   npm ci
+                  npm run format:check
                   cd projects/vue-project
                   npm run deploy
             - name: Deploy
