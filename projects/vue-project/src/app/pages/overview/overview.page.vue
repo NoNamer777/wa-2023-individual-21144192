@@ -72,7 +72,7 @@ import type { Race } from '@vue-project/app/models/race';
 import CreateRaceModalComponent from './create-race-modal/create-race-modal.component.vue';
 import FilteringAndSortingFormComponent from './filtering-and-sorting/filtering-and-sorting-form.component.vue';
 import RaceCardComponent from './race-card/race-card.component.vue';
-import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
+import { usePaginationStore } from '@vue-project/app/stores/pagination/pagination.store';
 import { useRaceStore } from '@vue-project/app/stores/race.store';
 import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';

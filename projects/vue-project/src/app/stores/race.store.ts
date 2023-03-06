@@ -1,5 +1,5 @@
 import { type Race, sizeOrder } from '@vue-project/app/models/race';
-import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
+import { usePaginationStore } from '@vue-project/app/stores/pagination/pagination.store';
 import type { TraitOption } from '@vue-project/app/models/pagination';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';

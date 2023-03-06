@@ -48,7 +48,7 @@ import {
 } from '@vue-project/app/models/pagination';
 import { ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { usePaginationStore } from '@vue-project/app/stores/pagination.store';
+import { usePaginationStore } from '@vue-project/app/stores/pagination/pagination.store';
 
 interface FilteringAndSortingFormComponentProps {
     racialTraits: TraitOption[];
