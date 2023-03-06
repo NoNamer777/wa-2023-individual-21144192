@@ -25,7 +25,7 @@ export const usePaginationStore = defineStore('pagination', {
             this.totalNumberOfPages = Math.ceil(numberOfItems / this.pageSize);
         },
         setCurrentPage(pageNumber: number): void {
-            if (pageNumber < 0 || pageNumber > this.totalNumberOfPages) return;
+            if (pageNumber <= 0 || pageNumber > this.totalNumberOfPages) return;
             this.page = pageNumber;
         },
         setSorting(sorting: Partial<SortingOptions>): void {
