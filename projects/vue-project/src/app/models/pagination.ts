@@ -41,7 +41,7 @@ export interface SortingAndFilteringForm {
 export type SortingAndFilteringQueryParams = Partial<SortingAndFilteringForm> & { pageNumber?: string };
 
 export interface PaginationStoreState {
-    currentPage: number;
+    page: number;
     totalNumberOfPages: number;
     pageSize: number;
     sortOrder: SortingOrder;

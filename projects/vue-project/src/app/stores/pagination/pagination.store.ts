@@ -9,7 +9,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 export const usePaginationStore = defineStore('pagination', {
     state: (): PaginationStoreState => ({
-        currentPage: 1,
+        page: 1,
         totalNumberOfPages: 0,
         pageSize: DEFAULT_PAGE_SIZE,
         sortOrder: 'asc',
@@ -22,10 +22,10 @@ export const usePaginationStore = defineStore('pagination', {
         },
         setCurrentPage(pageNumber: number): void {
             if (pageNumber < 0 || pageNumber > this.totalNumberOfPages) return;
-            this.currentPage = pageNumber;
         },
         setSortOrder(order: SortingOrder): void {
             this.sortOrder = order;
+            this.page = pageNumber;
         },
         setSortingByAttribute(attribute: SortableAttribute): void {
             this.sortByAttribute = attribute;
@@ -53,7 +53,7 @@ export const usePaginationStore = defineStore('pagination', {
     },
     getters: {
         getCurrentPage(): number {
-            return this.currentPage;
+            return this.page;
         },
         getPageSize(): number {
             return this.pageSize;
