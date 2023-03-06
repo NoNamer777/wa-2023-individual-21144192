@@ -34,9 +34,6 @@ export default defineConfig({
         strictPort: true,
     },
     test: {
-        cache: {
-            dir: '../../../.vitest',
-        },
         coverage: {
             branches: 80,
             clean: true,
