@@ -4,6 +4,7 @@ import FilteringSortingPanelComponent from './filtering-sorting/filtering-sortin
 import FooterComponent from './footer/footer.component.vue';
 import HeaderComponent from './header/header.component.vue';
 import PaginationComponent from './pagination/pagination.component.vue';
+import PaginationLinkComponent from './pagination-link/pagination-link.component.vue';
 import RaceCardComponent from './race-card/race-card.component.vue';
 import RaceDetailsDialogComponent from './race-details-dialog/race-details-dialog.component.vue';
 
@@ -14,6 +15,7 @@ export {
     FooterComponent,
     HeaderComponent,
     PaginationComponent,
+    PaginationLinkComponent,
     RaceCardComponent,
     RaceDetailsDialogComponent,
 };
