@@ -65,7 +65,12 @@ import {
     FilteringSortingPanelComponent,
     RaceCardComponent,
 } from '@vue-project/app/components';
-import { isValidSortableByAttribute, isValidSortingOrder } from '@vue-project/app/models';
+import {
+    DEFAULT_FILTERS,
+    DEFAULT_SORTING,
+    isValidSortableByAttribute,
+    isValidSortingOrder,
+} from '@vue-project/app/models';
 import type { SortingFilteringQueryParams, Race, TraitOption } from '@vue-project/app/models';
 import { usePaginationStore, useRaceStore } from '@vue-project/app/stores';
 import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
@@ -105,15 +110,23 @@ function onChange(): void {
 function updatePagination(queryParams: SortingFilteringQueryParams): void {
     if (queryParams.pageNumber) {
         paginationStore.setCurrentPage(parseInt(queryParams.pageNumber));
+    } else if (paginationStore.getCurrentPage !== 1) {
+        paginationStore.setCurrentPage(1);
     }
     if (isValidSortingOrder(queryParams.sortingOrder)) {
         paginationStore.setSorting({ order: queryParams.sortingOrder });
+    } else if (paginationStore.getSortingOrder !== DEFAULT_SORTING.order) {
+        paginationStore.setSorting({ order: DEFAULT_SORTING.order });
     }
     if (isValidSortableByAttribute(queryParams.sortingByAttribute)) {
         paginationStore.setSorting({ onAttribute: queryParams.sortingByAttribute });
+    } else if (paginationStore.getSortingOnAttribute !== DEFAULT_SORTING.onAttribute) {
+        paginationStore.setSorting({ onAttribute: DEFAULT_SORTING.onAttribute });
     }
     if (queryParams.filteringByTrait) {
         paginationStore.setFilters({ byTrait: queryParams.filteringByTrait });
+    } else if (paginationStore.getFiltersByTrait !== DEFAULT_FILTERS.byTrait) {
+        paginationStore.setFilters({ byTrait: DEFAULT_FILTERS.byTrait });
     }
 }
 
