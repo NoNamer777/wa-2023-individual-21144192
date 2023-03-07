@@ -23,8 +23,6 @@ export const useRaceStore = defineStore('races', () => {
             races.value = [...races.value, race];
         }
         filtered.value = [...races.value];
-
-        paginationStore.determineTotalNumberOfPages(filtered.value.length);
     }
 
     function sortByName(name1: string, name2: string): number {
@@ -34,11 +32,11 @@ export const useRaceStore = defineStore('races', () => {
     function applySortingAndSorting(): void {
         let sortedRaces = [...filtered.value];
 
-        if (paginationStore.getSortingOnAttribute) {
             sortedRaces.sort((r1, r2) => {
                 const sortedByName = sortByName(r1.name, r2.name);
+        if (paginationStore.sorting.onAttribute) {
 
-                switch (paginationStore.getSortingOnAttribute) {
+                switch (paginationStore.sorting.onAttribute) {
                     case 'name':
                         return sortedByName;
                     case 'size':
@@ -52,11 +50,11 @@ export const useRaceStore = defineStore('races', () => {
                 }
             });
         }
-        if (paginationStore.getSortingOrder === 'desc') {
             sortedRaces.reverse();
+        if (paginationStore.sorting.order === 'desc') {
         }
-        if (paginationStore.getFiltersByTrait) {
-            const trait = getAllTraits.value.find((item) => item.value === paginationStore.getFiltersByTrait);
+        if (paginationStore.filters.byTrait) {
+            const trait = getAllTraits.value.find((item) => item.value === paginationStore.filters.byTrait);
 
             if (!trait) {
                 paginationStore.setFilters({ byTrait: null });
@@ -67,18 +65,15 @@ export const useRaceStore = defineStore('races', () => {
             }
         }
         filtered.value = [...sortedRaces];
-        paginationStore.determineTotalNumberOfPages(sortedRaces.length);
     }
 
     function addNewRace(raceData: Race): void {
         races.value = [...(races.value as Race[]), raceData];
-
-        paginationStore.determineTotalNumberOfPages(races.value.length);
     }
 
     const getFilteredRaces = computed<Race[]>(() => {
-        const start = (paginationStore.getCurrentPage - 1) * paginationStore.getPageSize;
-        const end = paginationStore.getCurrentPage * paginationStore.getPageSize;
+        const start = (paginationStore.currentPage - 1) * paginationStore.pageSize;
+        const end = paginationStore.currentPage * paginationStore.pageSize;
 
         filtered.value = [...(races.value as Race[])];
 

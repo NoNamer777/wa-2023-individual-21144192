@@ -79,7 +79,7 @@ import { useRoute, useRouter } from 'vue-router';
 const paginationStore = usePaginationStore();
 const raceStore = useRaceStore();
 
-const shouldShowRaces = computed<boolean>(() => paginationStore.getTotalNumberOfPages > 0);
+const shouldShowRaces = computed<boolean>(() => paginationStore.totalNumberOfPages > 0);
 
 const races = ref<Race[]>([]);
 const racialTraits = ref<TraitOption[]>([]);
@@ -110,22 +110,22 @@ function onChange(): void {
 function updatePagination(queryParams: SortingFilteringQueryParams): void {
     if (queryParams.pageNumber) {
         paginationStore.setCurrentPage(parseInt(queryParams.pageNumber));
-    } else if (paginationStore.getCurrentPage !== 1) {
+    } else if (paginationStore.currentPage !== 1) {
         paginationStore.setCurrentPage(1);
     }
     if (isValidSortingOrder(queryParams.sortingOrder)) {
         paginationStore.setSorting({ order: queryParams.sortingOrder });
-    } else if (paginationStore.getSortingOrder !== DEFAULT_SORTING.order) {
+    } else if (paginationStore.sorting.order !== DEFAULT_SORTING.order) {
         paginationStore.setSorting({ order: DEFAULT_SORTING.order });
     }
     if (isValidSortableByAttribute(queryParams.sortingByAttribute)) {
         paginationStore.setSorting({ onAttribute: queryParams.sortingByAttribute });
-    } else if (paginationStore.getSortingOnAttribute !== DEFAULT_SORTING.onAttribute) {
+    } else if (paginationStore.sorting.onAttribute !== DEFAULT_SORTING.onAttribute) {
         paginationStore.setSorting({ onAttribute: DEFAULT_SORTING.onAttribute });
     }
     if (queryParams.filteringByTrait) {
         paginationStore.setFilters({ byTrait: queryParams.filteringByTrait });
-    } else if (paginationStore.getFiltersByTrait !== DEFAULT_FILTERS.byTrait) {
+    } else if (paginationStore.filters.byTrait !== DEFAULT_FILTERS.byTrait) {
         paginationStore.setFilters({ byTrait: DEFAULT_FILTERS.byTrait });
     }
 }

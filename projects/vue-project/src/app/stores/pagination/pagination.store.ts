@@ -1,69 +1,56 @@
 import { DEFAULT_FILTERS, DEFAULT_PAGE_SIZE, DEFAULT_SORTING } from '@vue-project/app/models';
-import type {
-    FilterOptions,
-    PaginationStoreState,
-    SortableAttribute,
-    SortingOptions,
-    SortingOrder,
-} from '@vue-project/app/models';
+import type { FilterOptions, SortingOptions } from '@vue-project/app/models';
 import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
+import { useRaceStore } from '@vue-project/app';
 
-export const usePaginationStore = defineStore('pagination', {
-    state: (): PaginationStoreState => ({
-        page: 1,
-        totalNumberOfPages: 0,
-        pageSize: DEFAULT_PAGE_SIZE,
-        sorting: {
-            ...DEFAULT_SORTING,
-        },
-        filters: {
-            ...DEFAULT_FILTERS,
-        },
-    }),
-    actions: {
-        determineTotalNumberOfPages(numberOfItems: number): void {
-            this.totalNumberOfPages = Math.ceil(numberOfItems / this.pageSize);
-        },
-        setCurrentPage(pageNumber: number): void {
-            if (pageNumber <= 0 || pageNumber > this.totalNumberOfPages) return;
-            this.page = pageNumber;
-        },
-        setSorting(sorting: Partial<SortingOptions>): void {
-            this.sorting = {
-                ...this.sorting,
-                ...sorting,
-            };
-        },
-        setFilters(filters: Partial<FilterOptions>): void {
-            this.filters = {
-                ...this.filters,
-                ...filters,
-            };
-        },
-        reset(): void {
-            this.setCurrentPage(1);
-            this.setSorting(DEFAULT_SORTING);
-            this.setFilters(DEFAULT_FILTERS);
-        },
-    },
-    getters: {
-        getCurrentPage(): number {
-            return this.page;
-        },
-        getPageSize(): number {
-            return this.pageSize;
-        },
-        getTotalNumberOfPages(): number {
-            return this.totalNumberOfPages;
-        },
-        getSortingOrder(): SortingOrder {
-            return this.sorting.order;
-        },
-        getSortingOnAttribute(): SortableAttribute {
-            return this.sorting.onAttribute;
-        },
-        getFiltersByTrait(): string | null {
-            return this.filters.byTrait;
-        },
-    },
+export const usePaginationStore = defineStore('pagination', () => {
+    const raceStore = useRaceStore();
+
+    const page = ref<number>(1);
+    const pageSize = ref<number>(DEFAULT_PAGE_SIZE);
+    const sorting = ref<SortingOptions>({ ...DEFAULT_SORTING });
+    const filters = ref<FilterOptions>({ ...DEFAULT_FILTERS });
+
+    const totalNumberOfPages = computed<number>(() => {
+        const numberOfRaces: number = raceStore.getActiveCollectionSize;
+        return Math.ceil(numberOfRaces / pageSize.value);
+    });
+
+    function setCurrentPage(pageNumber: number): void {
+        if (pageNumber <= 0 || pageNumber > totalNumberOfPages.value) return;
+        page.value = pageNumber;
+    }
+
+    function setSorting(sortingValue: Partial<SortingOptions>): void {
+        sorting.value = {
+            ...sorting.value,
+            ...sortingValue,
+        };
+    }
+
+    function setFilters(filterValue: Partial<FilterOptions>): void {
+        filters.value = {
+            ...filters.value,
+            ...filterValue,
+        };
+    }
+
+    function reset(): void {
+        page.value = 1;
+        sorting.value = { ...DEFAULT_SORTING };
+        filters.value = { ...DEFAULT_FILTERS };
+    }
+
+    return {
+        currentPage: page,
+        pageSize,
+        sorting,
+        filters,
+        totalNumberOfPages,
+        setCurrentPage,
+        setSorting,
+        setFilters,
+        reset,
+    };
 });
