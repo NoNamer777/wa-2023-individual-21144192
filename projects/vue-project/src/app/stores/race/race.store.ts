@@ -25,16 +25,12 @@ export const useRaceStore = defineStore('races', () => {
         filtered.value = [...races.value];
     }
 
-    function sortByName(name1: string, name2: string): number {
-        return name1.localeCompare(name2);
-    }
     function applySortingAndFilters(): void {
 
         let sortedRaces = [...filtered.value];
 
-            sortedRaces.sort((r1, r2) => {
-                const sortedByName = sortByName(r1.name, r2.name);
         if (paginationStore.sorting.onAttribute) {
+                const sortedByName = r1.name.localeCompare(r2.name);
 
                 switch (paginationStore.sorting.onAttribute) {
                     case 'name':
