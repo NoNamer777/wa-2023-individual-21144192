@@ -28,8 +28,8 @@ export const useRaceStore = defineStore('races', () => {
     function sortByName(name1: string, name2: string): number {
         return name1.localeCompare(name2);
     }
+    function applySortingAndFilters(): void {
 
-    function applySortingAndSorting(): void {
         let sortedRaces = [...filtered.value];
 
             sortedRaces.sort((r1, r2) => {
@@ -77,7 +77,7 @@ export const useRaceStore = defineStore('races', () => {
 
         filtered.value = [...(races.value as Race[])];
 
-        applySortingAndSorting();
+        applySortingAndFilters();
 
         return filtered.value.slice(start, end);
     });
