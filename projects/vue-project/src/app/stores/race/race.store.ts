@@ -26,10 +26,15 @@ export const useRaceStore = defineStore('races', () => {
     }
 
     function applySortingAndFilters(): void {
+        let sortedRaces = applySorting([...filtered.value]);
+        sortedRaces = applyFilters(sortedRaces);
 
-        let sortedRaces = [...filtered.value];
+        filtered.value = [...sortedRaces];
+    }
 
+    function applySorting(list: Race[]): Race[] {
         if (paginationStore.sorting.onAttribute) {
+            list.sort((r1, r2) => {
                 const sortedByName = r1.name.localeCompare(r2.name);
 
                 switch (paginationStore.sorting.onAttribute) {
@@ -46,21 +51,23 @@ export const useRaceStore = defineStore('races', () => {
                 }
             });
         }
-            sortedRaces.reverse();
         if (paginationStore.sorting.order === 'desc') {
+            list.reverse();
         }
+        return list;
+    }
+
+    function applyFilters(list: Race[]): Race[] {
         if (paginationStore.filters.byTrait) {
             const trait = getAllTraits.value.find((item) => item.value === paginationStore.filters.byTrait);
 
             if (!trait) {
                 paginationStore.setFilters({ byTrait: null });
             } else {
-                sortedRaces = sortedRaces.filter((race) =>
-                    Boolean(race.traits.find((item) => item.name === trait.label))
-                );
+                list = list.filter((race) => Boolean(race.traits.find((item) => item.name === trait.label)));
             }
         }
-        filtered.value = [...sortedRaces];
+        return list;
     }
 
     function addNewRace(raceData: Race): void {
