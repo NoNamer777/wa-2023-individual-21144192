@@ -23,22 +23,21 @@ export const useRaceStore = defineStore('races', () => {
             races.value = [...races.value, race];
         }
         filtered.value = [...races.value];
-
-        paginationStore.determineTotalNumberOfPages(filtered.value.length);
     }
 
-    function sortByName(name1: string, name2: string): number {
-        return name1.localeCompare(name2);
+    function applySortingAndFilters(): void {
+        let sortedRaces = applySorting([...filtered.value]);
+        sortedRaces = applyFilters(sortedRaces);
+
+        filtered.value = [...sortedRaces];
     }
 
-    function applySortingAndSorting(): void {
-        let sortedRaces = [...filtered.value];
+    function applySorting(list: Race[]): Race[] {
+        if (paginationStore.sorting.onAttribute) {
+            list.sort((r1, r2) => {
+                const sortedByName = r1.name.localeCompare(r2.name);
 
-        if (paginationStore.getSortingOnAttribute) {
-            sortedRaces.sort((r1, r2) => {
-                const sortedByName = sortByName(r1.name, r2.name);
-
-                switch (paginationStore.getSortingOnAttribute) {
+                switch (paginationStore.sorting.onAttribute) {
                     case 'name':
                         return sortedByName;
                     case 'size':
@@ -52,37 +51,36 @@ export const useRaceStore = defineStore('races', () => {
                 }
             });
         }
-        if (paginationStore.getSortingOrder === 'desc') {
-            sortedRaces.reverse();
+        if (paginationStore.sorting.order === 'desc') {
+            list.reverse();
         }
-        if (paginationStore.getFiltersByTrait) {
-            const trait = getAllTraits.value.find((item) => item.value === paginationStore.getFiltersByTrait);
+        return list;
+    }
+
+    function applyFilters(list: Race[]): Race[] {
+        if (paginationStore.filters.byTrait) {
+            const trait = getAllTraits.value.find((item) => item.value === paginationStore.filters.byTrait);
 
             if (!trait) {
                 paginationStore.setFilters({ byTrait: null });
             } else {
-                sortedRaces = sortedRaces.filter((race) =>
-                    Boolean(race.traits.find((item) => item.name === trait.label))
-                );
+                list = list.filter((race) => Boolean(race.traits.find((item) => item.name === trait.label)));
             }
         }
-        filtered.value = [...sortedRaces];
-        paginationStore.determineTotalNumberOfPages(sortedRaces.length);
+        return list;
     }
 
     function addNewRace(raceData: Race): void {
         races.value = [...(races.value as Race[]), raceData];
-
-        paginationStore.determineTotalNumberOfPages(races.value.length);
     }
 
     const getFilteredRaces = computed<Race[]>(() => {
-        const start = (paginationStore.getCurrentPage - 1) * paginationStore.getPageSize;
-        const end = paginationStore.getCurrentPage * paginationStore.getPageSize;
+        const start = (paginationStore.currentPage - 1) * paginationStore.pageSize;
+        const end = paginationStore.currentPage * paginationStore.pageSize;
 
         filtered.value = [...(races.value as Race[])];
 
-        applySortingAndSorting();
+        applySortingAndFilters();
 
         return filtered.value.slice(start, end);
     });

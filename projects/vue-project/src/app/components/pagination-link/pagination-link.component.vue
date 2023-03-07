@@ -27,6 +27,6 @@ function isOnPage(pageNumber: number): boolean {
     if (isNaN(parseInt(props.label))) {
         return false;
     }
-    return usePaginationStore().getCurrentPage === pageNumber;
+    return usePaginationStore().currentPage === pageNumber;
 }
 </script>

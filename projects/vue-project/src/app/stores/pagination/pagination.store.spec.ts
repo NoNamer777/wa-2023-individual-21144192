@@ -1,5 +1,6 @@
 import { createPinia, setActivePinia } from 'pinia';
 import { usePaginationStore } from './pagination.store';
+import { useRaceStore } from '../race/race.store';
 
 describe('PaginationStore', () => {
     beforeEach(() => {
@@ -7,16 +8,17 @@ describe('PaginationStore', () => {
     });
 
     test('should determine the total pages', () => {
-        const store = usePaginationStore();
+        const paginationStore = usePaginationStore();
+        const raceStore = useRaceStore();
 
-        expect(store.pageSize).toEqual(5);
-        expect(store.totalNumberOfPages).toEqual(0);
+        expect(paginationStore.pageSize).toEqual(5);
+        expect(paginationStore.totalNumberOfPages).toEqual(0);
 
-        store.determineTotalNumberOfPages(20);
-        expect(store.totalNumberOfPages).toEqual(4);
+        raceStore.filtered = new Array(20);
+        expect(paginationStore.totalNumberOfPages).toEqual(4);
 
-        store.determineTotalNumberOfPages(4);
-        expect(store.totalNumberOfPages).toEqual(1);
+        raceStore.filtered = new Array(4);
+        expect(paginationStore.totalNumberOfPages).toEqual(1);
     });
 
     test('should set the sort order', () => {
@@ -59,97 +61,45 @@ describe('PaginationStore', () => {
     });
 
     test('should set the current page', () => {
-        const store = usePaginationStore();
+        const paginationStore = usePaginationStore();
+        const raceStore = useRaceStore();
 
-        expect(store.page).toEqual(1);
+        expect(paginationStore.currentPage).toEqual(1);
 
         // Expect nothing to have changed because the pages are unreachable
-        store.setCurrentPage(3);
-        expect(store.page).toEqual(1);
+        paginationStore.setCurrentPage(3);
+        expect(paginationStore.currentPage).toEqual(1);
 
-        store.setCurrentPage(-1);
-        expect(store.page).toEqual(1);
+        paginationStore.setCurrentPage(-1);
+        expect(paginationStore.currentPage).toEqual(1);
 
-        store.setCurrentPage(0);
-        expect(store.page).toEqual(1);
+        paginationStore.setCurrentPage(0);
+        expect(paginationStore.currentPage).toEqual(1);
 
         // We first need to let the store know there are more than the initial total number of pages, which is 0
-        store.determineTotalNumberOfPages(20);
-        store.setCurrentPage(3);
+        raceStore.filtered = new Array(20);
+        paginationStore.setCurrentPage(3);
     });
 
     test('should reset', () => {
-        const store = usePaginationStore();
+        const paginationStore = usePaginationStore();
+        const raceStore = useRaceStore();
 
-        store.filters = { byTrait: 'darkvision' };
-        store.sorting = { order: 'desc', onAttribute: 'speed' };
-        store.page = 3;
-        store.totalNumberOfPages = 5;
+        paginationStore.filters = { byTrait: 'darkvision' };
+        paginationStore.sorting = { order: 'desc', onAttribute: 'speed' };
+        paginationStore.currentPage = 3;
+        raceStore.filtered = new Array(24);
 
-        expect(store.filters).toEqual({ byTrait: 'darkvision' });
-        expect(store.sorting).toEqual({ onAttribute: 'speed', order: 'desc' });
-        expect(store.page).toEqual(3);
-        expect(store.totalNumberOfPages).toEqual(5);
+        expect(paginationStore.filters).toEqual({ byTrait: 'darkvision' });
+        expect(paginationStore.sorting).toEqual({ onAttribute: 'speed', order: 'desc' });
+        expect(paginationStore.currentPage).toEqual(3);
+        expect(paginationStore.totalNumberOfPages).toEqual(5);
 
-        store.reset();
+        paginationStore.reset();
 
-        expect(store.filters).toEqual({ byTrait: null });
-        expect(store.sorting).toEqual({ onAttribute: null, order: 'asc' });
-        expect(store.page).toEqual(1);
-        expect(store.totalNumberOfPages).toEqual(5);
-    });
-
-    test('should get the current page', () => {
-        const store = usePaginationStore();
-
-        expect(store.getCurrentPage).toEqual(1);
-
-        store.page = 4;
-        expect(store.getCurrentPage).toEqual(4);
-    });
-
-    test('should get the page size', () => {
-        const store = usePaginationStore();
-
-        expect(store.getPageSize).toEqual(5);
-
-        store.pageSize = 2;
-        expect(store.getPageSize).toEqual(2);
-    });
-
-    test('should get the total number of page', () => {
-        const store = usePaginationStore();
-
-        expect(store.getTotalNumberOfPages).toEqual(0);
-
-        store.totalNumberOfPages = 30;
-        expect(store.getTotalNumberOfPages).toEqual(30);
-    });
-
-    test('should get the sorting order', () => {
-        const store = usePaginationStore();
-
-        expect(store.getSortingOrder).toEqual('asc');
-
-        store.sorting.order = 'desc';
-        expect(store.getSortingOrder).toEqual('desc');
-    });
-
-    test('should get the sorting on attribute', () => {
-        const store = usePaginationStore();
-
-        expect(store.getSortingOnAttribute).toBeNull();
-
-        store.sorting.onAttribute = 'size';
-        expect(store.getSortingOnAttribute).toEqual('size');
-    });
-
-    test('should get filters by trait', () => {
-        const store = usePaginationStore();
-
-        expect(store.getFiltersByTrait).toBeNull();
-
-        store.filters.byTrait = 'darkvision';
-        expect(store.getFiltersByTrait).toEqual('darkvision');
+        expect(paginationStore.filters).toEqual({ byTrait: null });
+        expect(paginationStore.sorting).toEqual({ onAttribute: null, order: 'asc' });
+        expect(paginationStore.currentPage).toEqual(1);
+        expect(paginationStore.totalNumberOfPages).toEqual(5);
     });
 });
