@@ -1,8 +1,8 @@
 {
     "root": true,
-    "extends": ["@nrwl/nx", "eslint:recommended", "plugin:prettier/recommended"],
+    "extends": ["eslint:recommended", "plugin:prettier/recommended"],
     "ignorePatterns": ["**/*"],
-    "plugins": ["prettier"],
+    "plugins": ["@nrwl/nx", "prettier"],
     "rules": {
         "prettier/prettier": "error"
     },
