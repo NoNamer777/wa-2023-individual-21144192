@@ -1,0 +1,46 @@
+{
+    "root": false,
+    "extends": ["../../.eslintrc.json"],
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "overrides": [
+        {
+            "files": ["*.js"],
+            "rules": {
+                "arrow-parens": "error",
+                "default-case": "error",
+                "default-case-last": "error",
+                "default-param-last": "error",
+                "eqeqeq": "error",
+                "indent": ["error", 4, { "SwitchCase": 1 }],
+                "linebreak-style": ["error", "unix"],
+                "no-case-declarations": "off",
+                "no-console": "error",
+                "no-return-assign": "error",
+                "no-shadow": "error",
+                "no-undef": "off",
+                "no-unused-expressions": "error",
+                "no-unused-vars": "off",
+                "no-useless-call": "error",
+                "no-useless-computed-key": "error",
+                "no-useless-concat": "error",
+                "no-useless-constructor": "error",
+                "no-useless-rename": "error",
+                "no-useless-return": "error",
+                "no-var": "error",
+                "one-var": ["error", "never"],
+                "prefer-const": "error",
+                "quote-props": ["error", "consistent-as-needed"],
+                "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
+                "require-await": "error",
+                "semi": ["error", "always"]
+            }
+        }
+    ]
+}
