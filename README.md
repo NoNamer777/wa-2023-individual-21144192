@@ -14,8 +14,8 @@ The projects can be found here:
 
 | Project name | Location                            | Technologies used                 |
 | ------------ | ----------------------------------- | --------------------------------- |
-| static       | [static](projects/static)           | HTML, CSS, and vanilla JavaScript |
-| vue-project  | [vue-project](projects/vue-project) | HTML, SCSS, TypeScript, and Vue   |
+| static       | [static](packages/static)           | HTML, CSS, and vanilla JavaScript |
+| vue-project  | [vue-project](packages/vue-project) | HTML, SCSS, TypeScript, and Vue   |
 
 ## Icons
 

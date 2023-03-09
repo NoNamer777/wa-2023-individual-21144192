@@ -12,7 +12,7 @@ npm install
 ```
 
 Now you need to make a build of the project. This, you can do by running the following command in your terminal, while
-in the vue-project directory (`./wa-2023-individual-21144192/projects/vue-project/`):
+in the vue-project directory (`./wa-2023-individual-21144192/packages/vue-project/`):
 
 ```shell
 npm run vue-project:build

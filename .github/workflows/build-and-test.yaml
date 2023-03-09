@@ -14,5 +14,5 @@ jobs:
               run: |
                   npm ci
                   npm run format:check
-                  cd projects/vue-project
+                  cd packages/vue-project
                   npm run check

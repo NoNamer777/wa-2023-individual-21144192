@@ -14,7 +14,7 @@ npm install
 ```
 
 After that it's only a matter of running Servor by using the following command in the directory of the static web application
-(`./wa-2023-individual-21144192/projects/static/`) and using the link in the terminal output to open the web application
+(`./wa-2023-individual-21144192/packages/static/`) and using the link in the terminal output to open the web application
 is your browser:
 
 ```shell
