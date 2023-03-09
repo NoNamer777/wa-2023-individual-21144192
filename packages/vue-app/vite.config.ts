@@ -14,7 +14,7 @@ export default defineConfig({
     },
     cacheDir: '../../../.vite',
     mode: 'production',
-    plugins: [vue(), checker({ vueTsc: true, eslint: { lintCommand: 'eslint "**/*{.js,ts,vue,html}"' } })],
+    plugins: [vue(), checker({ vueTsc: true, eslint: { lintCommand: 'eslint "**/*{.js,ts,vue}"' } })],
     publicDir: './assets',
     preview: {
         host: true,

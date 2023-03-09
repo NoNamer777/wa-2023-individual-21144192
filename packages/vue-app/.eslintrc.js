@@ -1,18 +1,33 @@
 require('@rushstack/eslint-patch/modern-module-resolution');
 
 module.exports = {
-    root: false,
     extends: [
         '../../.eslintrc.json',
         'plugin:vue/vue3-essential',
         '@vue/eslint-config-typescript',
         '@vue/eslint-config-prettier',
     ],
-    parserOptions: {
-        ecmaVersion: 'latest',
-    },
+    root: false,
+    ignorePatterns: ['!**/*'],
     rules: {
         'vue/multi-word-component-names': 'off',
     },
-    ignorePatterns: ['src/index.html'],
+    overrides: [
+        {
+            files: ['*.js', '*.ts', '*.vue'],
+            rules: {},
+        },
+        {
+            files: ['*.js'],
+            rules: {},
+        },
+        {
+            files: ['*.ts'],
+            rules: {},
+        },
+        {
+            files: ['*.vue'],
+            rules: {},
+        },
+    ],
 };

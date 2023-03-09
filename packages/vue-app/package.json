@@ -12,7 +12,7 @@
         "build-only": "vite build",
         "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
         "prepare-404": "cd ../../dist/vue-app && cp index.html 404.html",
-        "lint": "eslint \"./src/**/*{.js,ts,vue,html}\"",
+        "lint": "eslint \"./src/**/*{.js,ts,vue}\"",
         "check": "run-s -l lint test build"
     },
     "dependencies": {

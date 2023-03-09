@@ -1,6 +1,6 @@
 {
-    "name": "nest-app",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "nest-app",
     "sourceRoot": "packages/nest-app/src",
     "projectType": "application",
     "targets": {
