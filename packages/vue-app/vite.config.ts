@@ -9,7 +9,7 @@ export default defineConfig({
     base: process.env.DEPLOYING ? '/wa-2023-individual-21144192/' : '/',
     build: {
         emptyOutDir: true,
-        outDir: '../../../dist/vue-project',
+        outDir: '../../../dist/vue-app',
         sourcemap: true,
     },
     cacheDir: '../../../.vite',
@@ -23,7 +23,7 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            '@vue-project': fileURLToPath(new URL('./src', import.meta.url)),
+            '@vue-app': fileURLToPath(new URL('./src', import.meta.url)),
             '~bootstrap': fileURLToPath(new URL('../../node_modules/bootstrap', import.meta.url)),
         },
     },
@@ -46,7 +46,7 @@ export default defineConfig({
             lines: 80,
             provider: 'istanbul',
             reporter: ['html', 'text-summary'],
-            reportsDirectory: '../../../coverage/vue-project',
+            reportsDirectory: '../../../coverage/vue-app',
             statements: 80,
         },
         css: true,

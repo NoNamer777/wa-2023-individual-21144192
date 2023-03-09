@@ -16,9 +16,9 @@ jobs:
               run: |
                   npm ci
                   npm run format:check
-                  cd packages/vue-project
+                  cd packages/vue-app
                   npm run deploy
             - name: Deploy
               uses: JamesIves/github-pages-deploy-action@v4
               with:
-                  folder: dist/vue-project
+                  folder: dist/vue-app

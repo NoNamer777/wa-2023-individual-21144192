@@ -1,4 +1,4 @@
-# vue-project
+# vue-app
 
 This project is created with Vue 3 in vite. On top of that, this project uses Bootstrap for styling, TypeScript, and SCSS.
 
@@ -12,20 +12,20 @@ npm install
 ```
 
 Now you need to make a build of the project. This, you can do by running the following command in your terminal, while
-in the vue-project directory (`./wa-2023-individual-21144192/packages/vue-project/`):
+in the vue-app directory (`./wa-2023-individual-21144192/packages/vue-app/`):
 
 ```shell
-npm run vue-project:build
+npm run vue-app:build
 ```
 
 If all goes well, in the project structure panel (directories and files), you should find a build output in the root of
-the repository under the following path: `dist/vue-project/`.
+the repository under the following path: `dist/vue-app/`.
 
 After that it's only a matter of running Servor by using the following command in the same directory as the previous command
 and using the link in the terminal output to open the web application is your browser:
 
 ```shell
-npm run vue-project:start
+npm run vue-app:start
 ```
 
 Alternatively, you can run the command above, and open a browser yourself and navigate to the following address:

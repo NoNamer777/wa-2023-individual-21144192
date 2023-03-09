@@ -1,9 +1,9 @@
 {
-    "name": "vue-project",
+    "name": "vue-app",
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "vite ../../dist/vue-project --mode=production --host --port=4200 --strictPort",
+        "start": "vite ../../dist/vue-app --mode=production --host --port=4200 --strictPort",
         "build": "run-p type-check build-only",
         "build-dev": "vite build --watch",
         "test": "vitest",
@@ -11,7 +11,7 @@
         "deploy": "cross-env DEPLOYING=true run-s check prepare-404",
         "build-only": "vite build",
         "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-        "prepare-404": "cd ../../dist/vue-project && cp index.html 404.html",
+        "prepare-404": "cd ../../dist/vue-app && cp index.html 404.html",
         "lint": "eslint \"./src/**/*{.js,ts,vue,html}\"",
         "check": "run-s -l lint test build"
     },
