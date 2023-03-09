@@ -12,7 +12,8 @@
             "outputs": ["{workspaceRoot}/dist/"]
         },
         "test": {
-            "outputs": ["{workspaceRoot}/coverage/"]
+            "outputs": ["{workspaceRoot}/coverage/"],
+            "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"]
         }
     },
     "defaultBase": "main"
