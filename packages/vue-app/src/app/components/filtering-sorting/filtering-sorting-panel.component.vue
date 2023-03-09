@@ -52,15 +52,15 @@ import {
     isValidSortingOrder,
     SORTABLE_ATTRIBUTES,
     SORTING_ORDERS,
-} from '@vue-project/app/models';
+} from '@vue-app/app/models';
 import type {
     SortableAttribute,
     SortingFilteringForm,
     SortingFilteringQueryParams,
     SortingOrder,
-} from '@vue-project/app/models';
-import type { TraitOption } from '@vue-project/app/models';
-import { usePaginationStore } from '@vue-project/app/stores';
+} from '@vue-app/app/models';
+import type { TraitOption } from '@vue-app/app/models';
+import { usePaginationStore } from '@vue-app/app/stores';
 import { ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 

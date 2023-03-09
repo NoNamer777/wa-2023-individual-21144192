@@ -7,5 +7,5 @@
 </template>
 
 <script setup lang="ts">
-import { CenterComponent, FooterComponent, HeaderComponent } from '@vue-project/app/components';
+import { CenterComponent, FooterComponent, HeaderComponent } from '@vue-app/app/components';
 </script>

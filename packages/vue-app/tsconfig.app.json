@@ -17,7 +17,7 @@
         "noUncheckedIndexedAccess": true,
         "noUnusedParameters": true,
         "paths": {
-            "@vue-project/*": ["./src/*"]
+            "@vue-app/*": ["./src/*"]
         },
         "skipLibCheck": true,
         "strictBindCallApply": true,

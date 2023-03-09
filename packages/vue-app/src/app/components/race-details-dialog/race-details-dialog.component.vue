@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Race } from '@vue-project/app/models';
+import type { Race } from '@vue-app/app/models';
 
 interface RaceDetailsProps {
     race: Race;

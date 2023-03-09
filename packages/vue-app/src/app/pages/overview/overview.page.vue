@@ -64,15 +64,15 @@ import {
     CreateRaceDialogComponent,
     FilteringSortingPanelComponent,
     RaceCardComponent,
-} from '@vue-project/app/components';
+} from '@vue-app/app/components';
 import {
     DEFAULT_FILTERS,
     DEFAULT_SORTING,
     isValidSortableByAttribute,
     isValidSortingOrder,
-} from '@vue-project/app/models';
-import type { SortingFilteringQueryParams, Race, TraitOption } from '@vue-project/app/models';
-import { usePaginationStore, useRaceStore } from '@vue-project/app/stores';
+} from '@vue-app/app/models';
+import type { SortingFilteringQueryParams, Race, TraitOption } from '@vue-app/app/models';
+import { usePaginationStore, useRaceStore } from '@vue-app/app/stores';
 import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 

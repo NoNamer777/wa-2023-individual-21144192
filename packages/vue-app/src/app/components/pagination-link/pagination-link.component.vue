@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { SortingFilteringQueryParams } from '@vue-project/app/models';
-import { usePaginationStore } from '@vue-project/app/stores';
+import type { SortingFilteringQueryParams } from '@vue-app/app/models';
+import { usePaginationStore } from '@vue-app/app/stores';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 

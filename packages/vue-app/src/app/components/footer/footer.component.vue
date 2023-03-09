@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand-lg bg-secondary border-top">
             <div class="container-fluid justify-content-start">
                 <router-link to="/" class="navbar-brand">
-                    <img src="@vue-project/assets/images/logo.png" alt="logo" class="logo" />
+                    <img src="@vue-app/assets/images/logo.png" alt="logo" class="logo" />
                     © 2023 DnD Mapp
                 </router-link>
             </div>

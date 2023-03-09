@@ -1,8 +1,8 @@
-import { DEFAULT_FILTERS, DEFAULT_PAGE_SIZE, DEFAULT_SORTING } from '@vue-project/app/models';
-import type { FilterOptions, SortingOptions } from '@vue-project/app/models';
+import { DEFAULT_FILTERS, DEFAULT_PAGE_SIZE, DEFAULT_SORTING } from '@vue-app/app/models';
+import type { FilterOptions, SortingOptions } from '@vue-app/app/models';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { useRaceStore } from '@vue-project/app';
+import { useRaceStore } from '../race/race.store';
 
 export const usePaginationStore = defineStore('pagination', () => {
     const raceStore = useRaceStore();

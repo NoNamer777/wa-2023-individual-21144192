@@ -50,9 +50,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Race, Trait } from '@vue-project/app/models';
-import { sizeOrder } from '@vue-project/app/models';
-import { useRaceStore } from '@vue-project/app/stores';
+import type { Race, Trait } from '@vue-app/app/models';
+import { sizeOrder } from '@vue-app/app/models';
+import { useRaceStore } from '@vue-app/app/stores';
 import { ref } from 'vue';
 
 const newRace = ref<Race>({ traits: [] as Trait[] } as Race);

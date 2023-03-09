@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { usePaginationStore, useRaceStore } from '@vue-project/app/stores';
+import { usePaginationStore, useRaceStore } from '@vue-app/app/stores';
 import { computed } from 'vue';
 import PaginationLinkComponent from '../pagination-link/pagination-link.component.vue';
 
