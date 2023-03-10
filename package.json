@@ -21,17 +21,9 @@
         "packages/*"
     ],
     "dependencies": {
-        "@nestjs/common": "^9.0.0",
-        "@nestjs/core": "^9.0.0",
-        "@nestjs/platform-express": "^9.0.0",
-        "axios": "^1.0.0",
-        "reflect-metadata": "^0.1.13",
-        "rxjs": "^7.0.0",
         "tslib": "^2.3.0"
     },
     "devDependencies": {
-        "@nestjs/schematics": "^9.0.0",
-        "@nestjs/testing": "^9.0.0",
         "@nrwl/eslint-plugin-nx": "^15.8.5",
         "@nrwl/jest": "^15.8.5",
         "@nrwl/js": "^15.8.5",
