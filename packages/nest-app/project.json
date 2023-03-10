@@ -15,7 +15,7 @@
                 "isolatedConfig": true,
                 "main": "packages/nest-app/src/main.ts",
                 "optimization": true,
-                "outputPath": "dist/packages/nest-app",
+                "outputPath": "dist/nest-app",
                 "progress": true,
                 "target": "node",
                 "tsConfig": "packages/nest-app/tsconfig.app.json",
@@ -28,7 +28,7 @@
             "options": {
                 "buildTarget": "nest-app:build",
                 "host": "0.0.0.0",
-                "port": 4200
+                "port": 8080
             }
         },
         "lint": {
