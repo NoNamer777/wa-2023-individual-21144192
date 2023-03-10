@@ -13,7 +13,7 @@ jobs:
             - name: Install, Build, and Test
               run: |
                   npm ci
-                  nx format:check
-                  nx run-many --target=lint
-                  nx run-many --target=test
-                  nx run-many --target=build
+                  npx nx format:check
+                  npx nx run-many --target=lint
+                  npx nx run-many --target=test
+                  npx nx run-many --target=build
