@@ -13,6 +13,7 @@ jobs:
             - name: Install, Build, and Test
               run: |
                   npm ci
-                  npm run format:check
-                  cd packages/vue-app
-                  npm run check
+                  nx format:check
+                  nx run-many --target=lint
+                  nx run-many --target=test
+                  nx run-many --target=build

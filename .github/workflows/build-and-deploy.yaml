@@ -15,9 +15,11 @@ jobs:
             - name: Install and Build
               run: |
                   npm ci
-                  npm run format:check
-                  cd packages/vue-app
-                  npm run deploy
+                  nx format:check
+                  nx run-many --target=lint
+                  nx run-many --target=test
+                  cross-env DEPLOYING=true nx run-many --target=build
+                  node copy-404.js
             - name: Deploy
               uses: JamesIves/github-pages-deploy-action@v4
               with:

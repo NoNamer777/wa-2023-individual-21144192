@@ -2,15 +2,6 @@
     "name": "vue-app",
     "version": "0.0.0",
     "private": true,
-    "scripts": {
-        "build": "run-p type-check build-only",
-        "test": "vitest",
-        "deploy": "cross-env DEPLOYING=true run-s check prepare-404",
-        "build-only": "vite build",
-        "type-check": "vue-tsc --noEmit -p tsconfig.spec.json --composite false",
-        "prepare-404": "cd ../../dist/vue-app && cp index.html 404.html",
-        "check": "run-s -l lint test build"
-    },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.3.0",
         "@fortawesome/free-solid-svg-icons": "^6.3.0",
