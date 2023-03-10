@@ -1,0 +1,50 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "vue-app",
+    "projectType": "application",
+    "sourceRoot": "packages/vue-app/src",
+    "targets": {
+        "build": {
+            "executor": "@nx-plus/vite:build",
+            "outputs": ["{options.outDir}"],
+            "options": {
+                "config": "packages/vue-app/vite.config.ts",
+                "watch": false
+            }
+        },
+        "serve": {
+            "executor": "@nx-plus/vite:server",
+            "options": {
+                "config": "packages/vue-app/vite.config.ts"
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["packages/vue-app/**/*.{ts,vue}"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["{options.coverageDirectory}"],
+            "options": {
+                "codeCoverage": true,
+                "coverageDirectory": "coverage/vue-app",
+                "coverageReporters": ["text-summary", "html"],
+                "jestConfig": "packages/vue-app/jest.config.ts",
+                "json": false,
+                "onlyChanged": false,
+                "passWithNoTests": true,
+                "watch": false,
+                "watchAll": false
+            },
+            "configurations": {
+                "ci": {
+                    "ci": true
+                }
+            }
+        }
+    },
+    "tags": ["@vue-app"]
+}

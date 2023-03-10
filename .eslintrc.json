@@ -1,43 +1,46 @@
 {
     "root": true,
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
     "extends": ["eslint:recommended", "plugin:prettier/recommended"],
-    "plugins": ["prettier"],
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
+    "plugins": ["@nrwl/nx", "prettier"],
     "rules": {
-        "prettier/prettier": "error",
-        "arrow-parens": "error",
-        "default-case": "error",
-        "default-case-last": "error",
-        "default-param-last": "error",
-        "eqeqeq": "error",
-        "indent": ["error", 4, { "SwitchCase": 1 }],
-        "linebreak-style": ["error", "unix"],
-        "no-case-declarations": "off",
-        "no-console": "error",
-        "no-return-assign": "error",
-        "no-shadow": "error",
-        "no-undef": "off",
-        "no-unused-expressions": "error",
-        "no-unused-vars": "off",
-        "no-useless-call": "error",
-        "no-useless-computed-key": "error",
-        "no-useless-concat": "error",
-        "no-useless-constructor": "error",
-        "no-useless-rename": "error",
-        "no-useless-return": "error",
-        "no-var": "error",
-        "one-var": ["error", "never"],
-        "prefer-const": "error",
-        "quote-props": ["error", "consistent-as-needed"],
-        "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
-        "require-await": "error",
-        "semi": ["error", "always"]
-    }
+        "prettier/prettier": "error"
+    },
+    "overrides": [
+        {
+            "files": ["*.ts", "*.js"],
+            "rules": {
+                "@nrwl/nx/enforce-module-boundaries": [
+                    "error",
+                    {
+                        "enforceBuildableLibDependency": true,
+                        "allowCircularSelfDependency": true,
+                        "allow": [],
+                        "depConstraints": [
+                            {
+                                "sourceTag": "@vue-app",
+                                "onlyDependOnLibsWithTags": ["@vue-app/*"]
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "files": ["*.ts"],
+            "extends": ["plugin:@nrwl/nx/typescript"],
+            "rules": {}
+        },
+        {
+            "files": ["*.js"],
+            "extends": ["plugin:@nrwl/nx/javascript"],
+            "rules": {}
+        },
+        {
+            "files": ["*.spec.ts", "*.spec.js"],
+            "env": {
+                "jest": true
+            },
+            "rules": {}
+        }
+    ]
 }

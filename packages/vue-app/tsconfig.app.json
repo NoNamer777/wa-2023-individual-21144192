@@ -1,0 +1,31 @@
+{
+    "extends": "./tsconfig.json",
+    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
+    "exclude": ["**/*.spec.ts"],
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "composite": true,
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "lib": ["ES2021", "DOM"],
+        "module": "ES2022",
+        "moduleResolution": "Node16",
+        "noImplicitAny": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedParameters": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "target": "ES2022",
+        "types": ["vite/client"],
+        "useDefineForClassFields": true,
+        "useUnknownInCatchVariables": true
+    }
+}
