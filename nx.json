@@ -2,6 +2,7 @@
     "$schema": "./node_modules/nx/schemas/nx-schema.json",
     "npmScope": "wa-2023-individual-21144192",
     "defaultBase": "main",
+    "defaultProject": "vue-app",
     "tasksRunnerOptions": {
         "default": {
             "runner": "nx/tasks-runners/default",
