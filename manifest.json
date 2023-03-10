@@ -1,0 +1,25 @@
+{
+  "assets/images/logo.png": {
+    "file": "assets/logo-4ddb4353.png",
+    "src": "assets/images/logo.png"
+  },
+  "favicon.ico": {
+    "file": "assets/favicon-980d6a46.ico",
+    "src": "favicon.ico"
+  },
+  "index.css": {
+    "file": "assets/index-847af4e8.css",
+    "src": "index.css"
+  },
+  "index.html": {
+    "assets": [
+      "assets/logo-4ddb4353.png"
+    ],
+    "css": [
+      "assets/index-847af4e8.css"
+    ],
+    "file": "assets/index-0dc7802a.js",
+    "isEntry": true,
+    "src": "index.html"
+  }
+}
