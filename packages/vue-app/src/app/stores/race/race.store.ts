@@ -86,6 +86,7 @@ export const useRaceStore = defineStore('races', () => {
     });
 
     const getAllTraits = computed<TraitOption[]>(() =>
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         races
             .value!.flatMap((race) =>
                 race.traits.map((trait) => ({

@@ -1,1 +1,3 @@
-describe.skip('PaginationComponent', () => {});
+describe.skip('PaginationComponent', () => {
+    it.skip('should skip', () => ({}));
+});

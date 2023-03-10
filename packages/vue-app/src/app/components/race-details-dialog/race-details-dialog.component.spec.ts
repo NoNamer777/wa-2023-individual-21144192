@@ -1,1 +1,3 @@
-describe.skip('RaceDetailsDialogComponent', () => {});
+describe.skip('RaceDetailsDialogComponent', () => {
+    it.skip('should skip', () => ({}));
+});

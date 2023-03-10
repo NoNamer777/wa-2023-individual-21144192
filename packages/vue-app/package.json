@@ -3,16 +3,12 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "vite ../../dist/vue-app --mode=production --host --port=4200 --strictPort",
         "build": "run-p type-check build-only",
-        "build-dev": "vite build --watch",
         "test": "vitest",
-        "test-dev": "vitest --watch",
         "deploy": "cross-env DEPLOYING=true run-s check prepare-404",
         "build-only": "vite build",
-        "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+        "type-check": "vue-tsc --noEmit -p tsconfig.spec.json --composite false",
         "prepare-404": "cd ../../dist/vue-app && cp index.html 404.html",
-        "lint": "eslint \"./src/**/*{.js,ts,vue}\"",
         "check": "run-s -l lint test build"
     },
     "dependencies": {
@@ -26,8 +22,8 @@
         "vue-router": "^4.1.6"
     },
     "devDependencies": {
+        "@nx-plus/vite": "^15.0.0-rc.0",
         "@pinia/testing": "^0.0.15",
-        "@rushstack/eslint-patch": "^1.1.4",
         "@types/jsdom": "^20.0.1",
         "@vitejs/plugin-vue": "^4.0.0",
         "@vitest/coverage-istanbul": "^0.28.5",
@@ -35,11 +31,14 @@
         "@vue/eslint-config-typescript": "^11.0.0",
         "@vue/test-utils": "^2.3.0",
         "@vue/tsconfig": "^0.1.3",
+        "@vue/vue3-jest": "^28.1.0",
         "eslint-plugin-vue": "^9.3.0",
+        "jest-environment-jsdom": "^29.4.1",
+        "jest-serializer-vue": "^3.0.0",
+        "jest-transform-stub": "^2.0.0",
         "jsdom": "^20.0.3",
         "sass": "^1.58.3",
         "vite": "^4.0.0",
-        "vite-plugin-checker": "^0.5.6",
         "vitest": "^0.25.6",
         "vue-tsc": "^1.0.12"
     }

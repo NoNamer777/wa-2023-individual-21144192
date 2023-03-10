@@ -16,7 +16,7 @@ import { usePaginationStore } from '@vue-app/app/stores';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
-const props = withDefaults(defineProps<{ disabled: boolean; active: number; pageNumber: number; label: string }>(), {
+const props = withDefaults(defineProps<{ disabled?: boolean; active?: number; pageNumber: number; label: string }>(), {
     disabled: false,
     active: 1,
 });

@@ -1,1 +1,3 @@
-describe.skip('OverviewPage', () => {});
+describe.skip('OverviewPage', () => {
+    it.skip('should skip', () => ({}));
+});

@@ -1,1 +1,3 @@
-describe.skip('RaceCardComponent', () => {});
+describe.skip('RaceCardComponent', () => {
+    it.skip('should skip', () => ({}));
+});

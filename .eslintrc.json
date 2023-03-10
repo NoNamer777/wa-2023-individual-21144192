@@ -1,7 +1,6 @@
 {
     "root": true,
     "extends": ["eslint:recommended", "plugin:prettier/recommended"],
-    "ignorePatterns": ["**/*"],
     "plugins": ["@nrwl/nx", "prettier"],
     "rules": {
         "prettier/prettier": "error"
@@ -14,11 +13,12 @@
                     "error",
                     {
                         "enforceBuildableLibDependency": true,
+                        "allowCircularSelfDependency": true,
                         "allow": [],
                         "depConstraints": [
                             {
-                                "sourceTag": "*",
-                                "onlyDependOnLibsWithTags": ["*"]
+                                "sourceTag": "@vue-app",
+                                "onlyDependOnLibsWithTags": ["@vue-app/*"]
                             }
                         ]
                     }

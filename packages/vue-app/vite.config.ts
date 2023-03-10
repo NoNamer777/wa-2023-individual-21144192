@@ -2,19 +2,25 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { fileURLToPath } from 'url';
-import checker from 'vite-plugin-checker';
 
 export default defineConfig({
     assetsInclude: ['./src/favicon.ico', './src/assets/**/*'],
     base: process.env.DEPLOYING ? '/wa-2023-individual-21144192/' : '/',
     build: {
+        assetsDir: './assets',
         emptyOutDir: true,
+        manifest: true,
+        minify: true,
         outDir: '../../../dist/vue-app',
+        reportCompressedSize: false,
         sourcemap: true,
     },
     cacheDir: '../../../.vite',
+    css: {
+        devSourcemap: true,
+    },
     mode: 'production',
-    plugins: [vue(), checker({ vueTsc: true, eslint: { lintCommand: 'eslint "**/*{.js,ts,vue}"' } })],
+    plugins: [vue()],
     publicDir: './assets',
     preview: {
         host: true,
@@ -27,9 +33,10 @@ export default defineConfig({
             '~bootstrap': fileURLToPath(new URL('../../node_modules/bootstrap', import.meta.url)),
         },
     },
-    root: './src',
+    root: 'packages/vue-app/src',
     server: {
         host: true,
+        open: false,
         port: 4200,
         strictPort: true,
     },

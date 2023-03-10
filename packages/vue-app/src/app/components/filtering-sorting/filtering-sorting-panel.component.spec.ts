@@ -1,1 +1,3 @@
-describe.skip('FilteringSortingPanelComponent', () => {});
+describe.skip('FilteringSortingPanelComponent', () => {
+    it.skip('should skip', () => ({}));
+});
