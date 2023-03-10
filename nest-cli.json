@@ -1,0 +1,30 @@
+{
+    "collection": "@nestjs/schematics",
+    "monorepo": true,
+    "root": "packages/nest-app",
+    "sourceRoot": "packages/nest-app/src",
+    "compilerOptions": {
+        "deleteOutDir": true,
+        "tsConfigPath": "tsconfig.app.json",
+        "webpack": true,
+        "plugins": [
+            {
+                "name": "@nestjs/swagger",
+                "introspectComments": true
+            }
+        ]
+    },
+    "projects": {
+        "nest-app": {
+            "entryFile": "main",
+            "root": "packages/nest-app",
+            "sourceRoot": "packages/nest-app/src",
+            "type": "application",
+            "compilerOptions": {
+                "tsConfigPath": "tsconfig.app.json",
+                "webpack": true,
+                "assets": ["assets/*"]
+            }
+        }
+    }
+}
