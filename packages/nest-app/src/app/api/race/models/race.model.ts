@@ -1,4 +1,13 @@
-export type Size = 'Tiny' | 'Small' | 'Medium' | 'Large' | 'Huge' | 'Gargantuan';
+import { IsInt, IsPositive, IsString, IsUrl, MinLength } from 'class-validator';
+
+export enum Size {
+    TINY = 'Tiny',
+    SMALL = 'Small',
+    MEDIUM = 'Medium',
+    LARGE = 'Large',
+    HUGE = 'Huge',
+    GARGANTUAN = 'Gargantuan',
+}
 
 export function compareSize(s1: Size, s2: Size): number {
     return SizeMap.get(s1) - SizeMap.get(s2);
@@ -9,12 +18,24 @@ export interface Trait {
     description: string;
 }
 
-export interface Race {
+export class Race {
+    @IsInt()
+    @IsPositive()
     id: number;
+
+    @IsString()
+    @MinLength(3)
     name: string;
+
     size: Size;
+
+    @IsInt()
+    @IsPositive()
     speed: number;
     traits: Trait[];
+
+    @IsString()
+    @IsUrl()
     imageUrl: string;
 }
 
@@ -27,7 +48,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 1,
         name: 'Dwarf',
         speed: 25,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/dwarf.png',
         traits: [
             {
@@ -93,7 +114,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 2,
         name: 'Elf',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/elf.png',
         traits: [
             {
@@ -154,7 +175,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 3,
         name: 'Halfling',
         speed: 25,
-        size: 'Small',
+        size: Size.SMALL,
         imageUrl: 'http://localhost:8080/assets/images/races/halfling.png',
         traits: [
             {
@@ -208,7 +229,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 4,
         name: 'Human',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/human.png',
         traits: [
             {
@@ -243,7 +264,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 5,
         name: 'Dragonborn',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/dragonborn.png',
         traits: [
             {
@@ -294,7 +315,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 6,
         name: 'Gnome',
         speed: 25,
-        size: 'Small',
+        size: Size.SMALL,
         imageUrl: 'http://localhost:8080/assets/images/races/gnome.png',
         traits: [
             {
@@ -345,7 +366,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 7,
         name: 'Half-Elf',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/half-elf.png',
         traits: [
             {
@@ -396,7 +417,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 8,
         name: 'Half-Orc',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/half-orc.png',
         traits: [
             {
@@ -452,7 +473,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 9,
         name: 'Tiefling',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/tiefling.png',
         traits: [
             {
@@ -500,7 +521,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 10,
         name: 'Aasimar',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/aasimar.png',
         traits: [
             {
@@ -557,7 +578,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 11,
         name: 'Firbolg',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/firbolg.png',
         traits: [
             {
@@ -613,7 +634,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 12,
         name: 'Goliath',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/goliath.png',
         traits: [
             {
@@ -668,7 +689,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 13,
         name: 'Kenku',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/kenku.png',
         traits: [
             {
@@ -719,7 +740,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 14,
         name: 'Lizardfolk',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/lizardfolk.png',
         traits: [
             {
@@ -783,7 +804,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 15,
         name: 'Tabaxi',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/tabaxi.png',
         traits: [
             {
@@ -836,7 +857,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 16,
         name: 'Triton',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/triton.png',
         traits: [
             {
@@ -890,7 +911,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 17,
         name: 'Bugbear',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/bugbear.png',
         traits: [
             {
@@ -949,7 +970,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 18,
         name: 'Goblin',
         speed: 30,
-        size: 'Small',
+        size: Size.SMALL,
         imageUrl: 'http://localhost:8080/assets/images/races/goblin.png',
         traits: [
             {
@@ -998,7 +1019,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 19,
         name: 'Hobgoblin',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/hobgoblin.png',
         traits: [
             {
@@ -1048,7 +1069,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 20,
         name: 'Kobold',
         speed: 30,
-        size: 'Small',
+        size: Size.SMALL,
         imageUrl: 'http://localhost:8080/assets/images/races/kobold.png',
         traits: [
             {
@@ -1103,7 +1124,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 21,
         name: 'Orc',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/orc.png',
         traits: [
             {
@@ -1158,7 +1179,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 22,
         name: 'Yuan-ti Pureblood',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/yuan-ti-pureblood.png',
         traits: [
             {
@@ -1211,7 +1232,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 23,
         name: 'Tortle',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/tortle.png',
         traits: [
             {
@@ -1272,7 +1293,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 24,
         name: 'Changeling',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/changeling.png',
         traits: [
             {
@@ -1329,7 +1350,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 25,
         name: 'Kalashtar',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/kalashtar.png',
         traits: [
             {
@@ -1389,7 +1410,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 26,
         name: 'Shifter',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/shifter.png',
         traits: [
             {
@@ -1444,7 +1465,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 27,
         name: 'Warforged',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/warforged.png',
         traits: [
             {
@@ -1500,7 +1521,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 28,
         name: 'Centaur',
         speed: 40,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/centaur.png',
         traits: [
             {
@@ -1560,7 +1581,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 29,
         name: 'Loxodon',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/loxodon.png',
         traits: [
             {
@@ -1620,7 +1641,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 30,
         name: 'Minotaur',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/minotaur.png',
         traits: [
             {
@@ -1675,7 +1696,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 31,
         name: 'Simic Hybrid',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/simic-hybrid.png',
         traits: [
             {
@@ -1721,7 +1742,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 32,
         name: 'Vedalken',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/vedalken.png',
         traits: [
             {
@@ -1770,7 +1791,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 33,
         name: 'Aarakocra',
         speed: 25,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/aarakocra.png',
         traits: [
             {
@@ -1815,7 +1836,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 34,
         name: 'Deep Gnome',
         speed: 25,
-        size: 'Small',
+        size: Size.SMALL,
         imageUrl: 'http://localhost:8080/assets/images/races/deep-gnome.png',
         traits: [
             {
@@ -1865,7 +1886,7 @@ export const raceDb: { [raceId: number]: Race } = {
         id: 35,
         name: 'Genasi',
         speed: 30,
-        size: 'Medium',
+        size: Size.MEDIUM,
         imageUrl: 'http://localhost:8080/assets/images/races/genasi.png',
         traits: [
             {
@@ -1907,10 +1928,10 @@ export const raceDb: { [raceId: number]: Race } = {
 export const nextId: number = Object.keys(raceDb).length + 1;
 
 const SizeMap: Map<Size, number> = new Map([
-    ['Tiny', 1],
-    ['Small', 2],
-    ['Medium', 3],
-    ['Large', 4],
-    ['Huge', 5],
-    ['Large', 6],
+    [Size.TINY, 1],
+    [Size.SMALL, 2],
+    [Size.MEDIUM, 3],
+    [Size.LARGE, 4],
+    [Size.HUGE, 5],
+    [Size.GARGANTUAN, 6],
 ]);
