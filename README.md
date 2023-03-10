@@ -13,7 +13,7 @@ of the projects themselves.
 The projects can be found here:
 
 | Project name | Location                    | Technologies used                 |
-|--------------|-----------------------------| --------------------------------- |
+| ------------ | --------------------------- | --------------------------------- |
 | static       | [static](packages/static)   | HTML, CSS, and vanilla JavaScript |
 | vue-app      | [vue-app](packages/vue-app) | HTML, SCSS, TypeScript, and Vue   |
 
