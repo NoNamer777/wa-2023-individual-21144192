@@ -17,7 +17,7 @@ jobs:
                   npx nx format:check
                   npx nx run-many --target=lint
                   npx nx run-many --target=test
-                  cross-env DEPLOYING=true npx nx run-many --target=build
+                  npx nx run-many --target=build
                   node copy-404.js
             - name: Deploy
               uses: JamesIves/github-pages-deploy-action@v4
