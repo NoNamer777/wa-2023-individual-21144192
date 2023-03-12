@@ -1,4 +1,5 @@
-import { IsInt, IsPositive, IsString, IsUrl, MinLength } from 'class-validator';
+import { IsDefined, IsEnum, IsInt, IsNotEmpty, IsPositive, IsString, IsUrl, MinLength } from 'class-validator';
+import { OmitType } from '@nestjs/swagger';
 
 export enum Size {
     TINY = 'Tiny',
@@ -13,8 +14,19 @@ export function compareSize(s1: Size, s2: Size): number {
     return SizeMap.get(s1) - SizeMap.get(s2);
 }
 
-export interface Trait {
+export const MIN_ENTITY_NAME_LENGTH = 3;
+
+export const MIN_ENTITY_DESCRIPTION_LENGTH = 16;
+
+export class Trait {
+    @IsNotEmpty()
+    @IsString()
+    @MinLength(MIN_ENTITY_NAME_LENGTH)
     name: string;
+
+    @IsNotEmpty()
+    @IsString()
+    @MinLength(MIN_ENTITY_DESCRIPTION_LENGTH)
     description: string;
 }
 
@@ -23,10 +35,13 @@ export class Race {
     @IsPositive()
     id: number;
 
+    @IsNotEmpty()
     @IsString()
-    @MinLength(3)
+    @MinLength(MIN_ENTITY_NAME_LENGTH)
     name: string;
 
+    @IsEnum(Size)
+    @IsDefined()
     size: Size;
 
     @IsInt()
@@ -34,12 +49,13 @@ export class Race {
     speed: number;
     traits: Trait[];
 
+    @IsNotEmpty()
     @IsString()
     @IsUrl()
     imageUrl: string;
 }
 
-export type CreateRaceData = Omit<Race, 'id'>;
+export class CreateRaceData extends OmitType(Race, ['id'] as const) {}
 
 // TODO: Remove once the data has been migrated to a database
 
