@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, ParseIntPipe, Post } from '@nestjs/common';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+} from '@nestjs/common';
 import { RaceService } from '../services/race.service';
 import { CreateRaceData, Race } from '../models/race.model';
 import { ApiTags } from '@nestjs/swagger';
@@ -19,6 +30,16 @@ export class RaceController {
     @Get(':id')
     getById(@Param('id', new ParseIntPipe()) idPath: number): Race {
         return this.raceService.getById(idPath);
+    }
+
+    @Put(':id')
+    update(@Param('id', new ParseIntPipe()) idPath: number, @Body() raceData: Race): Race {
+        if (raceData.id !== idPath) {
+            throw new BadRequestException(
+                `Cannot update Race on path: '${idPath}' with data from Race with ID: '${raceData.id}'.`
+            );
+        }
+        return this.raceService.update(raceData);
     }
 
     @Post()
