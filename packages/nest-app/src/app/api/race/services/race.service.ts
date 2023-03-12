@@ -2,14 +2,12 @@ import { Injectable } from '@nestjs/common';
 import {
     compareSize,
     CreateRaceData,
-    DEFAULT_PAGE_SIZE,
-    DEFAULT_SORT_ORDER,
     nextRaceId,
-    SortableAttribute,
-    SortOrder,
+    PaginationResponse,
     Race,
     raceDb,
-    PaginationResponse,
+    SortableAttribute,
+    SortOrder,
 } from '../../common/models';
 
 @Injectable()
@@ -17,10 +15,10 @@ export class RaceService {
     private nextRaceId = nextRaceId;
 
     getAll(
-        page = 1,
-        pageSize = DEFAULT_PAGE_SIZE,
-        order = DEFAULT_SORT_ORDER,
-        sortByAttribute?: SortableAttribute,
+        page: number,
+        pageSize: number,
+        order: SortOrder,
+        sortByAttribute: SortableAttribute,
         hasTrait?: string
     ): PaginationResponse<Race> {
         let data = this.applySorting(order, sortByAttribute);
@@ -93,26 +91,26 @@ export class RaceService {
         return data.slice(start, end);
     }
 
-    private applySorting(order: SortOrder, sortByAttribute?: SortableAttribute): Race[] {
+    private applySorting(order: SortOrder, sortByAttribute: SortableAttribute): Race[] {
         const data = Object.values(raceDb);
 
-        if (sortByAttribute) {
+        if (sortByAttribute !== SortableAttribute.NONE) {
             data.sort((r1, r2) => this.applySortByAttribute(r1, r2, sortByAttribute));
         }
-        return order === 'asc' ? data : data.reverse();
+        return order === SortOrder.DESCENDING ? data.reverse() : data;
     }
 
     private applySortByAttribute(race1: Race, race2: Race, attribute: SortableAttribute): number {
         const sortByName = race1.name.localeCompare(race2.name);
 
-        if (attribute === 'name') {
+        if (attribute === SortableAttribute.NAME) {
             return sortByName;
         }
-        if (attribute === 'size') {
+        if (attribute === SortableAttribute.SIZE) {
             const sortBySize = compareSize(race1.size, race2.size);
             return sortBySize === 0 ? sortByName : sortBySize;
         }
-        if (attribute === 'speed') {
+        if (attribute === SortableAttribute.SPEED) {
             const sortBySpeed = race1.speed - race2.speed;
             return sortBySpeed === 0 ? sortByName : sortBySpeed;
         }

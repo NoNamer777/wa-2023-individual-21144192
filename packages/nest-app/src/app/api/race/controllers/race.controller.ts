@@ -2,16 +2,28 @@ import {
     BadRequestException,
     Body,
     Controller,
+    DefaultValuePipe,
     Delete,
     Get,
     HttpCode,
     Param,
+    ParseEnumPipe,
     ParseIntPipe,
     Post,
     Put,
+    Query,
 } from '@nestjs/common';
 import { RaceService } from '../services/race.service';
-import { CreateRaceData, PaginationResponse, Race } from '../../common/models';
+import {
+    CreateRaceData,
+    DEFAULT_PAGE_SIZE,
+    DEFAULT_SORT_ORDER,
+    DEFAULT_SORTING_BY_ATTRIBUTE,
+    PaginationResponse,
+    Race,
+    SortableAttribute,
+    SortOrder,
+} from '../../common/models';
 import { ApiTags } from '@nestjs/swagger';
 import { HttpStatusCode } from 'axios';
 
@@ -23,23 +35,34 @@ export class RaceController {
     constructor(private raceService: RaceService) {}
 
     @Get()
-    getAll(): PaginationResponse<Race> {
-        return this.raceService.getAll();
-    }
-
-    @Get(':id')
-    getById(@Param('id', new ParseIntPipe()) idPath: number): Race {
-        return this.raceService.getById(idPath);
+    getAll(
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+        @Query('pageSize', new DefaultValuePipe(DEFAULT_PAGE_SIZE), ParseIntPipe) pageSize: number,
+        @Query('order', new DefaultValuePipe(DEFAULT_SORT_ORDER), new ParseEnumPipe(SortOrder)) order: SortOrder,
+        @Query(
+            'sortByAttribute',
+            new DefaultValuePipe(DEFAULT_SORTING_BY_ATTRIBUTE),
+            new ParseEnumPipe(SortableAttribute)
+        )
+        sortByAttribute: SortableAttribute,
+        @Query('hasTrait', new DefaultValuePipe(null)) hasTrait: string
+    ): PaginationResponse<Race> {
+        return this.raceService.getAll(page, pageSize, order, sortByAttribute, hasTrait);
     }
 
     @Put(':id')
-    update(@Param('id', new ParseIntPipe()) idPath: number, @Body() raceData: Race): Race {
+    update(@Param('id', ParseIntPipe) idPath: number, @Body() raceData: Race): Race {
         if (raceData.id !== idPath) {
             throw new BadRequestException(
                 `Cannot update Race on path: '${idPath}' with data from Race with ID: '${raceData.id}'.`
             );
         }
         return this.raceService.update(raceData);
+    }
+
+    @Get(':id')
+    getById(@Param('id', ParseIntPipe) idPath: number): Race {
+        return this.raceService.getById(idPath);
     }
 
     @Post()
@@ -49,7 +72,7 @@ export class RaceController {
     }
 
     @Delete(':id')
-    delete(@Param('id', new ParseIntPipe()) idPath: number): void {
+    delete(@Param('id', ParseIntPipe) idPath: number): void {
         this.raceService.deleteById(idPath);
     }
 }

@@ -1,8 +1,18 @@
-export type SortableAttribute = 'name' | 'size' | 'speed';
+export enum SortableAttribute {
+    NAME = 'name',
+    SIZE = 'size',
+    SPEED = 'speed',
+    NONE = 'null',
+}
 
-export type SortOrder = 'asc' | 'desc';
+export const DEFAULT_SORTING_BY_ATTRIBUTE = SortableAttribute.NONE;
 
-export const DEFAULT_SORT_ORDER: SortOrder = 'asc';
+export enum SortOrder {
+    ASCENDING = 'asc',
+    DESCENDING = 'desc',
+}
+
+export const DEFAULT_SORT_ORDER: SortOrder = SortOrder.ASCENDING;
 
 export const DEFAULT_PAGE_SIZE = 5;
 
