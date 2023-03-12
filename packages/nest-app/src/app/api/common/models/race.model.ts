@@ -1,6 +1,7 @@
 import { IsDefined, IsEnum, IsInt, IsNotEmpty, IsPositive, IsString, IsUrl, MinLength } from 'class-validator';
 import { OmitType } from '@nestjs/swagger';
 import { MIN_ENTITY_NAME_LENGTH } from './constants';
+import { Trait } from './trait.model';
 
 export enum Size {
     TINY = 'Tiny',
@@ -13,19 +14,6 @@ export enum Size {
 
 export function compareSize(s1: Size, s2: Size): number {
     return SizeMap.get(s1) - SizeMap.get(s2);
-}
-
-
-export class Trait {
-    @IsNotEmpty()
-    @IsString()
-    @MinLength(MIN_ENTITY_NAME_LENGTH)
-    name: string;
-
-    @IsNotEmpty()
-    @IsString()
-    @MinLength(MIN_ENTITY_DESCRIPTION_LENGTH)
-    description: string;
 }
 
 export class Race {
