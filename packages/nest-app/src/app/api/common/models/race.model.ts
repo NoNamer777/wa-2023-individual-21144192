@@ -1,5 +1,6 @@
 import { IsDefined, IsEnum, IsInt, IsNotEmpty, IsPositive, IsString, IsUrl, MinLength } from 'class-validator';
 import { OmitType } from '@nestjs/swagger';
+import { MIN_ENTITY_NAME_LENGTH } from './constants';
 
 export enum Size {
     TINY = 'Tiny',
@@ -14,9 +15,6 @@ export function compareSize(s1: Size, s2: Size): number {
     return SizeMap.get(s1) - SizeMap.get(s2);
 }
 
-export const MIN_ENTITY_NAME_LENGTH = 3;
-
-export const MIN_ENTITY_DESCRIPTION_LENGTH = 16;
 
 export class Trait {
     @IsNotEmpty()
@@ -56,6 +54,15 @@ export class Race {
 }
 
 export class CreateRaceData extends OmitType(Race, ['id'] as const) {}
+
+const SizeMap: Map<Size, number> = new Map([
+    [Size.TINY, 1],
+    [Size.SMALL, 2],
+    [Size.MEDIUM, 3],
+    [Size.LARGE, 4],
+    [Size.HUGE, 5],
+    [Size.GARGANTUAN, 6],
+]);
 
 // TODO: Remove once the data has been migrated to a database
 
@@ -1942,12 +1949,3 @@ export const raceDb: { [raceId: number]: Race } = {
 };
 
 export const nextId: number = Object.keys(raceDb).length + 1;
-
-const SizeMap: Map<Size, number> = new Map([
-    [Size.TINY, 1],
-    [Size.SMALL, 2],
-    [Size.MEDIUM, 3],
-    [Size.LARGE, 4],
-    [Size.HUGE, 5],
-    [Size.GARGANTUAN, 6],
-]);
