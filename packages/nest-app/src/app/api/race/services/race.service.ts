@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import {
+    compareSize,
+    CreateRaceData,
     DEFAULT_PAGE_SIZE,
     DEFAULT_SORT_ORDER,
+    nextRaceId,
     SortableAttribute,
     SortOrder,
-} from '../../common/models/pagination.model';
-import { compareSize, CreateRaceData, nextId, Race, raceDb } from '../../common/models/race.model';
+    Race,
+    raceDb,
+} from '../../common/models';
 
 @Injectable()
 export class RaceService {
-    private nextRaceId = nextId;
+    private nextRaceId = nextRaceId;
 
     getAll(
         page = 1,

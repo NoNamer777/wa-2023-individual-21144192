@@ -27,4 +27,4 @@ export class CreateTraitData extends IntersectionType(
 
 export const traitDb: { [traitId: number]: Trait } = {};
 
-export const nextId = Object.keys(traitDb).length + 1;
+export const nextTraitId = Object.keys(traitDb).length + 1;

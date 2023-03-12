@@ -11,7 +11,7 @@ import {
     Put,
 } from '@nestjs/common';
 import { RaceService } from '../services/race.service';
-import { CreateRaceData, Race } from '../../common/models/race.model';
+import { CreateRaceData, Race } from '../../common/models';
 import { ApiTags } from '@nestjs/swagger';
 import { HttpStatusCode } from 'axios';
 

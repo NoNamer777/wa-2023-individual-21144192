@@ -1936,4 +1936,4 @@ export const raceDb: { [raceId: number]: Race } = {
     },
 };
 
-export const nextId: number = Object.keys(raceDb).length + 1;
+export const nextRaceId: number = Object.keys(raceDb).length + 1;
