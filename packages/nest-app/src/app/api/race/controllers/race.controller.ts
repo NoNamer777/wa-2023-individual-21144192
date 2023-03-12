@@ -11,7 +11,7 @@ import {
     Put,
 } from '@nestjs/common';
 import { RaceService } from '../services/race.service';
-import { CreateRaceData, Race } from '../../common/models';
+import { CreateRaceData, PaginationResponse, Race } from '../../common/models';
 import { ApiTags } from '@nestjs/swagger';
 import { HttpStatusCode } from 'axios';
 
@@ -23,7 +23,7 @@ export class RaceController {
     constructor(private raceService: RaceService) {}
 
     @Get()
-    getAll(): Race[] {
+    getAll(): PaginationResponse<Race> {
         return this.raceService.getAll();
     }
 

@@ -9,6 +9,7 @@ import {
     SortOrder,
     Race,
     raceDb,
+    PaginationResponse,
 } from '../../common/models';
 
 @Injectable()
@@ -21,12 +22,23 @@ export class RaceService {
         order = DEFAULT_SORT_ORDER,
         sortByAttribute?: SortableAttribute,
         hasTrait?: string
-    ): Race[] {
+    ): PaginationResponse<Race> {
         let data = this.applySorting(order, sortByAttribute);
 
         data = this.applyFilter(data, hasTrait);
 
-        return this.getDataPage(data, page, pageSize);
+        const response = new PaginationResponse(this.getPageData(data, page, pageSize));
+        const totalNumberOfPages = Math.ceil(data.length / pageSize);
+
+        response.numberOfPages = totalNumberOfPages;
+        response.first = page === 1;
+        response.last = page === totalNumberOfPages;
+        response.pageSize = pageSize;
+        response.page = page;
+        response.sortOrder = order;
+        response.totalResults = data.length;
+
+        return response;
     }
 
     getById(raceId: number): Race {
@@ -74,7 +86,7 @@ export class RaceService {
         return Object.values(raceDb).some((race) => race.name === raceName);
     }
 
-    private getDataPage(data: Race[], page: number, pageSize: number): Race[] {
+    private getPageData(data: Race[], page: number, pageSize: number): Race[] {
         const start = (page - 1) * pageSize;
         const end = page * pageSize;
 
