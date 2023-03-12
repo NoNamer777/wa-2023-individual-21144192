@@ -5,7 +5,7 @@ import {
     SortableAttribute,
     SortOrder,
 } from '../../common/models/pagination.model';
-import { compareSize, CreateRaceData, nextId, Race, raceDb } from '../models/race.model';
+import { compareSize, CreateRaceData, nextId, Race, raceDb } from '../../common/models/race.model';
 
 @Injectable()
 export class RaceService {
@@ -40,7 +40,7 @@ export class RaceService {
             ...raceDb[raceData.id],
             ...raceData,
         };
-        return null;
+        return raceDb[raceData.id];
     }
 
     create(raceData: CreateRaceData): Race {
