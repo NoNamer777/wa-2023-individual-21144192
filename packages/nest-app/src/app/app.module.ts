@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { RaceModule } from './api';
+import { RaceModule, TraitModule } from './api';
 
 @Module({
-    imports: [RaceModule],
+    imports: [RaceModule, TraitModule],
 })
 export class AppModule {}
