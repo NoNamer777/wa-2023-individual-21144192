@@ -14,10 +14,6 @@ export enum Size {
     GARGANTUAN = 'Gargantuan',
 }
 
-export function compareSize(s1: Size, s2: Size): number {
-    return SizeMap.get(s1) - SizeMap.get(s2);
-}
-
 @Entity('race')
 export class Race {
     @PrimaryGeneratedColumn('increment')
