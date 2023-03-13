@@ -31,9 +31,3 @@ export class CreateTraitData extends IntersectionType(
     PickType(Trait, ['name'] as const),
     PartialType(OmitType(Trait, ['id', 'name', 'races'] as const))
 ) {}
-
-// TODO: Remove once the data has been migrated to a database
-
-export const traitDb: { [traitId: number]: Trait } = {};
-
-export const nextTraitId = Object.keys(traitDb).length + 1;
