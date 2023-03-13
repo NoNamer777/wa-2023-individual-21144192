@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { RaceModule, TraitModule } from './api';
+import { DatabaseProviderModule } from './configs';
 
 @Module({
-    imports: [RaceModule, TraitModule],
+    imports: [DatabaseProviderModule, RaceModule, TraitModule],
 })
 export class AppModule {}
