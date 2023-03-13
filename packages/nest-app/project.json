@@ -49,6 +49,7 @@
                 "json": false,
                 "onlyChanged": false,
                 "passWithNoTests": true,
+                "testPathPattern": ["**/*.spec.ts"],
                 "watch": false,
                 "watchAll": false
             },
