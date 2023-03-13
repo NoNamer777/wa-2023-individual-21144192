@@ -14,38 +14,38 @@ import { TraitService } from '../services/trait.service';
 import { HttpStatusCode } from 'axios';
 import { CreateTraitData, Trait } from '../../common/models';
 
-@Controller('trait')
+@Controller('api/trait')
 export class TraitController {
     constructor(private traitService: TraitService) {}
 
     @Get()
-    getAll(): Trait[] {
-        return this.traitService.getAll();
+    async getAll(): Promise<Trait[]> {
+        return await this.traitService.getAll();
     }
 
     @Get(':id')
-    getById(@Param('id', new ParseIntPipe()) idPath: number): Trait {
-        return this.traitService.getById(idPath);
+    async getById(@Param('id', new ParseIntPipe()) idPath: number): Promise<Trait> {
+        return await this.traitService.getById(idPath);
     }
 
     @Put(':id')
-    update(@Param('id', new ParseIntPipe()) idPath: number, @Body() traitData: Trait): Trait {
+    async update(@Param('id', new ParseIntPipe()) idPath: number, @Body() traitData: Trait): Promise<Trait> {
         if (traitData.id !== idPath) {
             throw new BadRequestException(
                 `Cannot update Trait on path: '${idPath}' with data from Trait with ID: '${traitData.id}'.`
             );
         }
-        return this.traitService.update(traitData);
+        return await this.traitService.update(traitData);
     }
 
     @Post()
     @HttpCode(HttpStatusCode.Created)
-    create(@Body() traitData: CreateTraitData): Trait {
-        return this.traitService.create(traitData);
+    async create(@Body() traitData: CreateTraitData): Promise<Trait> {
+        return await this.traitService.create(traitData);
     }
 
     @Delete(':id')
-    delete(@Param('id', new ParseIntPipe()) idPath: number): void {
-        this.traitService.deleteById(idPath);
+    async delete(@Param('id', new ParseIntPipe()) idPath: number): Promise<void> {
+        await this.traitService.deleteById(idPath);
     }
 }

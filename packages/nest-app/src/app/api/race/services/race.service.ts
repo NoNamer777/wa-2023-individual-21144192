@@ -1,29 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import {
-    compareSize,
     CreateRaceData,
-    nextRaceId,
     PaginationResponse,
     Race,
-    raceDb,
+    RacialTrait,
     SortableAttribute,
     SortOrder,
 } from '../../common/models';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class RaceService {
-    private nextRaceId = nextRaceId;
+    constructor(
+        @InjectRepository(Race) private raceRepository: Repository<Race>,
+        @InjectRepository(RacialTrait) private racialTraitRepository: Repository<RacialTrait>
+    ) {}
 
-    getAll(
+    async getAll(
         page: number,
         pageSize: number,
         order: SortOrder,
         sortByAttribute: SortableAttribute,
         hasTrait?: string
-    ): PaginationResponse<Race> {
-        let data = this.applySorting(order, sortByAttribute);
-
-        data = this.applyFilter(data, hasTrait);
+    ): Promise<PaginationResponse<Race>> {
+        const data = await this.raceRepository.find({
+            order: this.applySorting(order, sortByAttribute),
+            where: this.applyFilter(hasTrait),
+        });
 
         const response = new PaginationResponse(this.getPageData(data, page, pageSize));
         const totalNumberOfPages = Math.ceil(data.length / pageSize);
@@ -39,49 +43,89 @@ export class RaceService {
         return response;
     }
 
-    getById(raceId: number): Race {
-        if (!this.doesRaceExistById(raceId)) {
-            throw Error(`Race with ID: '${raceId}' does not exist.`);
+    async getById(raceId: number): Promise<Race> {
+        const raceById = this.raceRepository.findOne({ where: { id: raceId }, relations: { traits: true } });
+
+        if (raceById === null) {
+            throw new NotFoundException(`Race with ID: '${raceId}' does not exist.`);
         }
-        return raceDb[raceId];
+        return raceById;
     }
 
-    update(raceData: Race): Race {
-        if (!this.doesRaceExistById(raceData.id)) {
-            throw Error(`Cannot update Race with ID: '${raceData.id}' because it does not exist.`);
+    async getByName(raceName: string): Promise<Race> {
+        const raceByName = await this.raceRepository.findOne({
+            where: { name: raceName },
+            relations: { traits: true },
+        });
+
+        if (raceByName === null) {
+            throw new NotFoundException(`Race with name: '${raceByName}' does not exist.`);
         }
-        raceDb[raceData.id] = {
-            ...raceDb[raceData.id],
-            ...raceData,
-        };
-        return raceDb[raceData.id];
+        return raceByName;
     }
 
-    create(raceData: CreateRaceData): Race {
-        if (this.doesRaceExistByName(raceData.name)) {
-            throw Error(
-                `Cannot create a new Race with name: '${raceData.name}' because a Race already exists by that name.`
+    async update(raceData: Race): Promise<Race> {
+        if (!(await this.doesRaceExistById(raceData.id))) {
+            throw new NotFoundException(`Cannot update Race with ID: '${raceData.id}' because it does not exist.`);
+        }
+        if (!(await this.doesRaceExistByName(raceData.name))) {
+            throw new BadRequestException(
+                `Cannot update a Race with ID: '${raceData.id}' because a Race already exists with the name '${raceData.name}'.`
             );
         }
-        const newRace: Race = { id: this.nextRaceId++, ...raceData };
-        raceDb[newRace.id] = newRace;
-
-        return newRace;
+        return await this.raceRepository.save(raceData);
     }
 
-    deleteById(raceId: number): void {
-        if (!this.doesRaceExistById(raceId)) {
-            throw Error(`Can not delete Race with ID: '${raceId}' because it does not exist.`);
+    async create(raceData: CreateRaceData): Promise<Race> {
+        if (await this.doesRaceExistByName(raceData.name)) {
+            throw new BadRequestException(
+                `Cannot create a new Race with name: '${raceData.name}' because a Race already exists with that name.`
+            );
         }
-        delete raceDb[raceId];
+        await this.raceRepository.save(raceData);
+
+        const savedRace = await this.getByName(raceData.name);
+
+        for (const trait of raceData.traits) {
+            trait.race = savedRace;
+            trait.raceId = savedRace.id;
+            trait.traitId = trait.trait.id;
+
+            await this.racialTraitRepository.save(trait);
+        }
+        savedRace.traits = await this.racialTraitRepository.find({ where: { raceId: savedRace.id } });
+        return await this.raceRepository.save(savedRace);
     }
 
-    private doesRaceExistById(raceId: number): boolean {
-        return Object.keys(raceDb).includes(`${raceId}`);
+    async deleteById(raceId: number): Promise<void> {
+        if (!(await this.doesRaceExistById(raceId))) {
+            throw new NotFoundException(`Cannot delete Race with ID: '${raceId}' because it does not exist.`);
+        }
+        await this.raceRepository.delete({ id: raceId });
     }
 
-    private doesRaceExistByName(raceName: string): boolean {
-        return Object.values(raceDb).some((race) => race.name === raceName);
+    private async doesRaceExistById(raceId: number): Promise<boolean> {
+        try {
+            await this.getById(raceId);
+            return true;
+        } catch (error: unknown) {
+            if (error instanceof NotFoundException) {
+                return false;
+            }
+            throw error;
+        }
+    }
+
+    private async doesRaceExistByName(raceName: string): Promise<boolean> {
+        try {
+            await this.getByName(raceName);
+            return true;
+        } catch (error: unknown) {
+            if (error instanceof NotFoundException) {
+                return false;
+            }
+            throw error;
+        }
     }
 
     private getPageData(data: Race[], page: number, pageSize: number): Race[] {
@@ -91,36 +135,26 @@ export class RaceService {
         return data.slice(start, end);
     }
 
-    private applySorting(order: SortOrder, sortByAttribute: SortableAttribute): Race[] {
-        const data = Object.values(raceDb);
+    private applySorting(sortOrder: SortOrder, sortByAttribute: SortableAttribute): FindOptionsOrder<Race> {
+        switch (sortByAttribute) {
+            case SortableAttribute.NAME:
+                return { name: sortOrder };
 
-        if (sortByAttribute !== SortableAttribute.NONE) {
-            data.sort((r1, r2) => this.applySortByAttribute(r1, r2, sortByAttribute));
+            case SortableAttribute.SPEED:
+                return { speed: sortOrder, name: sortOrder };
+
+            case SortableAttribute.SIZE:
+                return { size: sortOrder, name: sortOrder };
+
+            default:
+                return { id: sortOrder };
         }
-        return order === SortOrder.DESCENDING ? data.reverse() : data;
     }
 
-    private applySortByAttribute(race1: Race, race2: Race, attribute: SortableAttribute): number {
-        const sortByName = race1.name.localeCompare(race2.name);
-
-        if (attribute === SortableAttribute.NAME) {
-            return sortByName;
-        }
-        if (attribute === SortableAttribute.SIZE) {
-            const sortBySize = compareSize(race1.size, race2.size);
-            return sortBySize === 0 ? sortByName : sortBySize;
-        }
-        if (attribute === SortableAttribute.SPEED) {
-            const sortBySpeed = race1.speed - race2.speed;
-            return sortBySpeed === 0 ? sortByName : sortBySpeed;
-        }
-        return 1;
-    }
-
-    private applyFilter(data: Race[], hasTrait?: string): Race[] {
+    private applyFilter(hasTrait?: string): FindOptionsWhere<Race> {
         if (!hasTrait) {
-            return data;
+            return undefined;
         }
-        return data.filter((race) => race.traits.some((trait) => trait.name === hasTrait));
+        return { traits: { trait: { name: hasTrait } } };
     }
 }

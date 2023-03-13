@@ -1,6 +1,7 @@
 import {
     BadRequestException,
     Body,
+    ClassSerializerInterceptor,
     Controller,
     DefaultValuePipe,
     Delete,
@@ -12,6 +13,7 @@ import {
     Post,
     Put,
     Query,
+    UseInterceptors,
 } from '@nestjs/common';
 import { RaceService } from '../services/race.service';
 import {
@@ -28,6 +30,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { HttpStatusCode } from 'axios';
 
 @ApiTags('api/race')
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller({
     path: 'api/race',
 })
@@ -35,7 +38,7 @@ export class RaceController {
     constructor(private raceService: RaceService) {}
 
     @Get()
-    getAll(
+    async getAll(
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
         @Query('pageSize', new DefaultValuePipe(DEFAULT_PAGE_SIZE), ParseIntPipe) pageSize: number,
         @Query('order', new DefaultValuePipe(DEFAULT_SORT_ORDER), new ParseEnumPipe(SortOrder)) order: SortOrder,
@@ -46,33 +49,33 @@ export class RaceController {
         )
         sortByAttribute: SortableAttribute,
         @Query('hasTrait', new DefaultValuePipe(null)) hasTrait: string
-    ): PaginationResponse<Race> {
-        return this.raceService.getAll(page, pageSize, order, sortByAttribute, hasTrait);
+    ): Promise<PaginationResponse<Race>> {
+        return await this.raceService.getAll(page, pageSize, order, sortByAttribute, hasTrait);
+    }
+
+    @Get(':id')
+    async getById(@Param('id', ParseIntPipe) idPath: number): Promise<Race> {
+        return await this.raceService.getById(idPath);
     }
 
     @Put(':id')
-    update(@Param('id', ParseIntPipe) idPath: number, @Body() raceData: Race): Race {
+    async update(@Param('id', ParseIntPipe) idPath: number, @Body() raceData: Race): Promise<Race> {
         if (raceData.id !== idPath) {
             throw new BadRequestException(
                 `Cannot update Race on path: '${idPath}' with data from Race with ID: '${raceData.id}'.`
             );
         }
-        return this.raceService.update(raceData);
-    }
-
-    @Get(':id')
-    getById(@Param('id', ParseIntPipe) idPath: number): Race {
-        return this.raceService.getById(idPath);
+        return await this.raceService.update(raceData);
     }
 
     @Post()
     @HttpCode(HttpStatusCode.Created)
-    create(@Body() raceData: CreateRaceData): Race {
-        return this.raceService.create(raceData);
+    async create(@Body() raceData: CreateRaceData): Promise<Race> {
+        return await this.raceService.create(raceData);
     }
 
     @Delete(':id')
-    delete(@Param('id', ParseIntPipe) idPath: number): void {
-        this.raceService.deleteById(idPath);
+    async delete(@Param('id', ParseIntPipe) idPath: number): Promise<void> {
+        await this.raceService.deleteById(idPath);
     }
 }
