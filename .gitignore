@@ -12,6 +12,9 @@ node_modules/
 /.vite
 /.vitest
 
+# Environment
+.env
+
 # Logs
 logs
 *.log

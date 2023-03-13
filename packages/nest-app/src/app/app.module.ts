@@ -1,11 +1,15 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { ConfigModuleOptions } from '@nestjs/config/dist/interfaces';
+import { RaceModule, TraitModule } from './api';
+import { DatabaseProviderModule } from './configs';
+import { environment } from '../environments/environment';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+const configOptions: ConfigModuleOptions = {
+    load: [() => environment],
+};
 
 @Module({
-    imports: [],
-    controllers: [AppController],
-    providers: [AppService],
+    imports: [DatabaseProviderModule, ConfigModule.forRoot(configOptions), RaceModule, TraitModule],
 })
 export class AppModule {}
