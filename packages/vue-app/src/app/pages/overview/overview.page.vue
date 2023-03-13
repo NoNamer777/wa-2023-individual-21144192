@@ -60,75 +60,11 @@
 </style>
 
 <script setup lang="ts">
-import {
-    CreateRaceDialogComponent,
-    FilteringSortingPanelComponent,
-    RaceCardComponent,
-} from '@vue-app/app/components';
-import {
-    DEFAULT_FILTERS,
-    DEFAULT_SORTING,
-    isValidSortableByAttribute,
-    isValidSortingOrder,
-} from '@vue-app/app/models';
-import type { SortingFilteringQueryParams, Race, TraitOption } from '@vue-app/app/models';
-import { usePaginationStore, useRaceStore } from '@vue-app/app/stores';
-import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { CreateRaceDialogComponent, FilteringSortingPanelComponent, RaceCardComponent } from '@vue-app/app/components';
+import { computed, ref } from 'vue';
 
-const paginationStore = usePaginationStore();
-const raceStore = useRaceStore();
+const shouldShowRaces = computed<boolean>(() => false);
 
-const shouldShowRaces = computed<boolean>(() => paginationStore.totalNumberOfPages > 0);
-
-const races = ref<Race[]>([]);
-const racialTraits = ref<TraitOption[]>([]);
-
-const unsubscribeRouterQueryParams = useRouter().afterEach((to) =>
-    updatePagination(to.query as SortingFilteringQueryParams)
-);
-
-onBeforeMount(async () => {
-    const queryParams = useRoute().query as SortingFilteringQueryParams;
-
-    await raceStore.initialize();
-
-    updatePagination(queryParams);
-
-    racialTraits.value = raceStore.getAllTraits;
-    races.value = raceStore.getFilteredRaces;
-});
-
-onBeforeUnmount(() => {
-    unsubscribeRouterQueryParams();
-});
-
-function onChange(): void {
-    races.value = raceStore.getFilteredRaces;
-}
-
-function updatePagination(queryParams: SortingFilteringQueryParams): void {
-    if (queryParams.pageNumber) {
-        paginationStore.setCurrentPage(parseInt(queryParams.pageNumber));
-    } else if (paginationStore.currentPage !== 1) {
-        paginationStore.setCurrentPage(1);
-    }
-    if (isValidSortingOrder(queryParams.sortingOrder)) {
-        paginationStore.setSorting({ order: queryParams.sortingOrder });
-    } else if (paginationStore.sorting.order !== DEFAULT_SORTING.order) {
-        paginationStore.setSorting({ order: DEFAULT_SORTING.order });
-    }
-    if (isValidSortableByAttribute(queryParams.sortingByAttribute)) {
-        paginationStore.setSorting({ onAttribute: queryParams.sortingByAttribute });
-    } else if (paginationStore.sorting.onAttribute !== DEFAULT_SORTING.onAttribute) {
-        paginationStore.setSorting({ onAttribute: DEFAULT_SORTING.onAttribute });
-    }
-    if (queryParams.filteringByTrait) {
-        paginationStore.setFilters({ byTrait: queryParams.filteringByTrait });
-    } else if (paginationStore.filters.byTrait !== DEFAULT_FILTERS.byTrait) {
-        paginationStore.setFilters({ byTrait: DEFAULT_FILTERS.byTrait });
-    }
-}
-
-paginationStore.$onAction(({ after }) => after(() => onChange()));
+const races = ref<unknown[]>([]);
+const racialTraits = ref<unknown[]>([]);
 </script>

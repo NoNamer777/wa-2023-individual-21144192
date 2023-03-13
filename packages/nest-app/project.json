@@ -60,5 +60,5 @@
             }
         }
     },
-    "tags": ["nest-app"]
+    "tags": ["@dnd-mapp/server"]
 }

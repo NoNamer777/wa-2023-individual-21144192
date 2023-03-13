@@ -53,19 +53,11 @@ import {
     SORTABLE_ATTRIBUTES,
     SORTING_ORDERS,
 } from '@vue-app/app/models';
-import type {
-    SortableAttribute,
-    SortingFilteringForm,
-    SortingFilteringQueryParams,
-    SortingOrder,
-} from '@vue-app/app/models';
-import type { TraitOption } from '@vue-app/app/models';
-import { usePaginationStore } from '@vue-app/app/stores';
 import { ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 interface FilteringAndSortingFormComponentProps {
-    racialTraits: TraitOption[];
+    racialTraits: unknown[];
 }
 
 defineProps<FilteringAndSortingFormComponentProps>();
@@ -105,8 +97,6 @@ async function onSubmit(): Promise<void> {
 async function onReset(): Promise<void> {
     form.value = { ...DEFAULT_SORTING_FILTERING_FORM_STATE };
     initialFormState.value = { ...DEFAULT_SORTING_FILTERING_FORM_STATE };
-
-    usePaginationStore().reset();
 
     await router.push({ query: {} });
 }

@@ -11,6 +11,7 @@
         "module": "esnext",
         "moduleResolution": "node",
         "paths": {
+            "@dnd-mapp/data": ["packages/app-data/src/index.ts"],
             "@vue-app/*": ["packages/vue-app/src/*"]
         },
         "rootDir": ".",

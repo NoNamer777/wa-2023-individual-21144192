@@ -12,7 +12,6 @@ import {
 } from '@nestjs/common';
 import { HttpStatusCode } from 'axios';
 import { TraitService } from '../services/trait.service';
-import { CreateTraitData, Trait } from '../../common/models';
 
 @Controller('api/trait')
 export class TraitController {

@@ -12,7 +12,6 @@
 
 <script lang="ts" setup>
 import type { SortingFilteringQueryParams } from '@vue-app/app/models';
-import { usePaginationStore } from '@vue-app/app/stores';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -23,10 +22,10 @@ const props = withDefaults(defineProps<{ disabled?: boolean; active?: number; pa
 
 const queryParams = computed<SortingFilteringQueryParams>(() => useRoute().query as SortingFilteringQueryParams);
 
-function isOnPage(pageNumber: number): boolean {
+function isOnPage(_pageNumber: number): boolean {
     if (isNaN(parseInt(props.label))) {
         return false;
     }
-    return usePaginationStore().currentPage === pageNumber;
+    return false;
 }
 </script>
