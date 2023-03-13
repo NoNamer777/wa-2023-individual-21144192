@@ -2,6 +2,8 @@ import { IsDefined, IsEnum, IsInt, IsNotEmpty, IsPositive, IsString, IsUrl, MinL
 import { OmitType } from '@nestjs/swagger';
 import { MIN_ENTITY_NAME_LENGTH } from './constants';
 import { Trait } from './trait.model';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 export enum Size {
     TINY = 'Tiny',
@@ -16,25 +18,36 @@ export function compareSize(s1: Size, s2: Size): number {
     return SizeMap.get(s1) - SizeMap.get(s2);
 }
 
+@Entity('race')
 export class Race {
+    @PrimaryGeneratedColumn('increment')
     @IsInt()
     @IsPositive()
     id: number;
 
+    @Column({ nullable: false, unique: true })
     @IsNotEmpty()
     @IsString()
     @MinLength(MIN_ENTITY_NAME_LENGTH)
     name: string;
 
+    @Column({ type: 'enum', enum: Size, nullable: false })
     @IsEnum(Size)
     @IsDefined()
     size: Size;
 
+    @Column({ type: 'int', nullable: false })
     @IsInt()
     @IsPositive()
     speed: number;
-    traits: Trait[];
 
+    @OneToMany(() => RacialTrait, (trait) => trait.race, {
+        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT',
+    })
+    traits: RacialTrait[];
+
+    @Column({ nullable: false })
     @IsNotEmpty()
     @IsString()
     @IsUrl()
@@ -42,6 +55,27 @@ export class Race {
 }
 
 export class CreateRaceData extends OmitType(Race, ['id'] as const) {}
+
+@Entity('race-trait')
+export class RacialTrait {
+    @Exclude()
+    @PrimaryColumn()
+    raceId?: number;
+
+    @Exclude()
+    @ManyToOne(() => Race, (race) => race.traits)
+    race?: Race;
+
+    @Exclude()
+    @PrimaryColumn()
+    traitId?: number;
+
+    @ManyToOne(() => Trait, (trait) => trait.races, { eager: true })
+    trait: Trait;
+
+    @Column({ type: 'mediumtext', nullable: true })
+    description?: string;
+}
 
 const SizeMap: Map<Size, number> = new Map([
     [Size.TINY, 1],
