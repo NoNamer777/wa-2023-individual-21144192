@@ -1,6 +1,8 @@
+import { Trait } from '@dnd-mapp/data';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateTraitData } from '../trait.schema';
 
 @Injectable()
 export class TraitService {

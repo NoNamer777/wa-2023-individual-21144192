@@ -1,12 +1,15 @@
+import { PaginationResponse, Race, SortableAttribute, SortOrder } from '@dnd-mapp/data';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
+import { CreateRaceData } from '../race.schema';
+import { RacialTraitRelation } from '../race-trait.schema';
 
 @Injectable()
 export class RaceService {
     constructor(
         @InjectRepository(Race) private raceRepository: Repository<Race>,
-        @InjectRepository(RacialTrait) private racialTraitRepository: Repository<RacialTrait>
+        @InjectRepository(RacialTraitRelation) private racialTraitRepository: Repository<RacialTraitRelation>
     ) {}
 
     async getAll(
@@ -78,7 +81,7 @@ export class RaceService {
 
         const savedRace = await this.getByName(raceData.name);
 
-        for (const trait of raceData.traits) {
+        for (const trait of raceData.traits as RacialTraitRelation[]) {
             trait.race = savedRace;
             trait.raceId = savedRace.id;
             trait.traitId = trait.trait.id;
