@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { RaceModule, TraitModule } from './api';
-import { DatabaseProviderModule } from './configs';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigModuleOptions } from '@nestjs/config/dist/interfaces';
+import { RaceModule, TraitModule } from './api';
+import { DatabaseProviderModule } from './configs';
 import { environment } from '../environments/environment';
 
 const configOptions: ConfigModuleOptions = {

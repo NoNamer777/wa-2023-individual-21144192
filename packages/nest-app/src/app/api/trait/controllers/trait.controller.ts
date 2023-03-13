@@ -10,8 +10,8 @@ import {
     Post,
     Put,
 } from '@nestjs/common';
-import { TraitService } from '../services/trait.service';
 import { HttpStatusCode } from 'axios';
+import { TraitService } from '../services/trait.service';
 import { CreateTraitData, Trait } from '../../common/models';
 
 @Controller('api/trait')

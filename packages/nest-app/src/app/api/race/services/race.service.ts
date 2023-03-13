@@ -1,4 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
 import {
     CreateRaceData,
     PaginationResponse,
@@ -7,8 +9,6 @@ import {
     SortableAttribute,
     SortOrder,
 } from '../../common/models';
-import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class RaceService {

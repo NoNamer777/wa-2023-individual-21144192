@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { TraitService } from './services/trait.service';
-import { TraitController } from './controllers/trait.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TraitController } from './controllers/trait.controller';
+import { TraitService } from './services/trait.service';
 import { Trait } from '../common/models';
 
 @Module({

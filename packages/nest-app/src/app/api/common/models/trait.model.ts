@@ -1,7 +1,7 @@
-import { IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MinLength } from 'class-validator';
-import { MIN_ENTITY_DESCRIPTION_LENGTH, MIN_ENTITY_NAME_LENGTH } from './constants';
 import { IntersectionType, OmitType, PartialType, PickType } from '@nestjs/swagger';
+import { IsInt, IsNotEmpty, IsPositive, IsString, MinLength } from 'class-validator';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { MIN_ENTITY_DESCRIPTION_LENGTH, MIN_ENTITY_NAME_LENGTH } from './constants';
 import { RacialTrait } from './race.model';
 
 @Entity('trait')

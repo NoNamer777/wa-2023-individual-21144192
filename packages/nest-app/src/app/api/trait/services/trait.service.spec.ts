@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TraitService } from './trait.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { TraitService } from './trait.service';
 import { Trait } from '../../common/models';
 
 describe('TraitService', () => {

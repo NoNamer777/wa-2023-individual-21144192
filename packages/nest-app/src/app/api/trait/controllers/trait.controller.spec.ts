@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TraitController } from './trait.controller';
 import { TraitService } from '../services/trait.service';
+import { TraitController } from './trait.controller';
 
 describe('TraitController', () => {
     let controller: TraitController;

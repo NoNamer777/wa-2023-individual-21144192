@@ -15,6 +15,8 @@ import {
     Query,
     UseInterceptors,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { HttpStatusCode } from 'axios';
 import { RaceService } from '../services/race.service';
 import {
     CreateRaceData,
@@ -26,8 +28,6 @@ import {
     SortableAttribute,
     SortOrder,
 } from '../../common/models';
-import { ApiTags } from '@nestjs/swagger';
-import { HttpStatusCode } from 'axios';
 
 @ApiTags('api/race')
 @UseInterceptors(ClassSerializerInterceptor)
