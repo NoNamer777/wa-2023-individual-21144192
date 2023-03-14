@@ -7,7 +7,7 @@ export class RacialTraitRelation extends RacialTrait {
     race: Race;
 }
 
-export const RaceTraitSchema = new EntitySchema<RacialTraitRelation>({
+export const RacialTraitSchema = new EntitySchema<RacialTraitRelation>({
     name: 'RacialTrait',
     tableName: 'race-trait',
     columns: {
@@ -28,10 +28,12 @@ export const RaceTraitSchema = new EntitySchema<RacialTraitRelation>({
         race: {
             type: 'many-to-one',
             target: 'Race',
+            inverseSide: 'traits',
         },
         trait: {
             type: 'many-to-one',
             target: 'Trait',
+            inverseSide: 'racialTraits',
         },
     },
 });

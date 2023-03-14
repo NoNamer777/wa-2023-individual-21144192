@@ -2,7 +2,7 @@ import { EntitySchema } from 'typeorm';
 import { RacialTrait, Trait } from '@dnd-mapp/data';
 import { IntersectionType, OmitType, PartialType, PickType } from '@nestjs/swagger';
 
-class TraitRelation extends Trait {
+export class TraitRelation extends Trait {
     racialTraits: RacialTrait[];
 }
 
@@ -29,6 +29,7 @@ export const TraitSchema = new EntitySchema<TraitRelation>({
         racialTraits: {
             type: 'one-to-many',
             target: 'RacialTrait',
+            inverseSide: 'trait',
         },
     },
 });
