@@ -10,7 +10,6 @@ import {
 import {
     BadRequestException,
     Body,
-    ClassSerializerInterceptor,
     Controller,
     DefaultValuePipe,
     Delete,
@@ -28,9 +27,9 @@ import { ApiTags } from '@nestjs/swagger';
 import { HttpStatusCode } from 'axios';
 import { RaceService } from '../services/race.service';
 import { CreateRaceData } from '../race.schema';
+import { RaceResponseInterceptor } from '../interceptors/race-response.interceptor';
 
 @ApiTags('api/race')
-@UseInterceptors(ClassSerializerInterceptor)
 @Controller({
     path: 'api/race',
 })
@@ -53,11 +52,13 @@ export class RaceController {
         return await this.raceService.getAll(page, pageSize, order, sortByAttribute, hasTrait);
     }
 
+    @UseInterceptors(RaceResponseInterceptor)
     @Get(':id')
     async getById(@Param('id', ParseIntPipe) idPath: number): Promise<Race> {
         return await this.raceService.getById(idPath);
     }
 
+    @UseInterceptors(RaceResponseInterceptor)
     @Put(':id')
     async update(@Param('id', ParseIntPipe) idPath: number, @Body() raceData: Race): Promise<Race> {
         if (raceData.id !== idPath) {
@@ -68,6 +69,7 @@ export class RaceController {
         return await this.raceService.update(raceData);
     }
 
+    @UseInterceptors(RaceResponseInterceptor)
     @Post()
     @HttpCode(HttpStatusCode.Created)
     async create(@Body() raceData: CreateRaceData): Promise<Race> {
