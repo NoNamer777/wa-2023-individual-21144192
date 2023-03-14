@@ -68,6 +68,7 @@ export class RaceService {
                 `Cannot update a Race with ID: '${raceData.id}' because a Race already exists with the name '${raceData.name}'.`
             );
         }
+        // TODO: Check if update is necessary by deep equals
         return await this.raceRepository.save(raceData);
     }
 
