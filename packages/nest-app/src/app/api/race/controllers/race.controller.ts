@@ -1,7 +1,7 @@
 import {
     DEFAULT_PAGE_SIZE,
-    DEFAULT_SORT_ORDER,
     DEFAULT_SORTING_BY_ATTRIBUTE,
+    DEFAULT_SORT_ORDER,
     PaginationResponse,
     Race,
     SortableAttribute,
@@ -22,12 +22,14 @@ import {
     Put,
     Query,
     UseInterceptors,
+    UsePipes,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { HttpStatusCode } from 'axios';
-import { RaceService } from '../services/race.service';
-import { CreateRaceData } from '../race.schema';
 import { RaceResponseInterceptor } from '../interceptors/race-response.interceptor';
+import { createRaceDataSchema, existingRaceDataSchema, RaceValidationPipe } from '../pipes/race-validation.pipe';
+import { CreateRaceData } from '../race.schema';
+import { RaceService } from '../services/race.service';
 
 @ApiTags('api/race')
 @Controller({
@@ -58,6 +60,7 @@ export class RaceController {
         return await this.raceService.getById(idPath);
     }
 
+    @UsePipes(new RaceValidationPipe(existingRaceDataSchema))
     @UseInterceptors(RaceResponseInterceptor)
     @Put(':id')
     async update(@Param('id', ParseIntPipe) idPath: number, @Body() raceData: Race): Promise<Race> {
@@ -69,6 +72,7 @@ export class RaceController {
         return await this.raceService.update(raceData);
     }
 
+    @UsePipes(new RaceValidationPipe(createRaceDataSchema))
     @UseInterceptors(RaceResponseInterceptor)
     @Post()
     @HttpCode(HttpStatusCode.Created)
