@@ -1,4 +1,4 @@
-import { Race } from '@dnd-mapp/data';
+import { Race, SIZE_VALUES } from '@dnd-mapp/data';
 import { OmitType } from '@nestjs/swagger';
 import { EntitySchema } from 'typeorm';
 
@@ -21,7 +21,7 @@ export const RaceSchema = new EntitySchema<Race>({
         size: {
             type: 'enum',
             nullable: false,
-            enum: ['Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan'],
+            enum: SIZE_VALUES,
         },
         speed: {
             type: 'int',
