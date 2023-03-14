@@ -2,11 +2,11 @@ import { Trait } from '@dnd-mapp/data';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateTraitData } from '../trait.schema';
+import { CreateTraitData, TraitSchema } from '../trait.schema';
 
 @Injectable()
 export class TraitService {
-    constructor(@InjectRepository(Trait) private traitRepository: Repository<Trait>) {}
+    constructor(@InjectRepository(TraitSchema) private traitRepository: Repository<Trait>) {}
 
     async getAll(): Promise<Trait[]> {
         return await this.traitRepository.find();

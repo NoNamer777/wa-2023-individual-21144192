@@ -3,10 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RaceController } from './controllers/race.controller';
 import { RaceService } from './services/race.service';
 import { RaceSchema } from './race.schema';
-import { RaceTraitSchema } from './race-trait.schema';
+import { RacialTraitSchema } from './racial-trait.schema';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([RaceSchema, RaceTraitSchema])],
+    imports: [TypeOrmModule.forFeature([RaceSchema, RacialTraitSchema])],
     controllers: [RaceController],
     providers: [RaceService],
     exports: [RaceService],
