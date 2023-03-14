@@ -1,6 +1,6 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
-import { map, Observable, tap } from 'rxjs';
 import { Race } from '@dnd-mapp/data';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class RaceResponseInterceptor implements NestInterceptor<Race> {

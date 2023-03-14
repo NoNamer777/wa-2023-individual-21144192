@@ -1,6 +1,6 @@
-import { EntitySchema } from 'typeorm';
 import { RacialTrait, Trait } from '@dnd-mapp/data';
 import { IntersectionType, OmitType, PartialType, PickType } from '@nestjs/swagger';
+import { EntitySchema } from 'typeorm';
 
 export class TraitRelation extends Trait {
     _racialTraits: RacialTrait[];
