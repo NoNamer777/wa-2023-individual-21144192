@@ -15,7 +15,7 @@ CREATE TABLE `race` (
   `speed` int NOT NULL,
   `imageUrl` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_race_name` (`name`)
+  UNIQUE KEY `raceNameUniqueIdk` (`name`)
 );
 
 --
@@ -65,9 +65,9 @@ INSERT INTO `race` VALUES
 CREATE TABLE `trait` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `description` mediumtext,
+  `description` text,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `IDX_40cfcb24b87e9a95b2901a9fc9` (`name`)
+  UNIQUE KEY `traitUniqueNameIdk` (`name`)
 );
 
 --
@@ -186,11 +186,10 @@ INSERT INTO `trait` VALUES
 CREATE TABLE `race-trait` (
   `raceId` int NOT NULL,
   `traitId` int NOT NULL,
-  `description` mediumtext,
+  `description` text,
   PRIMARY KEY (`raceId`,`traitId`),
-  KEY `FK_2c8becbff005219cc37689fe100` (`traitId`),
-  CONSTRAINT `FK_2c8becbff005219cc37689fe100` FOREIGN KEY (`traitId`) REFERENCES `trait` (`id`),
-  CONSTRAINT `FK_75e11937d4b94dd24dc7bfaca07` FOREIGN KEY (`raceId`) REFERENCES `race` (`id`)
+  CONSTRAINT `racialTraitTraitFK` FOREIGN KEY (`traitId`) REFERENCES `trait` (`id`),
+  CONSTRAINT `racialTraitRaceFK` FOREIGN KEY (`raceId`) REFERENCES `race` (`id`)
 );
 
 --
