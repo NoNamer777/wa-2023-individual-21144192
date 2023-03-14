@@ -1,11 +1,13 @@
 CREATE DATABASE  IF NOT EXISTS `dmadb`;
 USE `dmadb`;
 
+DROP TABLE IF EXISTS `race-trait`;
+DROP TABLE IF EXISTS `trait`;
+DROP TABLE IF EXISTS `race`;
+
 --
 -- Table structure for table `race`
 --
-DROP TABLE IF EXISTS `race`;
-
 CREATE TABLE `race` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -60,8 +62,6 @@ INSERT INTO `race` VALUES
 --
 -- Table structure for table `trait`
 --
-DROP TABLE IF EXISTS `trait`;
-
 CREATE TABLE `trait` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -183,8 +183,6 @@ INSERT INTO `trait` VALUES
 --
 -- Table structure for table `race-trait`
 --
-DROP TABLE IF EXISTS `race-trait`;
-
 CREATE TABLE `race-trait` (
   `raceId` int NOT NULL,
   `traitId` int NOT NULL,
