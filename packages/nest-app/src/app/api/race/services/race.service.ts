@@ -82,13 +82,13 @@ export class RaceService {
         const savedRace = await this.getByName(raceData.name);
 
         for (const trait of raceData.traits as RacialTraitRelation[]) {
-            trait.race = savedRace;
-            trait.raceId = savedRace.id;
-            trait.traitId = trait.trait.id;
+            trait._race = savedRace;
+            trait._raceId = savedRace.id;
+            trait._traitId = trait.trait.id;
 
             await this.racialTraitRepository.save(trait);
         }
-        savedRace.traits = await this.racialTraitRepository.find({ where: { raceId: savedRace.id } });
+        savedRace.traits = await this.racialTraitRepository.find({ where: { _raceId: savedRace.id } });
         return await this.raceRepository.save(savedRace);
     }
 

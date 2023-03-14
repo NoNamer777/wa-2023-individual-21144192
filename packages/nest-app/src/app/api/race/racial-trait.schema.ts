@@ -2,20 +2,22 @@ import { Race, RacialTrait } from '@dnd-mapp/data';
 import { EntitySchema } from 'typeorm';
 
 export class RacialTraitRelation extends RacialTrait {
-    raceId: number;
-    traitId: number;
-    race: Race;
+    _raceId: number;
+    _traitId: number;
+    _race: Race;
 }
 
 export const RacialTraitSchema = new EntitySchema<RacialTraitRelation>({
     name: 'RacialTrait',
     tableName: 'race-trait',
     columns: {
-        raceId: {
+        _raceId: {
+            name: 'raceId',
             type: 'int',
             primary: true,
         },
-        traitId: {
+        _traitId: {
+            name: 'traitId',
             type: 'int',
             primary: true,
         },
@@ -25,15 +27,26 @@ export const RacialTraitSchema = new EntitySchema<RacialTraitRelation>({
         },
     },
     relations: {
-        race: {
+        _race: {
             type: 'many-to-one',
             target: 'Race',
             inverseSide: 'traits',
+            joinColumn: {
+                name: 'raceId',
+                referencedColumnName: 'id',
+                foreignKeyConstraintName: 'racialTraitRaceFK',
+            },
         },
         trait: {
             type: 'many-to-one',
             target: 'Trait',
-            inverseSide: 'racialTraits',
+            inverseSide: '_racialTraits',
+            eager: true,
+            joinColumn: {
+                name: 'traitId',
+                referencedColumnName: 'id',
+                foreignKeyConstraintName: 'racialTraitTraitFK',
+            },
         },
     },
 });
