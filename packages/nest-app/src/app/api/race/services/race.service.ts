@@ -63,7 +63,7 @@ export class RaceService {
         if (!(await this.doesRaceExistById(raceData.id))) {
             throw new NotFoundException(`Cannot update Race with ID: '${raceData.id}' because it does not exist.`);
         }
-        if (!(await this.doesRaceExistByName(raceData.name))) {
+        if (await this.doesRaceExistByName(raceData.name)) {
             throw new BadRequestException(
                 `Cannot update a Race with ID: '${raceData.id}' because a Race already exists with the name '${raceData.name}'.`
             );
