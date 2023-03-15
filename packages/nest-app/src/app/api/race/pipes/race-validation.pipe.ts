@@ -4,7 +4,7 @@ import Joi, { AnySchema, CustomHelpers } from 'joi';
 
 function imageUrlValidator(value: string, helper: CustomHelpers<string>) {
     // TODO: Resolve the server protocol(http|https)/host(/port) based on the environment
-    const base = 'http://localhost:8080/assets/images/';
+    const base = 'http://localhost:8080/assets/images/races/';
 
     value = value.trim();
 
