@@ -29,6 +29,10 @@ async function bootstrap() {
     };
 
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
+    app.enableCors({
+        origin: [...(environment.server?.cors?.allowedOrigins ?? [])],
+        methods: 'GET,PUT,POST,DELETE',
+    });
     setupSwaggerModule(app);
 
     await app.listen(port, host);

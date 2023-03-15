@@ -4,6 +4,9 @@ interface ServerEnvironmentValues {
     host: string;
     port?: number;
     secure?: boolean;
+    cors?: {
+        allowedOrigins: string[];
+    };
 }
 
 interface EnvironmentValues {
