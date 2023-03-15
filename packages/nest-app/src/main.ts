@@ -5,10 +5,8 @@ import * as fs from 'fs';
 import { join } from 'path';
 import { AppModule } from './app';
 import { setupSwaggerModule } from './app/configs';
+import { DEFAULT_SERVER_HOSTNAME, DEFAULT_SERVER_PORT } from './app/shared/constants';
 import { environment } from './environments/environment';
-
-const DEFAULT_SERVER_HOSTNAME = 'localhost';
-const DEFAULT_SERVER_PORT = 8080;
 
 async function bootstrap() {
     // TODO: Adjustable path for Docker containers
