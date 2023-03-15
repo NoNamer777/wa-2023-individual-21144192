@@ -36,9 +36,8 @@ export const RacialTraitSchema = new EntitySchema<RacialTraitRelation>({
                 referencedColumnName: 'id',
                 foreignKeyConstraintName: 'racialTraitRaceFK',
             },
-            orphanedRowAction: 'delete',
-            onUpdate: 'RESTRICT',
-            onDelete: 'CASCADE',
+            cascade: ['insert', 'update'],
+            orphanedRowAction: 'disable',
         },
         trait: {
             type: 'many-to-one',

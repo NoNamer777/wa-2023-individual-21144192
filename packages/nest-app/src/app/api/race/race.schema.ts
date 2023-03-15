@@ -37,7 +37,7 @@ export const RaceSchema = new EntitySchema<Race>({
             type: 'one-to-many',
             target: 'RacialTrait',
             inverseSide: '_race',
-            cascade: ['remove', 'insert', 'update'],
+            cascade: ['insert', 'update', 'remove'],
         },
     },
 });

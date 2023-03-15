@@ -30,6 +30,8 @@ export const TraitSchema = new EntitySchema<TraitRelation>({
             type: 'one-to-many',
             target: 'RacialTrait',
             inverseSide: 'trait',
+            cascade: false,
+            orphanedRowAction: 'disable',
         },
     },
 });
