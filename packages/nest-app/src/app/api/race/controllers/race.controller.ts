@@ -32,6 +32,7 @@ import { CreateRaceData } from '../race.schema';
 import { RaceService } from '../services/race.service';
 
 @ApiTags('api/race')
+@UseInterceptors(RaceResponseInterceptor)
 @Controller({
     path: 'api/race',
 })
@@ -54,14 +55,12 @@ export class RaceController {
         return await this.raceService.getAll(page, pageSize, order, sortByAttribute, hasTrait);
     }
 
-    @UseInterceptors(RaceResponseInterceptor)
     @Get(':id')
     async getById(@Param('id', ParseIntPipe) idPath: number): Promise<Race> {
         return await this.raceService.getById(idPath);
     }
 
     @UsePipes(new RaceValidationPipe(existingRaceDataSchema))
-    @UseInterceptors(RaceResponseInterceptor)
     @Put(':id')
     async update(@Param('id', ParseIntPipe) idPath: number, @Body() raceData: Race): Promise<Race> {
         if (raceData.id !== idPath) {
@@ -73,7 +72,6 @@ export class RaceController {
     }
 
     @UsePipes(new RaceValidationPipe(createRaceDataSchema))
-    @UseInterceptors(RaceResponseInterceptor)
     @Post()
     @HttpCode(HttpStatusCode.Created)
     async create(@Body() raceData: CreateRaceData): Promise<Race> {
