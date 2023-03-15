@@ -1,16 +1,25 @@
-import { PaginationResponse, Race, SortableAttribute, SortOrder } from '@dnd-mapp/data';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { PaginationResponse, Race, SortableAttribute, SortOrder, Trait } from '@dnd-mapp/data';
+import { BadRequestException, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
+import { TraitService } from '../../trait';
 import { CreateRaceData, RaceSchema } from '../race.schema';
 import { RacialTraitRelation, RacialTraitSchema } from '../racial-trait.schema';
 
 @Injectable()
-export class RaceService {
+export class RaceService implements OnModuleInit {
+    private traitService: TraitService;
+
     constructor(
+        private moduleRef: ModuleRef,
         @InjectRepository(RaceSchema) private raceRepository: Repository<Race>,
         @InjectRepository(RacialTraitSchema) private racialTraitRepository: Repository<RacialTraitRelation>
     ) {}
+
+    async onModuleInit(): Promise<void> {
+        this.traitService = await this.moduleRef.get(TraitService, { strict: false });
+    }
 
     async getAll(
         page: number,
@@ -79,6 +88,17 @@ export class RaceService {
                 `Cannot create a new Race with name: '${raceData.name}' because a Race already exists with that name.`
             );
         }
+        const handledTraits = await this.handlePersistingTraits(
+            raceData.traits.map((racialTrait) => racialTrait.trait)
+        );
+
+        raceData.traits = raceData.traits.map((racialTrait) => {
+            if (racialTrait.trait.id) return racialTrait;
+
+            racialTrait.trait = handledTraits.find((trait) => trait.name === racialTrait.trait.name);
+            return racialTrait;
+        });
+
         return await this.raceRepository.save(raceData);
     }
 
@@ -140,5 +160,15 @@ export class RaceService {
             return undefined;
         }
         return { traits: { trait: { name: hasTrait } } };
+    }
+
+    private async handlePersistingTraits(traits: Trait[]): Promise<Trait[]> {
+        const handledTraits = [];
+
+        for (const trait of traits) {
+            if (trait.id) continue;
+            handledTraits.push(await this.traitService.create(trait));
+        }
+        return handledTraits;
     }
 }
