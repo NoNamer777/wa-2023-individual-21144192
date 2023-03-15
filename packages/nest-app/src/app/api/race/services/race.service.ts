@@ -63,12 +63,13 @@ export class RaceService {
         if (!(await this.doesRaceExistById(raceData.id))) {
             throw new NotFoundException(`Cannot update Race with ID: '${raceData.id}' because it does not exist.`);
         }
-        if (await this.doesRaceExistByName(raceData.name)) {
+        const raceByName = await this.doesRaceExistByName(raceData.name);
+
+        if (raceByName && raceByName.id !== raceData.id) {
             throw new BadRequestException(
                 `Cannot update a Race with ID: '${raceData.id}' because a Race already exists with the name '${raceData.name}'.`
             );
         }
-        // TODO: Check if update is necessary by deep equals
         return await this.raceRepository.save(raceData);
     }
 
@@ -112,13 +113,12 @@ export class RaceService {
         }
     }
 
-    private async doesRaceExistByName(raceName: string): Promise<boolean> {
+    private async doesRaceExistByName(raceName: string): Promise<Race> {
         try {
-            await this.getByName(raceName);
-            return true;
+            return await this.getByName(raceName);
         } catch (error: unknown) {
             if (error instanceof NotFoundException) {
-                return false;
+                return null;
             }
             throw error;
         }
