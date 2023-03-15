@@ -12,7 +12,7 @@ function imageUrlValidator(value: string, helper: CustomHelpers<string>) {
         return helper.error('serve-url.base');
     }
     value = value.replace(base, '');
-    if (!value.match(/^([a-z|A-Z|0-9|\-_ ])*(\.)(png|jpg)$/)) {
+    if (!value.match(/^([a-z|A-Z|0-9|\-_ ])*(\.)(png)$/)) {
         return helper.error('serve-url.image-path');
     }
     return helper.original;
