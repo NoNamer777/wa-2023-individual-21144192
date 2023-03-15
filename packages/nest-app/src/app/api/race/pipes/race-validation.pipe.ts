@@ -1,10 +1,16 @@
 import { MIN_ENTITY_DESCRIPTION_LENGTH, MIN_ENTITY_NAME_LENGTH, Race, SIZE_VALUES } from '@dnd-mapp/data';
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import Joi, { AnySchema, CustomHelpers } from 'joi';
+import { environment } from '../../../../environments/environment';
+import { buildServerUrl, DEFAULT_SERVER_HOSTNAME, DEFAULT_SERVER_PORT } from '../../../shared/constants';
 
 function imageUrlValidator(value: string, helper: CustomHelpers<string>) {
-    // TODO: Resolve the server protocol(http|https)/host(/port) based on the environment
-    const base = 'http://localhost:8080/assets/images/races/';
+    const serverUrl = buildServerUrl({
+        host: environment.server?.host ?? DEFAULT_SERVER_HOSTNAME,
+        port: environment.server?.port ?? DEFAULT_SERVER_PORT,
+        secure: environment.server?.secure ?? false,
+    });
+    const base = `${serverUrl}assets/images/races/`;
 
     value = value.trim();
 
