@@ -39,7 +39,7 @@ export class RaceService {
     }
 
     async getById(raceId: number): Promise<Race> {
-        const raceById = this.raceRepository.findOne({ where: { id: raceId }, relations: { traits: true } });
+        const raceById = await this.raceRepository.findOne({ where: { id: raceId }, relations: { traits: true } });
 
         if (raceById === null) {
             throw new NotFoundException(`Race with ID: '${raceId}' does not exist.`);
