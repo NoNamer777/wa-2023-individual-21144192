@@ -79,19 +79,7 @@ export class RaceService {
                 `Cannot create a new Race with name: '${raceData.name}' because a Race already exists with that name.`
             );
         }
-        await this.raceRepository.save(raceData);
-
-        const savedRace = await this.getByName(raceData.name);
-
-        for (const trait of raceData.traits as RacialTraitRelation[]) {
-            trait._race = savedRace;
-            trait._raceId = savedRace.id;
-            trait._traitId = trait.trait.id;
-
-            await this.racialTraitRepository.save(trait);
-        }
-        savedRace.traits = await this.racialTraitRepository.find({ where: { _raceId: savedRace.id } });
-        return await this.raceRepository.save(savedRace);
+        return await this.raceRepository.save(raceData);
     }
 
     async deleteById(raceId: number): Promise<void> {
