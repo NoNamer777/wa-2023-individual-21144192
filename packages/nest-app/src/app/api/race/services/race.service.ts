@@ -86,16 +86,16 @@ export class RaceService {
         if (!(await this.doesRaceExistById(raceId))) {
             throw new NotFoundException(`Cannot delete Race with ID: '${raceId}' because it does not exist.`);
         }
+        await this.racialTraitRepository.delete({ _raceId: raceId });
         await this.raceRepository.delete({ id: raceId });
     }
 
-    private async doesRaceExistById(raceId: number): Promise<boolean> {
+    private async doesRaceExistById(raceId: number): Promise<Race> {
         try {
-            await this.getById(raceId);
-            return true;
+            return await this.getById(raceId);
         } catch (error: unknown) {
             if (error instanceof NotFoundException) {
-                return false;
+                return null;
             }
             throw error;
         }
