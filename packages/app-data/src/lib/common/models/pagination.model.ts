@@ -1,10 +1,10 @@
 import { DEFAULT_PAGE_SIZE, DEFAULT_SORT_ORDER } from './constants';
 
 export enum SortableAttribute {
+    NONE = '',
     NAME = 'name',
     SIZE = 'size',
     SPEED = 'speed',
-    NONE = 'null',
 }
 
 export enum SortOrder {
