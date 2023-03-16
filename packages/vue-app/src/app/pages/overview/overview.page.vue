@@ -60,11 +60,35 @@
 </style>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import { CreateRaceDialogComponent, FilteringSortingPanelComponent, RaceCardComponent } from '../../components';
+import { RaceService } from '../../services';
+import { usePaginationStore } from '../../stores';
+
+const raceService = RaceService.instance;
+const paginationStore = usePaginationStore();
 
 const shouldShowRaces = computed<boolean>(() => false);
 
 const races = ref<unknown[]>([]);
 const racialTraits = ref<unknown[]>([]);
+
+onBeforeMount(() => {
+    getData();
+});
+
+async function getData(): Promise<void> {
+    const response = await raceService.getAll();
+
+    console.log(response.results);
+
+    paginationStore.patchState({
+        page: response.page,
+        totalPages: response.numberOfPages,
+        pageSize: response.pageSize,
+        first: response.first,
+        last: response.last,
+        totalResults: response.totalResults,
+    });
+}
 </script>
