@@ -7,7 +7,7 @@
             :key="pageNumber"
             :page-number="pageNumber"
             :label="pageNumber.toString()"
-            :active="pageNumber"
+            :active="pagination.page"
         />
         <PaginationLinkComponent :disabled="pagination.last" :pageNumber="nextPage" label="Next" />
     </ul>

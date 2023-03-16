@@ -22,9 +22,6 @@ const props = withDefaults(defineProps<{ disabled?: boolean; active?: number; pa
 const queryParams = computed(() => useRoute().query);
 
 function isOnPage(): boolean {
-    if (isNaN(parseInt(props.label))) {
-        return false;
-    }
-    return false;
+    return !isNaN(parseInt(props.label)) && props.pageNumber === props.active;
 }
 </script>
