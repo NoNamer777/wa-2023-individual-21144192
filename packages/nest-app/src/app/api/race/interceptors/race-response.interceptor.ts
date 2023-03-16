@@ -29,6 +29,8 @@ export class RaceResponseInterceptor<T> implements NestInterceptor<T>, OnModuleI
     }
 
     private patchIndividualRace(raceData: Race): Race {
+        if (!raceData) return raceData;
+
         raceData.imageUrl =
             buildServerUrl({
                 ...this.configService.get('server', {
