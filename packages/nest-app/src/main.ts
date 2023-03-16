@@ -1,13 +1,12 @@
 import { Logger,ValidationPipe } from '@nestjs/common';
-import { HttpsOptions } from '@nestjs/common/interfaces/external/https-options.interface';
+import { NestApplicationOptions } from '@nestjs/common/interfaces/nest-application-options.interface';
 import { NestFactory } from '@nestjs/core';
 import * as fs from 'fs';
 import { join } from 'path';
 import { AppModule } from './app';
 import { setupSwaggerModule } from './app/configs';
-import { DEFAULT_SERVER_HOSTNAME,DEFAULT_SERVER_PORT } from './app/shared/constants';
+import { buildServerUrl,DEFAULT_SERVER_HOSTNAME,DEFAULT_SERVER_PORT } from './app/shared/constants';
 import { environment } from './environments/environment';
-import { NestApplicationOptions } from '@nestjs/common/interfaces/nest-application-options.interface';
 
 async function bootstrap() {
     // TODO: Adjustable path for Docker containers
@@ -38,7 +37,7 @@ async function bootstrap() {
 
     await app.listen(port, host);
 
-    Logger.log(`Application is running on: http${secure ? 's' : ''}://${host}:${port}/`);
+    Logger.log(`Application is running on: ${buildServerUrl({ secure, host, port })}`);
 }
 
 bootstrap();
