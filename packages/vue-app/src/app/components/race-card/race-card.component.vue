@@ -48,8 +48,8 @@
 </style>
 
 <script setup lang="ts">
-import RaceDetailsDialogComponent from '../race-details-dialog/race-details-dialog.component.vue';
 import { computed } from 'vue';
+import RaceDetailsDialogComponent from '../race-details-dialog/race-details-dialog.component.vue';
 
 interface RaceCardProps {
     race: { name: string };
