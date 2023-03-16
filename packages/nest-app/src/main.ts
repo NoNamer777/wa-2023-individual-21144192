@@ -1,23 +1,26 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger,ValidationPipe } from '@nestjs/common';
 import { HttpsOptions } from '@nestjs/common/interfaces/external/https-options.interface';
 import { NestFactory } from '@nestjs/core';
 import * as fs from 'fs';
 import { join } from 'path';
 import { AppModule } from './app';
 import { setupSwaggerModule } from './app/configs';
-import { DEFAULT_SERVER_HOSTNAME, DEFAULT_SERVER_PORT } from './app/shared/constants';
+import { DEFAULT_SERVER_HOSTNAME,DEFAULT_SERVER_PORT } from './app/shared/constants';
 import { environment } from './environments/environment';
+import { NestApplicationOptions } from '@nestjs/common/interfaces/nest-application-options.interface';
 
 async function bootstrap() {
     // TODO: Adjustable path for Docker containers
-    const sslOptions: HttpsOptions = environment.server?.secure
+    const applicationOptions: NestApplicationOptions = environment.server?.secure
         ? {
-              key: fs.readFileSync(join(__dirname, '..', '..', 'certificate-key.pem')),
-              cert: fs.readFileSync(join(__dirname, '..', '..', 'certificate.pem')),
+              httpsOptions: {
+                  key: fs.readFileSync(join(__dirname, '..', '..', 'certificate-key.pem')),
+                  cert: fs.readFileSync(join(__dirname, '..', '..', 'certificate.pem')),
+              },
           }
         : {};
 
-    const app = await NestFactory.create(AppModule, { httpsOptions: { ...sslOptions } });
+    const app = await NestFactory.create(AppModule, { ...applicationOptions });
 
     const { host, port, secure } = {
         host: DEFAULT_SERVER_HOSTNAME,
