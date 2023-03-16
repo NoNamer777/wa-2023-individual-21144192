@@ -2,12 +2,12 @@
     <form class="h-100 d-flex flex-column gap-2" @submit.prevent="onSubmit">
         <div class="mb-3">
             <label class="form-label">Sorting on</label>
-            <select class="form-select" v-model="form.sortingByAttribute">
-                <template v-for="sortable of SORTABLE_ATTRIBUTES" :key="sortable.value">
+            <select class="form-select" v-model="form.sorting.byAttribute">
+                <template v-for="sortable of SORT_BY_ATTRIBUTE_OPTIONS" :key="sortable.value">
                     <option :value="sortable.value">{{ sortable.label }}</option>
                 </template>
             </select>
-            <template v-for="order of SORTING_ORDERS" :key="order.value">
+            <template v-for="order of SORT_ORDER_OPTIONS" :key="order.value">
                 <div class="form-check mt-2">
                     <label class="form-check-label">
                         <input
@@ -16,8 +16,8 @@
                             :id="'sort-order-input-' + order.value"
                             name="sorting-order"
                             :value="order.value"
-                            :checked="form.sortingOrder === order.value"
-                            @click="form.sortingOrder = order.value"
+                            :checked="form.sorting.order === order.value"
+                            @click="form.sorting.order = order.value"
                         />
                         {{ order.label }}
                     </label>
@@ -26,7 +26,7 @@
         </div>
         <div class="mb-auto">
             <label class="form-label">Filter by Trait</label>
-            <select class="form-select" v-model="form.filteringByTrait">
+            <select class="form-select" v-model="form.filters.byTrait">
                 <option :value="null"></option>
                 <template v-for="traitOption in racialTraits" :key="traitOption">
                     <option :value="traitOption.value">{{ traitOption.label }}</option>
@@ -75,25 +75,30 @@ const hasFilters = ref<boolean>(false);
 const formIsDirty = ref<boolean>(false);
 
 const initialFormState = ref<SortingFilteringForm>({
-    sortingByAttribute: getSortingByAttributeFromRoute(),
-    sortingOrder: getSortingOrderFromRoute(),
-    filteringByTrait: getFilteringByTraitFromRoute(),
+    sorting: {
+        byAttribute: getSortingByAttributeFromRoute(),
+        order: getSortingOrderFromRoute(),
+    },
+    filters: {
+        byTrait: getFilteringByTraitFromRoute(),
+    },
 });
 
 const form = ref<SortingFilteringForm>({ ...initialFormState.value });
 
 async function onSubmit(): Promise<void> {
-    const queryParams: SortingFilteringQueryParams = {
+    // eslint-disable-next-line no-undef
+    const queryParams = {
         ...route.query,
-        sortingOrder: form.value.sortingOrder,
-        pageNumber: '1',
-    };
+        order: form.value.sorting.order,
+        page: '1',
+    } as SortingFilteringQueryParams;
 
-    if (form.value.sortingByAttribute) {
-        queryParams.sortingByAttribute = form.value.sortingByAttribute;
+    if (form.value.sorting.byAttribute) {
+        queryParams.sortingByAttribute = form.value.sorting.byAttribute;
     }
-    if (form.value.filteringByTrait) {
-        queryParams.filteringByTrait = form.value.filteringByTrait;
+    if (form.value.filters.byTrait) {
+        queryParams.hasTrait = form.value.filters.byTrait;
     }
     initialFormState.value = { ...form.value };
 
@@ -113,16 +118,18 @@ function getSortingByAttributeFromRoute(): SortableAttribute {
     if (isValidSortableByAttribute(sortingByAttributeQueryParam)) {
         return sortingByAttributeQueryParam as SortableAttribute;
     }
-    return DEFAULT_SORTING.onAttribute;
+    return DEFAULT_SORT_BY_ATTRIBUTE;
 }
 
-function getSortingOrderFromRoute(): SortingOrder {
+function getSortingOrderFromRoute(): SortOrder {
     const sortingOrderQueryParam = route.query?.sortingOrder as string;
 
     if (isValidSortingOrder(sortingOrderQueryParam)) {
-        return sortingOrderQueryParam as SortingOrder;
+        return Object.keys(SortOrder)[
+            Object.values(SortOrder).indexOf(sortingOrderQueryParam as SortOrder)
+        ] as SortOrder;
     }
-    return DEFAULT_SORTING.order;
+    return DEFAULT_SORT_ORDER;
 }
 
 function getFilteringByTraitFromRoute(): string | null {
@@ -131,7 +138,7 @@ function getFilteringByTraitFromRoute(): string | null {
     if (traitFilterQueryParam) {
         return traitFilterQueryParam as string;
     }
-    return DEFAULT_FILTERS.byTrait;
+    return DEFAULT_FILTER_BY_TRAIT;
 }
 
 watchEffect(() => {
