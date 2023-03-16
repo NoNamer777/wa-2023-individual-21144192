@@ -12,7 +12,8 @@
         "moduleResolution": "node",
         "paths": {
             "@dnd-mapp/data": ["packages/app-data/src/index.ts"],
-            "@vue-app/*": ["packages/vue-app/src/*"]
+
+            "@dnd-mapp/client": ["packages/vue-app/src/app/index.ts"],
         },
         "rootDir": ".",
         "skipLibCheck": true,

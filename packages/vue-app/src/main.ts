@@ -1,7 +1,7 @@
-import { faFilter, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { AppComponent, router } from '@dnd-mapp/client';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { faFilter, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { router, AppComponent } from '@vue-app/app';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import '~bootstrap';

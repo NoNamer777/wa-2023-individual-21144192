@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { fileURLToPath } from 'url';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
     assetsInclude: ['./src/favicon.ico', './src/assets/**/*'],
@@ -29,7 +29,8 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            '@vue-app': fileURLToPath(new URL('./src', import.meta.url)),
+            '@dnd-mapp/client': fileURLToPath(new URL('./src/app/index.ts', import.meta.url)),
+            '@dnd-mapp/data': fileURLToPath(new URL('../app-data/src/index.ts', import.meta.url)),
             '~bootstrap': fileURLToPath(new URL('../../node_modules/bootstrap', import.meta.url)),
         },
     },

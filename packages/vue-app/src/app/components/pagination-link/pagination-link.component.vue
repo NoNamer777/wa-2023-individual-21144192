@@ -11,7 +11,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { SortingFilteringQueryParams } from '@vue-app/app/models';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 

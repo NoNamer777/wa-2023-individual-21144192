@@ -44,17 +44,23 @@
 
 <script setup lang="ts">
 import {
-    DEFAULT_FILTERS,
-    DEFAULT_SORTING,
+    DEFAULT_FILTER_BY_TRAIT,
+    DEFAULT_SORT_BY_ATTRIBUTE,
+    DEFAULT_SORT_ORDER,
+    SortableAttribute,
+    SortOrder,
+    SORT_BY_ATTRIBUTE_OPTIONS,
+    SORT_ORDER_OPTIONS,
+} from '@dnd-mapp/data';
+import { ref, watchEffect } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import type { SortingFilteringForm, SortingFilteringQueryParams } from '../../models';
+import {
     DEFAULT_SORTING_FILTERING_FORM_STATE,
     formEquals,
     isValidSortableByAttribute,
     isValidSortingOrder,
-    SORTABLE_ATTRIBUTES,
-    SORTING_ORDERS,
-} from '@vue-app/app/models';
-import { ref, watchEffect } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+} from '../../models';
 
 interface FilteringAndSortingFormComponentProps {
     racialTraits: unknown[];

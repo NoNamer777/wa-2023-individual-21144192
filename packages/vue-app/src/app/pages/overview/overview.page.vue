@@ -60,8 +60,8 @@
 </style>
 
 <script setup lang="ts">
-import { CreateRaceDialogComponent, FilteringSortingPanelComponent, RaceCardComponent } from '@vue-app/app/components';
 import { computed, ref } from 'vue';
+import { CreateRaceDialogComponent, FilteringSortingPanelComponent, RaceCardComponent } from '../../components';
 
 const shouldShowRaces = computed<boolean>(() => false);
 
