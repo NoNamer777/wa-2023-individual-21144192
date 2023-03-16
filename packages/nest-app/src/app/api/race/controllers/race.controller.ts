@@ -1,6 +1,6 @@
 import {
     DEFAULT_PAGE_SIZE,
-    DEFAULT_SORTING_BY_ATTRIBUTE,
+    DEFAULT_SORT_BY_ATTRIBUTE,
     DEFAULT_SORT_ORDER,
     PaginationResponse,
     Race,
@@ -44,11 +44,7 @@ export class RaceController {
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
         @Query('pageSize', new DefaultValuePipe(DEFAULT_PAGE_SIZE), ParseIntPipe) pageSize: number,
         @Query('order', new DefaultValuePipe(DEFAULT_SORT_ORDER), new ParseEnumPipe(SortOrder)) order: SortOrder,
-        @Query(
-            'sortByAttribute',
-            new DefaultValuePipe(DEFAULT_SORTING_BY_ATTRIBUTE),
-            new ParseEnumPipe(SortableAttribute)
-        )
+        @Query('sortByAttribute', new DefaultValuePipe(DEFAULT_SORT_BY_ATTRIBUTE), new ParseEnumPipe(SortableAttribute))
         sortByAttribute: SortableAttribute,
         @Query('hasTrait', new DefaultValuePipe(null)) hasTrait: string
     ): Promise<PaginationResponse<Race>> {
