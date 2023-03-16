@@ -18,10 +18,11 @@
         </div>
         <hr class="flex-grow-0 flex-shrink-0" />
         <section class="flex-grow-1 flex-shrink-1 d-flex flex-wrap justify-content-center align-items-center gap-3">
-            <div class="spinner-border" v-if="!shouldShowRaces"></div>
-            <template v-else v-for="race in races" :key="race.name">
-                <race-card-component :race="race" />
+            <div class="spinner-border" v-if="loading"></div>
+            <template v-if="pagination.totalResults > 0">
+                <race-card-component v-for="race in pagination.results" :key="race.id" :race="race" />
             </template>
+            <p v-else>No data to show...</p>
         </section>
         <button
             type="button"
@@ -39,7 +40,7 @@
             <button type="button" class="btn btn-close" data-bs-dismiss="offcanvas" />
         </section>
         <section class="offcanvas-body">
-            <filtering-sorting-panel-component :racial-traits="racialTraits" />
+            <!--            <filtering-sorting-panel-component :racial-traits="racialTraits" />-->
         </section>
     </aside>
 
@@ -60,27 +61,28 @@
 </style>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from 'vue';
-import { CreateRaceDialogComponent, FilteringSortingPanelComponent, RaceCardComponent } from '../../components';
+import { storeToRefs } from 'pinia';
+import { onBeforeMount, ref } from 'vue';
+import { CreateRaceDialogComponent, RaceCardComponent } from '../../components';
 import { RaceService } from '../../services';
 import { usePaginationStore } from '../../stores';
 
 const raceService = RaceService.instance;
 const paginationStore = usePaginationStore();
 
-const shouldShowRaces = computed<boolean>(() => false);
+const loading = ref(false);
 
-const races = ref<unknown[]>([]);
-const racialTraits = ref<unknown[]>([]);
+const { pagination } = storeToRefs(paginationStore);
 
 onBeforeMount(() => {
     getData();
 });
 
 async function getData(): Promise<void> {
-    const response = await raceService.getAll();
+    loading.value = true;
 
-    console.log(response.results);
+    const response = await raceService.getAll();
+    loading.value = false;
 
     paginationStore.patchState({
         page: response.page,
@@ -89,6 +91,7 @@ async function getData(): Promise<void> {
         first: response.first,
         last: response.last,
         totalResults: response.totalResults,
+        results: response.results,
     });
 }
 </script>

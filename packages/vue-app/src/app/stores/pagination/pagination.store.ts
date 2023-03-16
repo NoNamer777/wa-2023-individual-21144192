@@ -1,4 +1,4 @@
-import { DEFAULT_PAGE_SIZE } from '@dnd-mapp/data';
+import { DEFAULT_PAGE_SIZE, Race } from '@dnd-mapp/data';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
@@ -9,6 +9,7 @@ interface Pagination {
     first: boolean;
     last: boolean;
     totalResults: number;
+    results: Race[];
 }
 
 export const usePaginationStore = defineStore('pagination', () => {
@@ -19,6 +20,7 @@ export const usePaginationStore = defineStore('pagination', () => {
         first: true,
         last: true,
         totalResults: 0,
+        results: [],
     });
 
     function patchState(value: Partial<Pagination>): void {
@@ -52,5 +54,19 @@ export const usePaginationStore = defineStore('pagination', () => {
         pagination.value = { ...pagination.value, totalResults };
     }
 
-    return { pagination, patchState, setPage, setPageSize, setTotalPages, setFirst, setLast, setTotalResults };
+    function setResults(results: Race[]): void {
+        pagination.value = { ...pagination.value, results };
+    }
+
+    return {
+        pagination,
+        patchState,
+        setPage,
+        setPageSize,
+        setTotalPages,
+        setFirst,
+        setLast,
+        setTotalResults,
+        setResults,
+    };
 });
