@@ -65,10 +65,11 @@ import { storeToRefs } from 'pinia';
 import { onBeforeMount, ref } from 'vue';
 import { CreateRaceDialogComponent, RaceCardComponent } from '../../components';
 import { RaceService } from '../../services';
-import { usePaginationStore } from '../../stores';
+import { usePaginationStore, useRaceStore } from '../../stores';
 
 const raceService = RaceService.instance;
 const paginationStore = usePaginationStore();
+const raceStore = useRaceStore();
 
 const loading = ref(false);
 
@@ -93,5 +94,9 @@ async function getData(): Promise<void> {
         totalResults: response.totalResults,
         results: response.results,
     });
+
+    for (const race of response.results) {
+        raceStore.addRace(race);
+    }
 }
 </script>
