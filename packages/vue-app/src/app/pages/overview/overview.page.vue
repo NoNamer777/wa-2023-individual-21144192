@@ -144,9 +144,9 @@ function updateStoreFromRoute(queryParams: LocationQuery): void {
 
         if (byTraitQueryParam) {
             console.log('Updating paginationStore.pagination.filters.byTrait from route');
-            paginationStore.setFilters({ byTrait: byTraitQueryParam });
+            paginationStore.setFilters({ [QueryParamKeys.FILTER_TRAIT]: byTraitQueryParam });
         }
-    } else if (pagination.value.filters.byTrait) {
+    } else if (pagination.value.filters.hasTrait) {
         console.log('Resetting paginationStore.pagination.filters.byTrait from route');
         paginationStore.setFilters({});
     }
@@ -155,7 +155,7 @@ function updateStoreFromRoute(queryParams: LocationQuery): void {
 async function getData(): Promise<void> {
     loading.value = true;
 
-    const response = await raceService.getAll(paginationStore.getAsQueryParams());
+    const response = await raceService.getAll(paginationStore.constructQueryParams());
     loading.value = false;
 
     paginationStore.patchState({

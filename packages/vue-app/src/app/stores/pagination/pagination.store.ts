@@ -32,7 +32,8 @@ export const usePaginationStore = defineStore('pagination', () => {
         filters: {},
     });
 
-    function getAsQueryParams(): string {
+    function constructQueryParams(): string {
+        console.log('PaginationStore - construct query params');
         let queryParams = '';
 
         if (pagination.value.page !== DEFAULT_PAGE) {
@@ -58,6 +59,7 @@ export const usePaginationStore = defineStore('pagination', () => {
     }
 
     function addQueryParam(queryParams: string, key: string, value: string | number): string {
+        console.log(`Pagination Store - add query param ('${key + ': ' + value}')`);
         if (!queryParams.startsWith('?')) {
             queryParams += '?';
         }
@@ -68,6 +70,7 @@ export const usePaginationStore = defineStore('pagination', () => {
     }
 
     function patchState(value: PaginationStoreUpdateValue): void {
+        console.log('PaginationStore - patch store sate', value);
         setPage(value.page);
         setPageSize(value.pageSize);
         setNumberOfPages(value.numberOfPages);
@@ -78,34 +81,42 @@ export const usePaginationStore = defineStore('pagination', () => {
     }
 
     function setPage(page: number): void {
+        console.log('PaginationStore - set page', page);
         pagination.value.page = page;
     }
 
     function setPageSize(pageSize: number): void {
+        console.log('PaginationStore - set pageSize', pageSize);
         pagination.value.pageSize = pageSize;
     }
 
     function setNumberOfPages(numberOfPages: number): void {
+        console.log('PaginationStore - set numberOfPages', numberOfPages);
         pagination.value.numberOfPages = numberOfPages;
     }
 
     function setFirst(first: boolean): void {
+        console.log('PaginationStore - set first', first);
         pagination.value.first = first;
     }
 
     function setLast(last: boolean): void {
+        console.log('PaginationStore - set last', last);
         pagination.value.last = last;
     }
 
     function setTotalResults(totalResults: number): void {
+        console.log('PaginationStore - set totalResults', totalResults);
         pagination.value.totalResults = totalResults;
     }
 
     function setResults(results: Race[]): void {
+        console.log('PaginationStore - set results', results);
         pagination.value.results = results;
     }
 
     function setSorting(sorting: SortingUpdateValue): void {
+        console.log('PaginationStore - set sorting', sorting);
         pagination.value.sorting = {
             ...pagination.value.sorting,
             ...sorting,
@@ -113,12 +124,13 @@ export const usePaginationStore = defineStore('pagination', () => {
     }
 
     function setFilters(filters: FiltersUpdateValue): void {
+        console.log('PaginationStore - set filters', filters);
         pagination.value.filters = {
             ...pagination.value.filters,
             ...filters,
         };
 
-        if (Object.keys(filters)) {
+        if (Object.keys(filters).length === 0) {
             delete pagination.value.filters.hasTrait;
         }
     }
@@ -126,7 +138,7 @@ export const usePaginationStore = defineStore('pagination', () => {
     return {
         pagination,
         patchState,
-        getAsQueryParams,
+        constructQueryParams,
         setPage,
         setSorting,
         setFilters,

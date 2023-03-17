@@ -26,9 +26,9 @@
         </div>
         <div class="mb-auto">
             <label class="form-label">Filter by Trait</label>
-            <select class="form-select" v-model="form.filters.byTrait">
+            <select class="form-select" v-model="form.filters.hasTrait">
                 <option :value="null"></option>
-                <template v-for="traitOption of []" :key="traitOption">
+                <template v-for="traitOption of traits" :key="traitOption.id">
                     <option :value="traitOption.value">{{ traitOption.label }}</option>
                 </template>
             </select>
@@ -45,14 +45,16 @@
 <script setup lang="ts">
 import { DEFAULT_PAGE, QueryParamKeys, SORT_BY_ATTRIBUTE_OPTIONS, SORT_ORDER_OPTIONS } from '@dnd-mapp/data';
 import { storeToRefs } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import type { SortingFilteringForm, SortingFilteringQueryParams } from '../../models';
+import type { SortingFilteringForm, SortingFilteringQueryParams, TraitOption } from '../../models';
 import { DEFAULT_SORTING_FILTERING_FORM_VALUE, formEquals } from '../../models';
+import { TraitService } from '../../services';
 import { usePaginationStore } from '../../stores';
 
 const router = useRouter();
 const route = useRoute();
+const traitService = TraitService.instance;
 
 const { pagination } = storeToRefs(usePaginationStore());
 
@@ -69,6 +71,12 @@ const form = ref<SortingFilteringForm>({
 const formIsDirty = computed(() => !formEquals(form.value, initialFormValue.value));
 const formIsDefault = computed(() => formEquals(form.value, DEFAULT_SORTING_FILTERING_FORM_VALUE));
 
+const traits = ref<TraitOption[]>([]);
+
+onBeforeMount(() => {
+    fetchTraits();
+});
+
 async function onSubmit(): Promise<void> {
     const queryParams = {
         ...route.query,
@@ -79,8 +87,8 @@ async function onSubmit(): Promise<void> {
     if (form.value.sorting.byAttribute) {
         queryParams[QueryParamKeys.SORTING_BY_ATTRIBUTE] = form.value.sorting.byAttribute;
     }
-    if (form.value.filters.byTrait) {
-        queryParams[QueryParamKeys.FILTER_TRAIT] = form.value.filters.byTrait as string;
+    if (form.value.filters.hasTrait) {
+        queryParams[QueryParamKeys.FILTER_TRAIT] = form.value.filters.hasTrait as string;
     }
     initialFormValue.value = {
         sorting: { ...form.value.sorting },
@@ -100,5 +108,13 @@ async function onReset(): Promise<void> {
     };
 
     await router.push({ query: {} });
+}
+
+async function fetchTraits(): Promise<void> {
+    traits.value = (await traitService.getAll()).map((trait) => ({
+        id: trait.id,
+        label: trait.name,
+        value: trait.name.toLowerCase().replace(/'/g, '').replace(/ /g, '-'),
+    }));
 }
 </script>
