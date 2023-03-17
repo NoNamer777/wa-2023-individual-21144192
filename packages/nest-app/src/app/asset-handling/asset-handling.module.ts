@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AssetHandlingController } from './asset-handling.controller';
+import { AssetHandlingController } from './controllers/asset-handling.controller';
 
 @Module({
     controllers: [AssetHandlingController],
