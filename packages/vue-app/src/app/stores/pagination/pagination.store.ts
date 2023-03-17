@@ -35,8 +35,6 @@ export const usePaginationStore = defineStore('pagination', () => {
     function getAsQueryParams(): string {
         let queryParams = '';
 
-        console.log(pagination.value);
-
         if (pagination.value.page !== DEFAULT_PAGE) {
             queryParams = addQueryParam(queryParams, QueryParamKeys.PAGE, pagination.value.page);
         }
