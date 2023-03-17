@@ -63,12 +63,17 @@
 <script setup lang="ts">
 import {
     DEFAULT_PAGE,
+    DEFAULT_SORT_BY_ATTRIBUTE,
+    DEFAULT_SORT_ORDER,
     QueryParamKeys,
+    SortableAttribute,
+    SortOrder,
 } from '@dnd-mapp/data';
 import { storeToRefs } from 'pinia';
 import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { LocationQuery, useRoute, useRouter } from 'vue-router';
 import { CreateRaceDialogComponent, FilteringSortingPanelComponent, RaceCardComponent } from '../../components';
+import { isValidSortableByAttribute, isValidSortingOrder } from '../../models';
 import { RaceService } from '../../services';
 import { usePaginationStore } from '../../stores';
 
@@ -109,6 +114,41 @@ function updateStoreFromRoute(queryParams: LocationQuery): void {
         console.log('Resetting paginationStore.pagination.page from route');
         paginationStore.setPage(DEFAULT_PAGE);
     }
+
+    if (queryParamKeys.includes(QueryParamKeys.SORTING_ORDER)) {
+        const sortOrderQueryParam = queryParams[QueryParamKeys.SORTING_ORDER] as string;
+
+        if (isValidSortingOrder(sortOrderQueryParam)) {
+            console.log('Updating paginationStore.pagination.sorting.order from route');
+            paginationStore.setSorting({ order: sortOrderQueryParam as SortOrder });
+        }
+    } else if (pagination.value.sorting.order !== DEFAULT_SORT_ORDER) {
+        console.log('Resetting paginationStore.pagination.sorting.order from route');
+        paginationStore.setSorting({ order: DEFAULT_SORT_ORDER });
+    }
+
+    if (queryParamKeys.includes(QueryParamKeys.SORTING_BY_ATTRIBUTE)) {
+        const sortByAttributeQueryParam = queryParams[QueryParamKeys.SORTING_BY_ATTRIBUTE] as string;
+
+        if (isValidSortableByAttribute(sortByAttributeQueryParam)) {
+            console.log('Updating paginationStore.pagination.sorting.byAttribute from route');
+            paginationStore.setSorting({ byAttribute: sortByAttributeQueryParam as SortableAttribute });
+        }
+    } else if (pagination.value.sorting.byAttribute !== DEFAULT_SORT_BY_ATTRIBUTE) {
+        console.log('Resetting paginationStore.pagination.sorting.byAttribute from route');
+        paginationStore.setSorting({ byAttribute: DEFAULT_SORT_BY_ATTRIBUTE });
+    }
+
+    if (queryParamKeys.includes(QueryParamKeys.FILTER_TRAIT)) {
+        const byTraitQueryParam = queryParams[QueryParamKeys.FILTER_TRAIT] as string;
+
+        if (byTraitQueryParam) {
+            console.log('Updating paginationStore.pagination.filters.byTrait from route');
+            paginationStore.setFilters({ byTrait: byTraitQueryParam });
+        }
+    } else if (pagination.value.filters.byTrait) {
+        console.log('Resetting paginationStore.pagination.filters.byTrait from route');
+        paginationStore.setFilters({});
     }
 }
 
