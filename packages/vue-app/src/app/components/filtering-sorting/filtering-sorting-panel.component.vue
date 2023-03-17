@@ -28,7 +28,7 @@
             <label class="form-label">Filter by Trait</label>
             <select class="form-select" v-model="form.filters.byTrait">
                 <option :value="null"></option>
-                <template v-for="traitOption in racialTraits" :key="traitOption">
+                <template v-for="traitOption of []" :key="traitOption">
                     <option :value="traitOption.value">{{ traitOption.label }}</option>
                 </template>
             </select>
@@ -43,51 +43,30 @@
 </template>
 
 <script setup lang="ts">
-import {
-    DEFAULT_FILTER_BY_TRAIT,
-    DEFAULT_SORT_BY_ATTRIBUTE,
-    DEFAULT_SORT_ORDER,
-    SortableAttribute,
-    SortOrder,
-    SORT_BY_ATTRIBUTE_OPTIONS,
-    SORT_ORDER_OPTIONS,
-} from '@dnd-mapp/data';
+import { SORT_BY_ATTRIBUTE_OPTIONS, SORT_ORDER_OPTIONS } from '@dnd-mapp/data';
+import { storeToRefs } from 'pinia';
 import { ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type { SortingFilteringForm, SortingFilteringQueryParams } from '../../models';
-import {
-    DEFAULT_SORTING_FILTERING_FORM_STATE,
-    formEquals,
-    isValidSortableByAttribute,
-    isValidSortingOrder,
-} from '../../models';
-
-interface FilteringAndSortingFormComponentProps {
-    racialTraits: unknown[];
-}
-
-defineProps<FilteringAndSortingFormComponentProps>();
+import { DEFAULT_SORTING_FILTERING_FORM_STATE, formEquals } from '../../models';
+import { usePaginationStore } from '../../stores';
 
 const router = useRouter();
 const route = useRoute();
+
+const { pagination } = storeToRefs(usePaginationStore());
 
 const hasFilters = ref<boolean>(false);
 const formIsDirty = ref<boolean>(false);
 
 const initialFormState = ref<SortingFilteringForm>({
-    sorting: {
-        byAttribute: getSortingByAttributeFromRoute(),
-        order: getSortingOrderFromRoute(),
-    },
-    filters: {
-        byTrait: getFilteringByTraitFromRoute(),
-    },
+    sorting: pagination.value.sorting,
+    filters: pagination.value.filters,
 });
 
 const form = ref<SortingFilteringForm>({ ...initialFormState.value });
 
 async function onSubmit(): Promise<void> {
-    // eslint-disable-next-line no-undef
     const queryParams = {
         ...route.query,
         order: form.value.sorting.order,
@@ -98,7 +77,7 @@ async function onSubmit(): Promise<void> {
         queryParams.sortingByAttribute = form.value.sorting.byAttribute;
     }
     if (form.value.filters.byTrait) {
-        queryParams.hasTrait = form.value.filters.byTrait;
+        queryParams.hasTrait = form.value.filters.byTrait as string;
     }
     initialFormState.value = { ...form.value };
 
@@ -110,35 +89,6 @@ async function onReset(): Promise<void> {
     initialFormState.value = { ...DEFAULT_SORTING_FILTERING_FORM_STATE };
 
     await router.push({ query: {} });
-}
-
-function getSortingByAttributeFromRoute(): SortableAttribute {
-    const sortingByAttributeQueryParam = route.query?.sortingByAttribute as string;
-
-    if (isValidSortableByAttribute(sortingByAttributeQueryParam)) {
-        return sortingByAttributeQueryParam as SortableAttribute;
-    }
-    return DEFAULT_SORT_BY_ATTRIBUTE;
-}
-
-function getSortingOrderFromRoute(): SortOrder {
-    const sortingOrderQueryParam = route.query?.sortingOrder as string;
-
-    if (isValidSortingOrder(sortingOrderQueryParam)) {
-        return Object.keys(SortOrder)[
-            Object.values(SortOrder).indexOf(sortingOrderQueryParam as SortOrder)
-        ] as SortOrder;
-    }
-    return DEFAULT_SORT_ORDER;
-}
-
-function getFilteringByTraitFromRoute(): string | null {
-    const traitFilterQueryParam = route.query?.filteringByTrait as string;
-
-    if (traitFilterQueryParam) {
-        return traitFilterQueryParam as string;
-    }
-    return DEFAULT_FILTER_BY_TRAIT;
 }
 
 watchEffect(() => {

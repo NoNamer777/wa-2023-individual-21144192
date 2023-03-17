@@ -2,7 +2,7 @@
     <li class="page-item" :class="{ disabled: disabled, active: isOnPage() }">
         <router-link
             class="page-link"
-            :to="{ name: 'Overview', query: { ...queryParams, pageNumber: pageNumber } }"
+            :to="{ name: 'Overview', query: { ...queryParams, page: pageNumber } }"
             active-class="_active"
         >
             {{ label }}

@@ -40,7 +40,7 @@
             <button type="button" class="btn btn-close" data-bs-dismiss="offcanvas" />
         </section>
         <section class="offcanvas-body">
-            <!--            <filtering-sorting-panel-component :racial-traits="racialTraits" />-->
+            <filtering-sorting-panel-component />
         </section>
     </aside>
 
@@ -62,32 +62,56 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { onBeforeMount, ref } from 'vue';
-import { CreateRaceDialogComponent, RaceCardComponent } from '../../components';
+import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
+import { LocationQuery, useRoute, useRouter } from 'vue-router';
+import { CreateRaceDialogComponent, FilteringSortingPanelComponent, RaceCardComponent } from '../../components';
 import { RaceService } from '../../services';
-import { usePaginationStore, useRaceStore } from '../../stores';
+import { usePaginationStore } from '../../stores';
 
 const raceService = RaceService.instance;
 const paginationStore = usePaginationStore();
-const raceStore = useRaceStore();
+const router = useRouter();
+const route = useRoute();
 
 const loading = ref(false);
 
 const { pagination } = storeToRefs(paginationStore);
 
-onBeforeMount(() => {
+const unsubscribeAfterEachRoute = router.afterEach((to) => {
+    updateStoreFromRoute(to.query);
     getData();
 });
+
+onBeforeMount(() => {
+    updateStoreFromRoute(route.query);
+    getData();
+});
+
+onBeforeUnmount(() => {
+    unsubscribeAfterEachRoute();
+});
+
+function updateStoreFromRoute(queryParams: LocationQuery): void {
+    if (Object.keys(queryParams).length === 0) return;
+
+    if (Object.keys(queryParams).includes('page')) {
+        const pageQueryParam = parseInt(queryParams['page'] as string);
+
+        if (!isNaN(pageQueryParam)) {
+            paginationStore.setPage(pageQueryParam);
+        }
+    }
+}
 
 async function getData(): Promise<void> {
     loading.value = true;
 
-    const response = await raceService.getAll();
+    const response = await raceService.getAll(paginationStore.getAsQueryParams());
     loading.value = false;
 
     paginationStore.patchState({
         page: response.page,
-        totalPages: response.numberOfPages,
+        numberOfPages: response.numberOfPages,
         pageSize: response.pageSize,
         first: response.first,
         last: response.last,
@@ -95,8 +119,7 @@ async function getData(): Promise<void> {
         results: response.results,
     });
 
-    for (const race of response.results) {
-        raceStore.addRace(race);
-    }
+    paginationStore.setSorting({ ...response.sorting });
+    paginationStore.setFilters({ ...response.filters });
 }
 </script>

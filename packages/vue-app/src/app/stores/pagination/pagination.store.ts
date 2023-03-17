@@ -1,72 +1,134 @@
-import { DEFAULT_PAGE_SIZE, Race } from '@dnd-mapp/data';
+import {
+    DEFAULT_PAGE_SIZE,
+    DEFAULT_SORT_BY_ATTRIBUTE,
+    DEFAULT_SORT_ORDER,
+    Race,
+    SortableAttribute,
+} from '@dnd-mapp/data';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-
-interface Pagination {
-    page: number;
-    pageSize: number;
-    totalPages: number;
-    first: boolean;
-    last: boolean;
-    totalResults: number;
-    results: Race[];
-}
+import type {
+    FiltersUpdateValue,
+    PaginationStoreUpdateValue,
+    PaginationStoreValue,
+    SortingUpdateValue,
+} from '../../models';
 
 export const usePaginationStore = defineStore('pagination', () => {
-    const pagination = ref<Pagination>({
+    const pagination = ref<PaginationStoreValue>({
         page: 1,
         pageSize: DEFAULT_PAGE_SIZE,
-        totalPages: 1,
+        numberOfPages: 1,
         first: true,
         last: true,
         totalResults: 0,
         results: [],
+        sorting: {
+            order: DEFAULT_SORT_ORDER,
+            byAttribute: DEFAULT_SORT_BY_ATTRIBUTE,
+        },
+        filters: {},
     });
 
-    function patchState(value: Partial<Pagination>): void {
-        pagination.value = {
-            ...pagination.value,
-            ...value,
-        };
+    function getAsQueryParams(): string {
+        let queryParams = '';
+
+        if (pagination.value.page !== 1) {
+            queryParams = addQueryParam(queryParams, 'page', pagination.value.page);
+        }
+        if (pagination.value.pageSize !== DEFAULT_PAGE_SIZE) {
+            queryParams = addQueryParam(queryParams, 'pageSize', pagination.value.pageSize);
+        }
+        if (pagination.value.sorting.order !== DEFAULT_SORT_ORDER) {
+            queryParams = addQueryParam(queryParams, 'order', pagination.value.sorting.order);
+        }
+        if (pagination.value.sorting.byAttribute !== DEFAULT_SORT_BY_ATTRIBUTE) {
+            queryParams = addQueryParam(
+                queryParams,
+                'sortByAttribute',
+                pagination.value.sorting.byAttribute as SortableAttribute
+            );
+        }
+        if (pagination.value.filters.hasTrait) {
+            queryParams = addQueryParam(queryParams, 'hasTrait', pagination.value.filters.hasTrait);
+        }
+        return queryParams;
+    }
+
+    function addQueryParam(queryParams: string, key: string, value: string | number): string {
+        if (!queryParams.startsWith('?')) {
+            queryParams += '?';
+        }
+        if (!queryParams.endsWith('?')) {
+            queryParams += '&';
+        }
+        return queryParams + `${key}=${value}`;
+    }
+
+    function patchState(value: PaginationStoreUpdateValue): void {
+        setPage(value.page);
+        setPageSize(value.pageSize);
+        setNumberOfPages(value.numberOfPages);
+        setFirst(value.first);
+        setLast(value.last);
+        setTotalResults(value.totalResults);
+        setResults(value.results);
     }
 
     function setPage(page: number): void {
-        pagination.value = { ...pagination.value, page };
+        pagination.value.page = page;
     }
 
     function setPageSize(pageSize: number): void {
-        pagination.value = { ...pagination.value, pageSize };
+        pagination.value.pageSize = pageSize;
     }
 
-    function setTotalPages(totalPages: number): void {
-        pagination.value = { ...pagination.value, totalPages };
+    function setNumberOfPages(numberOfPages: number): void {
+        pagination.value.numberOfPages = numberOfPages;
     }
 
     function setFirst(first: boolean): void {
-        pagination.value = { ...pagination.value, first };
+        pagination.value.first = first;
     }
 
     function setLast(last: boolean): void {
-        pagination.value = { ...pagination.value, last };
+        pagination.value.last = last;
     }
 
     function setTotalResults(totalResults: number): void {
-        pagination.value = { ...pagination.value, totalResults };
+        pagination.value.totalResults = totalResults;
     }
 
     function setResults(results: Race[]): void {
-        pagination.value = { ...pagination.value, results };
+        pagination.value.results = results;
+    }
+
+    function setSorting(sorting: SortingUpdateValue): void {
+        pagination.value.sorting = {
+            ...pagination.value.sorting,
+            ...sorting,
+        };
+    }
+
+    function setFilters(filters: FiltersUpdateValue): void {
+        pagination.value.filters = {
+            ...pagination.value.filters,
+            ...filters,
+        };
     }
 
     return {
         pagination,
         patchState,
+        getAsQueryParams,
         setPage,
         setPageSize,
-        setTotalPages,
+        setNumberOfPages,
         setFirst,
         setLast,
         setTotalResults,
         setResults,
+        setSorting,
+        setFilters,
     };
 });

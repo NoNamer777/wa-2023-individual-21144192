@@ -41,9 +41,15 @@ export class RaceService implements OnModuleInit {
         response.last = page === totalNumberOfPages;
         response.pageSize = pageSize;
         response.page = page;
-        response.sortOrder = order;
         response.totalResults = data.length;
+        response.sorting.order = order;
 
+        if (sortByAttribute !== SortableAttribute.NONE) {
+            response.sorting.byAttribute = sortByAttribute;
+        }
+        if (hasTrait) {
+            response.filters = { hasTrait };
+        }
         return response;
     }
 
