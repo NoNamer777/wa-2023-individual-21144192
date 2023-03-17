@@ -14,7 +14,6 @@ export function isValidSortingOrder(value: string): boolean {
 }
 
 export function isValidSortableByAttribute(value: string): boolean {
-    console.log(value, !value);
     return !value ? false : (Object.values(SortableAttribute) as string[]).includes(value);
 }
 
@@ -22,6 +21,12 @@ export function formEquals(f1: SortingFilteringForm, f2: SortingFilteringForm): 
     return (
         f1.sorting.order === f2.sorting.order &&
         f1.sorting.byAttribute === f2.sorting.byAttribute &&
-        f1.filters.byTrait === f2.filters.byTrait
+        f1.filters.hasTrait === f2.filters.hasTrait
     );
+}
+
+export interface TraitOption {
+    id: number;
+    value: string;
+    label: string;
 }
