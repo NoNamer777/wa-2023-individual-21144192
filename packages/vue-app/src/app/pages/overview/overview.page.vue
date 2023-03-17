@@ -1,17 +1,7 @@
 <template>
     <article class="h-100 d-flex flex-column">
         <div class="px-3">
-            <div class="d-flex justify-content-between">
-                <h2>Races</h2>
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#create-race-modal"
-                >
-                    New Race
-                </button>
-            </div>
+            <h2>Races</h2>
             <p>
                 Below here is an overview of some of the playable Races that you can choose for your player character.
             </p>
@@ -43,14 +33,6 @@
             <filtering-sorting-panel-component />
         </section>
     </aside>
-
-    <Teleport to="#dialogs">
-        <div class="modal fade" id="create-race-modal" tabindex="-1">
-            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-fullscreen-md-down">
-                <create-race-dialog-component />
-            </div>
-        </div>
-    </Teleport>
 </template>
 
 <style scoped lang="scss">
@@ -72,7 +54,7 @@ import {
 import { storeToRefs } from 'pinia';
 import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { LocationQuery, useRoute, useRouter } from 'vue-router';
-import { CreateRaceDialogComponent, FilteringSortingPanelComponent, RaceCardComponent } from '../../components';
+import { FilteringSortingPanelComponent, RaceCardComponent } from '../../components';
 import { isValidSortableByAttribute, isValidSortingOrder } from '../../models';
 import { RaceService } from '../../services';
 import { usePaginationStore } from '../../stores';
