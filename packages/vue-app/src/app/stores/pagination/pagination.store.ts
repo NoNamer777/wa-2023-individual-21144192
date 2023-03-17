@@ -1,7 +1,9 @@
 import {
+    DEFAULT_PAGE,
     DEFAULT_PAGE_SIZE,
     DEFAULT_SORT_BY_ATTRIBUTE,
     DEFAULT_SORT_ORDER,
+    QueryParamKeys,
     Race,
     SortableAttribute,
 } from '@dnd-mapp/data';
@@ -16,7 +18,7 @@ import type {
 
 export const usePaginationStore = defineStore('pagination', () => {
     const pagination = ref<PaginationStoreValue>({
-        page: 1,
+        page: DEFAULT_PAGE,
         pageSize: DEFAULT_PAGE_SIZE,
         numberOfPages: 1,
         first: true,
@@ -33,24 +35,24 @@ export const usePaginationStore = defineStore('pagination', () => {
     function getAsQueryParams(): string {
         let queryParams = '';
 
-        if (pagination.value.page !== 1) {
-            queryParams = addQueryParam(queryParams, 'page', pagination.value.page);
+        if (pagination.value.page !== DEFAULT_PAGE) {
+            queryParams = addQueryParam(queryParams, QueryParamKeys.PAGE, pagination.value.page);
         }
         if (pagination.value.pageSize !== DEFAULT_PAGE_SIZE) {
-            queryParams = addQueryParam(queryParams, 'pageSize', pagination.value.pageSize);
+            queryParams = addQueryParam(queryParams, QueryParamKeys.PAGE_SIZE, pagination.value.pageSize);
         }
         if (pagination.value.sorting.order !== DEFAULT_SORT_ORDER) {
-            queryParams = addQueryParam(queryParams, 'order', pagination.value.sorting.order);
+            queryParams = addQueryParam(queryParams, QueryParamKeys.SORTING_ORDER, pagination.value.sorting.order);
         }
         if (pagination.value.sorting.byAttribute !== DEFAULT_SORT_BY_ATTRIBUTE) {
             queryParams = addQueryParam(
                 queryParams,
-                'sortByAttribute',
+                QueryParamKeys.SORTING_BY_ATTRIBUTE,
                 pagination.value.sorting.byAttribute as SortableAttribute
             );
         }
         if (pagination.value.filters.hasTrait) {
-            queryParams = addQueryParam(queryParams, 'hasTrait', pagination.value.filters.hasTrait);
+            queryParams = addQueryParam(queryParams, QueryParamKeys.FILTER_TRAIT, pagination.value.filters.hasTrait);
         }
         return queryParams;
     }
@@ -115,6 +117,10 @@ export const usePaginationStore = defineStore('pagination', () => {
             ...pagination.value.filters,
             ...filters,
         };
+
+        if (Object.keys(filters)) {
+            delete pagination.value.filters.hasTrait;
+        }
     }
 
     return {
@@ -122,12 +128,6 @@ export const usePaginationStore = defineStore('pagination', () => {
         patchState,
         getAsQueryParams,
         setPage,
-        setPageSize,
-        setNumberOfPages,
-        setFirst,
-        setLast,
-        setTotalResults,
-        setResults,
         setSorting,
         setFilters,
     };

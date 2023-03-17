@@ -2,7 +2,7 @@
     <li class="page-item" :class="{ disabled: disabled, active: isOnPage() }">
         <router-link
             class="page-link"
-            :to="{ name: 'Overview', query: { ...queryParams, page: pageNumber } }"
+            :to="{ name: 'Overview', query: { ...queryParams, [QueryParamKeys.PAGE]: pageNumber } }"
             active-class="_active"
         >
             {{ label }}
@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts" setup>
+import { QueryParamKeys } from '@dnd-mapp/data';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 

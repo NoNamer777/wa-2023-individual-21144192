@@ -1,8 +1,10 @@
 import {
+    DEFAULT_PAGE,
     DEFAULT_PAGE_SIZE,
     DEFAULT_SORT_BY_ATTRIBUTE,
     DEFAULT_SORT_ORDER,
     PaginationResponse,
+    QueryParamKeys,
     Race,
     SortableAttribute,
     SortOrder,
@@ -41,12 +43,17 @@ export class RaceController {
 
     @Get()
     async getAll(
-        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-        @Query('pageSize', new DefaultValuePipe(DEFAULT_PAGE_SIZE), ParseIntPipe) pageSize: number,
-        @Query('order', new DefaultValuePipe(DEFAULT_SORT_ORDER), new ParseEnumPipe(SortOrder)) order: SortOrder,
-        @Query('sortByAttribute', new DefaultValuePipe(DEFAULT_SORT_BY_ATTRIBUTE), new ParseEnumPipe(SortableAttribute))
+        @Query(QueryParamKeys.PAGE, new DefaultValuePipe(DEFAULT_PAGE), ParseIntPipe) page: number,
+        @Query(QueryParamKeys.PAGE_SIZE, new DefaultValuePipe(DEFAULT_PAGE_SIZE), ParseIntPipe) pageSize: number,
+        @Query(QueryParamKeys.SORTING_ORDER, new DefaultValuePipe(DEFAULT_SORT_ORDER), new ParseEnumPipe(SortOrder))
+        order: SortOrder,
+        @Query(
+            QueryParamKeys.SORTING_BY_ATTRIBUTE,
+            new DefaultValuePipe(DEFAULT_SORT_BY_ATTRIBUTE),
+            new ParseEnumPipe(SortableAttribute)
+        )
         sortByAttribute: SortableAttribute,
-        @Query('hasTrait', new DefaultValuePipe(null)) hasTrait: string
+        @Query(QueryParamKeys.FILTER_TRAIT, new DefaultValuePipe(null)) hasTrait: string
     ): Promise<PaginationResponse<Race>> {
         return await this.raceService.getAll(page, pageSize, order, sortByAttribute, hasTrait);
     }
