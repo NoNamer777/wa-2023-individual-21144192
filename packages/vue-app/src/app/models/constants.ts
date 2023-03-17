@@ -1,7 +1,7 @@
 import { SortableAttribute, SortOrder } from '@dnd-mapp/data';
 import { SortingFilteringForm } from './interfaces';
 
-export const DEFAULT_SORTING_FILTERING_FORM_STATE: SortingFilteringForm = {
+export const DEFAULT_SORTING_FILTERING_FORM_VALUE: SortingFilteringForm = {
     sorting: {
         order: SortOrder.ASCENDING,
         byAttribute: SortableAttribute.NONE,
@@ -10,11 +10,12 @@ export const DEFAULT_SORTING_FILTERING_FORM_STATE: SortingFilteringForm = {
 };
 
 export function isValidSortingOrder(value: string): boolean {
-    return !value ? false : Object.keys(SortOrder).includes(value);
+    return !value ? false : (Object.values(SortOrder) as string[]).includes(value);
 }
 
 export function isValidSortableByAttribute(value: string): boolean {
-    return !value ? false : Object.keys(SortableAttribute).includes(value);
+    console.log(value, !value);
+    return !value ? false : (Object.values(SortableAttribute) as string[]).includes(value);
 }
 
 export function formEquals(f1: SortingFilteringForm, f2: SortingFilteringForm): boolean {

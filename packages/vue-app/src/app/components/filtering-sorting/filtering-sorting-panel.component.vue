@@ -43,12 +43,12 @@
 </template>
 
 <script setup lang="ts">
-import { QueryParamKeys, SORT_BY_ATTRIBUTE_OPTIONS, SORT_ORDER_OPTIONS } from '@dnd-mapp/data';
+import { DEFAULT_PAGE, QueryParamKeys, SORT_BY_ATTRIBUTE_OPTIONS, SORT_ORDER_OPTIONS } from '@dnd-mapp/data';
 import { storeToRefs } from 'pinia';
 import { ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type { SortingFilteringForm, SortingFilteringQueryParams } from '../../models';
-import { DEFAULT_SORTING_FILTERING_FORM_STATE, formEquals } from '../../models';
+import { DEFAULT_SORTING_FILTERING_FORM_VALUE, formEquals } from '../../models';
 import { usePaginationStore } from '../../stores';
 
 const router = useRouter();
@@ -58,10 +58,11 @@ const { pagination } = storeToRefs(usePaginationStore());
 
 const hasFilters = ref<boolean>(false);
 const formIsDirty = ref<boolean>(false);
+const initialFormValue = ref<SortingFilteringForm>({
+    sorting: { ...pagination.value.sorting },
+    filters: { ...pagination.value.filters },
+});
 
-const initialFormState = ref<SortingFilteringForm>({
-    sorting: pagination.value.sorting,
-    filters: pagination.value.filters,
 });
 
 const form = ref<SortingFilteringForm>({ ...initialFormState.value });
@@ -79,23 +80,20 @@ async function onSubmit(): Promise<void> {
     if (form.value.filters.byTrait) {
         queryParams[QueryParamKeys.FILTER_TRAIT] = form.value.filters.byTrait as string;
     }
-    initialFormState.value = { ...form.value };
-
+    initialFormValue.value = {
+        sorting: { ...form.value.sorting },
+        filters: { ...form.value.filters },
+    };
     await router.push({ query: queryParams });
 }
 
 async function onReset(): Promise<void> {
     form.value = { ...DEFAULT_SORTING_FILTERING_FORM_STATE };
-    initialFormState.value = { ...DEFAULT_SORTING_FILTERING_FORM_STATE };
+    initialFormValue.value = {
+        sorting: { ...DEFAULT_SORTING_FILTERING_FORM_VALUE.sorting },
+        filters: { ...DEFAULT_SORTING_FILTERING_FORM_VALUE.filters },
+    };
 
     await router.push({ query: {} });
 }
-
-watchEffect(() => {
-    const formValue = { ...form.value };
-    const initFormValue = { ...initialFormState.value };
-
-    hasFilters.value = !formEquals(DEFAULT_SORTING_FILTERING_FORM_STATE, formValue);
-    formIsDirty.value = !formEquals(initFormValue, formValue);
-});
 </script>
