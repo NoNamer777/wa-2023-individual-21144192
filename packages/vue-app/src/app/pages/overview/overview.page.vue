@@ -40,7 +40,7 @@
             <button type="button" class="btn btn-close" data-bs-dismiss="offcanvas" />
         </section>
         <section class="offcanvas-body">
-            <!--            <filtering-sorting-panel-component :racial-traits="racialTraits" />-->
+            <filtering-sorting-panel-component />
         </section>
     </aside>
 
@@ -63,7 +63,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { onBeforeMount, ref } from 'vue';
-import { CreateRaceDialogComponent, RaceCardComponent } from '../../components';
+import { CreateRaceDialogComponent, FilteringSortingPanelComponent, RaceCardComponent } from '../../components';
 import { RaceService } from '../../services';
 import { usePaginationStore } from '../../stores';
 
@@ -86,12 +86,15 @@ async function getData(): Promise<void> {
 
     paginationStore.patchState({
         page: response.page,
-        totalPages: response.numberOfPages,
+        numberOfPages: response.numberOfPages,
         pageSize: response.pageSize,
         first: response.first,
         last: response.last,
         totalResults: response.totalResults,
         results: response.results,
     });
+
+    paginationStore.setSorting({ ...response.sorting });
+    paginationStore.setFilters({ ...response.filters });
 }
 </script>

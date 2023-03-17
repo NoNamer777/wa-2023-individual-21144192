@@ -1,14 +1,13 @@
-import { SortableAttribute, SortOrder } from '@dnd-mapp/data';
+import { Filters, PaginationResponse, Race, SortableAttribute, Sorting, SortOrder } from '@dnd-mapp/data';
 
 export interface SortingFilteringForm {
-    sorting: {
-        order: SortOrder;
-        byAttribute: SortableAttribute;
-    };
-    filters: {
-        byTrait: string | null;
-    };
+    sorting: Sorting;
+    filters: Filters;
 }
+
+export type SortingUpdateValue = Partial<Sorting>;
+
+export type FiltersUpdateValue = Partial<Filters>;
 
 export interface SortingFilteringQueryParams {
     page: string;
@@ -18,3 +17,7 @@ export interface SortingFilteringQueryParams {
 
     [key: string]: string;
 }
+
+export type PaginationStoreValue = PaginationResponse<Race> & SortingFilteringForm;
+
+export type PaginationStoreUpdateValue = Omit<PaginationStoreValue, 'sorting' | 'filters'>;

@@ -1,11 +1,11 @@
-import { PaginationResponse, Race, SortableAttribute, SortOrder, Trait } from '@dnd-mapp/data';
-import { BadRequestException, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { PaginationResponse,Race,SortableAttribute,SortOrder,Trait } from '@dnd-mapp/data';
+import { BadRequestException,Injectable,NotFoundException,OnModuleInit } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsOrder,FindOptionsWhere,Repository } from 'typeorm';
 import { TraitService } from '../../trait';
-import { CreateRaceData, RaceSchema } from '../race.schema';
-import { RacialTraitRelation, RacialTraitSchema } from '../racial-trait.schema';
+import { CreateRaceData,RaceSchema } from '../race.schema';
+import { RacialTraitRelation,RacialTraitSchema } from '../racial-trait.schema';
 
 @Injectable()
 export class RaceService implements OnModuleInit {
@@ -41,9 +41,15 @@ export class RaceService implements OnModuleInit {
         response.last = page === totalNumberOfPages;
         response.pageSize = pageSize;
         response.page = page;
-        response.sortOrder = order;
         response.totalResults = data.length;
+        response.sorting.order = order;
 
+        if (sortByAttribute !== SortableAttribute.NONE) {
+            response.sorting.byAttribute = sortByAttribute;
+        }
+        if (hasTrait) {
+            response.filters = { hasTrait };
+        }
         return response;
     }
 

@@ -6,9 +6,7 @@ export const DEFAULT_SORTING_FILTERING_FORM_STATE: SortingFilteringForm = {
         order: SortOrder.ASCENDING,
         byAttribute: SortableAttribute.NONE,
     },
-    filters: {
-        byTrait: null,
-    },
+    filters: {},
 };
 
 export function isValidSortingOrder(value: string): boolean {
