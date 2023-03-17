@@ -62,26 +62,51 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
+import { LocationQuery, useRoute, useRouter } from 'vue-router';
 import { CreateRaceDialogComponent, FilteringSortingPanelComponent, RaceCardComponent } from '../../components';
 import { RaceService } from '../../services';
 import { usePaginationStore } from '../../stores';
 
 const raceService = RaceService.instance;
 const paginationStore = usePaginationStore();
+const router = useRouter();
+const route = useRoute();
 
 const loading = ref(false);
 
 const { pagination } = storeToRefs(paginationStore);
 
-onBeforeMount(() => {
+const unsubscribeAfterEachRoute = router.afterEach((to) => {
+    updateStoreFromRoute(to.query);
     getData();
 });
+
+onBeforeMount(() => {
+    updateStoreFromRoute(route.query);
+    getData();
+});
+
+onBeforeUnmount(() => {
+    unsubscribeAfterEachRoute();
+});
+
+function updateStoreFromRoute(queryParams: LocationQuery): void {
+    if (Object.keys(queryParams).length === 0) return;
+
+    if (Object.keys(queryParams).includes('page')) {
+        const pageQueryParam = parseInt(queryParams['page'] as string);
+
+        if (!isNaN(pageQueryParam)) {
+            paginationStore.setPage(pageQueryParam);
+        }
+    }
+}
 
 async function getData(): Promise<void> {
     loading.value = true;
 
-    const response = await raceService.getAll();
+    const response = await raceService.getAll(paginationStore.getAsQueryParams());
     loading.value = false;
 
     paginationStore.patchState({

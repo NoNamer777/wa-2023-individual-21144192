@@ -16,8 +16,8 @@ export class RaceService {
         this.httpService = HttpService.instance;
     }
 
-    async getAll(): Promise<PaginationResponse<Race>> {
-        return await this.httpService.get('http://localhost:8080/api/race');
+    async getAll(queryParams: string): Promise<PaginationResponse<Race>> {
+        return await this.httpService.get('http://localhost:8080/api/race' + queryParams);
     }
 
     async getById(raceId: number): Promise<Race> {

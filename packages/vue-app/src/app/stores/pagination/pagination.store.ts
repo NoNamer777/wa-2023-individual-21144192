@@ -1,4 +1,10 @@
-import { DEFAULT_PAGE_SIZE, DEFAULT_SORT_BY_ATTRIBUTE, DEFAULT_SORT_ORDER, Race } from '@dnd-mapp/data';
+import {
+    DEFAULT_PAGE_SIZE,
+    DEFAULT_SORT_BY_ATTRIBUTE,
+    DEFAULT_SORT_ORDER,
+    Race,
+    SortableAttribute,
+} from '@dnd-mapp/data';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type {
@@ -23,6 +29,41 @@ export const usePaginationStore = defineStore('pagination', () => {
         },
         filters: {},
     });
+
+    function getAsQueryParams(): string {
+        let queryParams = '';
+
+        if (pagination.value.page !== 1) {
+            queryParams = addQueryParam(queryParams, 'page', pagination.value.page);
+        }
+        if (pagination.value.pageSize !== DEFAULT_PAGE_SIZE) {
+            queryParams = addQueryParam(queryParams, 'pageSize', pagination.value.pageSize);
+        }
+        if (pagination.value.sorting.order !== DEFAULT_SORT_ORDER) {
+            queryParams = addQueryParam(queryParams, 'order', pagination.value.sorting.order);
+        }
+        if (pagination.value.sorting.byAttribute !== DEFAULT_SORT_BY_ATTRIBUTE) {
+            queryParams = addQueryParam(
+                queryParams,
+                'sortByAttribute',
+                pagination.value.sorting.byAttribute as SortableAttribute
+            );
+        }
+        if (pagination.value.filters.hasTrait) {
+            queryParams = addQueryParam(queryParams, 'hasTrait', pagination.value.filters.hasTrait);
+        }
+        return queryParams;
+    }
+
+    function addQueryParam(queryParams: string, key: string, value: string | number): string {
+        if (!queryParams.startsWith('?')) {
+            queryParams += '?';
+        }
+        if (!queryParams.endsWith('?')) {
+            queryParams += '&';
+        }
+        return queryParams + `${key}=${value}`;
+    }
 
     function patchState(value: PaginationStoreUpdateValue): void {
         setPage(value.page);
@@ -79,6 +120,7 @@ export const usePaginationStore = defineStore('pagination', () => {
     return {
         pagination,
         patchState,
+        getAsQueryParams,
         setPage,
         setPageSize,
         setNumberOfPages,
