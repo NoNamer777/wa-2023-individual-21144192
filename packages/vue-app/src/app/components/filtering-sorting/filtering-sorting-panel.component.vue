@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { SORT_BY_ATTRIBUTE_OPTIONS, SORT_ORDER_OPTIONS } from '@dnd-mapp/data';
+import { QueryParamKeys, SORT_BY_ATTRIBUTE_OPTIONS, SORT_ORDER_OPTIONS } from '@dnd-mapp/data';
 import { storeToRefs } from 'pinia';
 import { ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -69,15 +69,15 @@ const form = ref<SortingFilteringForm>({ ...initialFormState.value });
 async function onSubmit(): Promise<void> {
     const queryParams = {
         ...route.query,
-        order: form.value.sorting.order,
-        page: '1',
+        [QueryParamKeys.SORTING_ORDER]: form.value.sorting.order,
+        [QueryParamKeys.PAGE]: `${DEFAULT_PAGE}`,
     } as SortingFilteringQueryParams;
 
     if (form.value.sorting.byAttribute) {
-        queryParams.sortingByAttribute = form.value.sorting.byAttribute;
+        queryParams[QueryParamKeys.SORTING_BY_ATTRIBUTE] = form.value.sorting.byAttribute;
     }
     if (form.value.filters.byTrait) {
-        queryParams.hasTrait = form.value.filters.byTrait as string;
+        queryParams[QueryParamKeys.FILTER_TRAIT] = form.value.filters.byTrait as string;
     }
     initialFormState.value = { ...form.value };
 

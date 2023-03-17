@@ -22,3 +22,13 @@ export const SORT_ORDER_OPTIONS = Object.entries(SortOrder).map(([key, order]) =
 export const DEFAULT_SORT_ORDER: SortOrder = SortOrder.ASCENDING;
 
 export const DEFAULT_PAGE_SIZE = 5;
+
+export const DEFAULT_PAGE = 1;
+
+export enum QueryParamKeys {
+    PAGE = 'page',
+    PAGE_SIZE = 'pageSize',
+    SORTING_BY_ATTRIBUTE = 'sortByAttribute',
+    SORTING_ORDER = 'order',
+    FILTER_TRAIT = 'hasTrait',
+}

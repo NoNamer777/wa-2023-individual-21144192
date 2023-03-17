@@ -14,6 +14,7 @@
 </template>
 
 <script setup lang="ts">
+import { DEFAULT_PAGE } from '@dnd-mapp/data';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { usePaginationStore } from '../../stores';
@@ -21,7 +22,9 @@ import PaginationLinkComponent from '../pagination-link/pagination-link.componen
 
 const { pagination } = storeToRefs(usePaginationStore());
 
-const previousPage = computed<number>(() => (pagination.value.page === 1 ? 1 : pagination.value.page - 1));
+const previousPage = computed<number>(() =>
+    pagination.value.page === DEFAULT_PAGE ? DEFAULT_PAGE : pagination.value.page - 1
+);
 const nextPage = computed<number>(() =>
     pagination.value.page === pagination.value.numberOfPages
         ? pagination.value.numberOfPages

@@ -1,4 +1,4 @@
-import { DEFAULT_PAGE_SIZE, DEFAULT_SORT_ORDER } from './constants';
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, DEFAULT_SORT_ORDER } from './constants';
 
 export enum SortableAttribute {
     NONE = '',
@@ -25,7 +25,7 @@ export interface Filters {
 
 export class PaginationResponse<T> {
     pageSize = DEFAULT_PAGE_SIZE;
-    page = 1;
+    page = DEFAULT_PAGE;
     numberOfPages = 1;
     first = false;
     last = false;

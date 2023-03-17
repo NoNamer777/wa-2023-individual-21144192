@@ -1,4 +1,4 @@
-import { PaginationResponse, Race, SortableAttribute, SortOrder, Trait } from '@dnd-mapp/data';
+import { DEFAULT_PAGE, PaginationResponse, Race, SortableAttribute, SortOrder, Trait } from '@dnd-mapp/data';
 import { BadRequestException, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -37,7 +37,7 @@ export class RaceService implements OnModuleInit {
         const totalNumberOfPages = Math.ceil(data.length / pageSize);
 
         response.numberOfPages = totalNumberOfPages;
-        response.first = page === 1;
+        response.first = page === DEFAULT_PAGE;
         response.last = page === totalNumberOfPages;
         response.pageSize = pageSize;
         response.page = page;

@@ -61,6 +61,10 @@
 </style>
 
 <script setup lang="ts">
+import {
+    DEFAULT_PAGE,
+    QueryParamKeys,
+} from '@dnd-mapp/data';
 import { storeToRefs } from 'pinia';
 import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { LocationQuery, useRoute, useRouter } from 'vue-router';
@@ -92,14 +96,19 @@ onBeforeUnmount(() => {
 });
 
 function updateStoreFromRoute(queryParams: LocationQuery): void {
-    if (Object.keys(queryParams).length === 0) return;
+    const queryParamKeys = Object.keys(queryParams);
 
-    if (Object.keys(queryParams).includes('page')) {
-        const pageQueryParam = parseInt(queryParams['page'] as string);
+    if (queryParamKeys.includes(QueryParamKeys.PAGE)) {
+        const pageQueryParam = parseInt(queryParams[QueryParamKeys.PAGE] as string);
 
         if (!isNaN(pageQueryParam)) {
+            console.log('Updating paginationStore.pagination.page from route');
             paginationStore.setPage(pageQueryParam);
         }
+    } else if (pagination.value.page !== DEFAULT_PAGE) {
+        console.log('Resetting paginationStore.pagination.page from route');
+        paginationStore.setPage(DEFAULT_PAGE);
+    }
     }
 }
 
