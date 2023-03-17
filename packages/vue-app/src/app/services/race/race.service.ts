@@ -8,19 +8,22 @@ export class RaceService {
         }
         return RaceService._instance;
     }
-    static _instance: RaceService | null = null;
+    private static _instance: RaceService | null = null;
 
     private httpService: HttpService;
 
     constructor() {
+        console.log('RaceService - initialize');
         this.httpService = HttpService.instance;
     }
 
     async getAll(queryParams: string): Promise<PaginationResponse<Race>> {
+        console.log(`RaceService - get all (queryParams: '${queryParams}')`);
         return await this.httpService.get('http://localhost:8080/api/race' + queryParams);
     }
 
     async getById(raceId: number): Promise<Race> {
+        console.log(`RaceService - get by id (raceId: '${raceId}')`);
         return await this.httpService.get('http://localhost:8080/api/race/' + raceId);
     }
 }
