@@ -3,7 +3,7 @@
     <ul class="pagination pagination-sm mb-0">
         <PaginationLinkComponent :disabled="pagination.first" :pageNumber="previousPage" label="Previous" />
         <PaginationLinkComponent
-            v-for="pageNumber of [...Array(pagination.totalPages).keys()].map((page) => page + 1)"
+            v-for="pageNumber of [...Array(pagination.numberOfPages).keys()].map((page) => page + 1)"
             :key="pageNumber"
             :page-number="pageNumber"
             :label="pageNumber.toString()"
@@ -23,6 +23,8 @@ const { pagination } = storeToRefs(usePaginationStore());
 
 const previousPage = computed<number>(() => (pagination.value.page === 1 ? 1 : pagination.value.page - 1));
 const nextPage = computed<number>(() =>
-    pagination.value.page === pagination.value.totalPages ? pagination.value.totalPages : pagination.value.page + 1
+    pagination.value.page === pagination.value.numberOfPages
+        ? pagination.value.numberOfPages
+        : pagination.value.page + 1
 );
 </script>
