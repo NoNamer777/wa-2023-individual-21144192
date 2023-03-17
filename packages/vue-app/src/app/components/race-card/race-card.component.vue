@@ -51,7 +51,6 @@
 import { Race } from '@dnd-mapp/data';
 import { computed, onBeforeMount, ref } from 'vue';
 import { RaceService } from '../../services';
-import { useRaceStore } from '../../stores';
 import RaceDetailsDialogComponent from '../race-details-dialog/race-details-dialog.component.vue';
 
 interface RaceCardProps {
@@ -60,7 +59,6 @@ interface RaceCardProps {
 
 const props = defineProps<RaceCardProps>();
 const raceService = RaceService.instance;
-const raceStore = useRaceStore();
 
 const race = ref<Race>(props.race);
 
@@ -73,9 +71,6 @@ onBeforeMount(() => {
 });
 
 async function getRaceDetails(): Promise<void> {
-    const race$ = await raceService.getById(props.race.id);
-
-    raceStore.addRace(race$);
-    race.value = race$;
+    race.value = await raceService.getById(props.race.id);
 }
 </script>
