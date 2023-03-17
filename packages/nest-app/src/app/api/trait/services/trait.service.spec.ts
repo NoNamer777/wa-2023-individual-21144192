@@ -1,7 +1,7 @@
+import { Trait } from '@dnd-mapp/data';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TraitService } from './trait.service';
-import { Trait } from '../../common/models';
 
 describe('TraitService', () => {
     let service: TraitService;
