@@ -128,12 +128,6 @@ export const usePaginationStore = defineStore('pagination', () => {
         patchState,
         getAsQueryParams,
         setPage,
-        setPageSize,
-        setNumberOfPages,
-        setFirst,
-        setLast,
-        setTotalResults,
-        setResults,
         setSorting,
         setFilters,
     };
