@@ -19,10 +19,10 @@
         <hr class="flex-grow-0 flex-shrink-0" />
         <section class="flex-grow-1 flex-shrink-1 d-flex flex-wrap justify-content-center align-items-center gap-3">
             <div class="spinner-border" v-if="loading"></div>
-            <template v-if="pagination.totalResults > 0">
+            <template v-if="pagination.totalResults > 0 && !loading">
                 <race-card-component v-for="race in pagination.results" :key="race.id" :race="race" />
             </template>
-            <p v-else>No data to show...</p>
+            <p v-else-if="!loading">No data to show...</p>
         </section>
         <button
             type="button"
