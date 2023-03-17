@@ -33,7 +33,7 @@
                 </template>
             </select>
         </div>
-        <button type="reset" class="btn btn-danger" :disabled="!hasFilters && !formIsDirty" @click.prevent="onReset">
+        <button type="reset" class="btn btn-danger" :disabled="!formIsDirty && formIsDefault" @click.prevent="onReset">
             Reset
         </button>
         <button type="submit" class="btn btn-success" data-bs-dismiss="offcanvas" :disabled="!formIsDirty">
@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import { DEFAULT_PAGE, QueryParamKeys, SORT_BY_ATTRIBUTE_OPTIONS, SORT_ORDER_OPTIONS } from '@dnd-mapp/data';
 import { storeToRefs } from 'pinia';
-import { ref, watchEffect } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type { SortingFilteringForm, SortingFilteringQueryParams } from '../../models';
 import { DEFAULT_SORTING_FILTERING_FORM_VALUE, formEquals } from '../../models';
@@ -56,16 +56,18 @@ const route = useRoute();
 
 const { pagination } = storeToRefs(usePaginationStore());
 
-const hasFilters = ref<boolean>(false);
-const formIsDirty = ref<boolean>(false);
 const initialFormValue = ref<SortingFilteringForm>({
     sorting: { ...pagination.value.sorting },
     filters: { ...pagination.value.filters },
 });
 
+const form = ref<SortingFilteringForm>({
+    sorting: { ...initialFormValue.value.sorting },
+    filters: { ...initialFormValue.value.filters },
 });
 
-const form = ref<SortingFilteringForm>({ ...initialFormState.value });
+const formIsDirty = computed(() => !formEquals(form.value, initialFormValue.value));
+const formIsDefault = computed(() => formEquals(form.value, DEFAULT_SORTING_FILTERING_FORM_VALUE));
 
 async function onSubmit(): Promise<void> {
     const queryParams = {
@@ -88,7 +90,10 @@ async function onSubmit(): Promise<void> {
 }
 
 async function onReset(): Promise<void> {
-    form.value = { ...DEFAULT_SORTING_FILTERING_FORM_STATE };
+    form.value = {
+        sorting: { ...DEFAULT_SORTING_FILTERING_FORM_VALUE.sorting },
+        filters: { ...DEFAULT_SORTING_FILTERING_FORM_VALUE.filters },
+    };
     initialFormValue.value = {
         sorting: { ...DEFAULT_SORTING_FILTERING_FORM_VALUE.sorting },
         filters: { ...DEFAULT_SORTING_FILTERING_FORM_VALUE.filters },
