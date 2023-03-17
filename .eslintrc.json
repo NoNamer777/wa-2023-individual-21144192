@@ -17,8 +17,16 @@
                         "allow": [],
                         "depConstraints": [
                             {
-                                "sourceTag": "@vue-app",
-                                "onlyDependOnLibsWithTags": ["@vue-app/*"]
+                                "sourceTag": "@dnd-mapp/client",
+                                "onlyDependOnLibsWithTags": ["@dnd-mapp/client/*", "@dnd-mapp/data"]
+                            },
+                            {
+                                "sourceTag": "@dnd-mapp/server",
+                                "onlyDependOnLibsWithTags": ["@dnd-mapp/server/*", "@dnd-mapp/data"]
+                            },
+                            {
+                                "sourceTag": "@dnd-mapp/data",
+                                "onlyDependOnLibdsWithTags": []
                             }
                         ]
                     }

@@ -23,6 +23,9 @@
         "sharedGlobals": []
     },
     "targetDefaults": {
+        "serve": {
+            "dependsOn": ["^build"]
+        },
         "build": {
             "inputs": ["production", "^production"],
             "dependsOn": ["^build"],

@@ -46,5 +46,5 @@
             }
         }
     },
-    "tags": ["@vue-app"]
+    "tags": ["@dnd-mapp/client"]
 }

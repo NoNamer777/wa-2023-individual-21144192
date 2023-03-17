@@ -24,7 +24,6 @@
         "@vue/tsconfig": "^0.1.3",
         "@vue/vue3-jest": "^28.1.0",
         "eslint-plugin-vue": "^9.3.0",
-        "jest-environment-jsdom": "^29.4.1",
         "jest-serializer-vue": "^3.0.0",
         "jest-transform-stub": "^2.0.0",
         "jsdom": "^20.0.3",

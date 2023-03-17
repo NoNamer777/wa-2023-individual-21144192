@@ -50,21 +50,16 @@
 </template>
 
 <script setup lang="ts">
-import type { Race, Trait } from '@vue-app/app/models';
-import { sizeOrder } from '@vue-app/app/models';
-import { useRaceStore } from '@vue-app/app/stores';
 import { ref } from 'vue';
 
-const newRace = ref<Race>({ traits: [] as Trait[] } as Race);
-const sizeOptions = ref<string[]>(Object.keys(sizeOrder));
+const newRace = ref<{ traits: unknown[] }>({ traits: [] });
+const sizeOptions = ref<string[]>([]);
 
 function onAddTrait(): void {
     newRace.value.traits.push({ name: '', description: '' });
 }
 
 function onCreate(): void {
-    useRaceStore().addNewRace(newRace.value);
-
-    newRace.value = { traits: [] as Trait[] } as Race;
+    newRace.value = { traits: [] };
 }
 </script>

@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import logo from '@vue-app/assets/images/logo.png';
 import { RouterLink } from 'vue-router';
+import logo from '../../../assets/images/logo.png';
 import PaginationComponent from '../pagination/pagination.component.vue';
 </script>

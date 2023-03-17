@@ -6,7 +6,7 @@
         </div>
         <div class="modal-body">
             <div class="d-flex justify-content-between">
-                <img :src="race.imgSrc" :alt="race.name + ' image'" class="race-image flex-grow-0 flex-shrink-1" />
+                <img :src="race.imageUrl" :alt="race.name + ' image'" class="race-image flex-grow-0 flex-shrink-1" />
                 <div class="flex-shrink-1 flex-grow-1">
                     <p class="d-flex justify-content-between">
                         <span class="fw-bold">Size:</span>
@@ -20,7 +20,7 @@
             </div>
             <hr />
             <h5>Traits</h5>
-            <template v-if="race.traits.length > 0">
+            <template v-if="race.traits?.length > 0">
                 <div v-for="trait of race.traits" :key="trait.name">
                     <p class="fw-bold mb-0">
                         {{ trait.name }}
@@ -36,10 +36,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Race } from '@vue-app/app/models';
-
 interface RaceDetailsProps {
-    race: Race;
+    race: unknown;
 }
 
 defineProps<RaceDetailsProps>();

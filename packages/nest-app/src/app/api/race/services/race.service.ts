@@ -1,21 +1,25 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { PaginationResponse, Race, SortableAttribute, SortOrder, Trait } from '@dnd-mapp/data';
+import { BadRequestException, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
-import {
-    CreateRaceData,
-    PaginationResponse,
-    Race,
-    RacialTrait,
-    SortableAttribute,
-    SortOrder,
-} from '../../common/models';
+import { TraitService } from '../../trait';
+import { CreateRaceData, RaceSchema } from '../race.schema';
+import { RacialTraitRelation, RacialTraitSchema } from '../racial-trait.schema';
 
 @Injectable()
-export class RaceService {
+export class RaceService implements OnModuleInit {
+    private traitService: TraitService;
+
     constructor(
-        @InjectRepository(Race) private raceRepository: Repository<Race>,
-        @InjectRepository(RacialTrait) private racialTraitRepository: Repository<RacialTrait>
+        private moduleRef: ModuleRef,
+        @InjectRepository(RaceSchema) private raceRepository: Repository<Race>,
+        @InjectRepository(RacialTraitSchema) private racialTraitRepository: Repository<RacialTraitRelation>
     ) {}
+
+    async onModuleInit(): Promise<void> {
+        this.traitService = await this.moduleRef.get(TraitService, { strict: false });
+    }
 
     async getAll(
         page: number,
@@ -44,7 +48,7 @@ export class RaceService {
     }
 
     async getById(raceId: number): Promise<Race> {
-        const raceById = this.raceRepository.findOne({ where: { id: raceId }, relations: { traits: true } });
+        const raceById = await this.raceRepository.findOne({ where: { id: raceId }, relations: { traits: true } });
 
         if (raceById === null) {
             throw new NotFoundException(`Race with ID: '${raceId}' does not exist.`);
@@ -68,7 +72,9 @@ export class RaceService {
         if (!(await this.doesRaceExistById(raceData.id))) {
             throw new NotFoundException(`Cannot update Race with ID: '${raceData.id}' because it does not exist.`);
         }
-        if (!(await this.doesRaceExistByName(raceData.name))) {
+        const raceByName = await this.doesRaceExistByName(raceData.name);
+
+        if (raceByName && raceByName.id !== raceData.id) {
             throw new BadRequestException(
                 `Cannot update a Race with ID: '${raceData.id}' because a Race already exists with the name '${raceData.name}'.`
             );
@@ -82,47 +88,45 @@ export class RaceService {
                 `Cannot create a new Race with name: '${raceData.name}' because a Race already exists with that name.`
             );
         }
-        await this.raceRepository.save(raceData);
+        const handledTraits = await this.handlePersistingTraits(
+            raceData.traits.map((racialTrait) => racialTrait.trait)
+        );
 
-        const savedRace = await this.getByName(raceData.name);
+        raceData.traits = raceData.traits.map((racialTrait) => {
+            if (racialTrait.trait.id) return racialTrait;
 
-        for (const trait of raceData.traits) {
-            trait.race = savedRace;
-            trait.raceId = savedRace.id;
-            trait.traitId = trait.trait.id;
+            racialTrait.trait = handledTraits.find((trait) => trait.name === racialTrait.trait.name);
+            return racialTrait;
+        });
 
-            await this.racialTraitRepository.save(trait);
-        }
-        savedRace.traits = await this.racialTraitRepository.find({ where: { raceId: savedRace.id } });
-        return await this.raceRepository.save(savedRace);
+        return await this.raceRepository.save(raceData);
     }
 
     async deleteById(raceId: number): Promise<void> {
         if (!(await this.doesRaceExistById(raceId))) {
             throw new NotFoundException(`Cannot delete Race with ID: '${raceId}' because it does not exist.`);
         }
+        await this.racialTraitRepository.delete({ _raceId: raceId });
         await this.raceRepository.delete({ id: raceId });
     }
 
-    private async doesRaceExistById(raceId: number): Promise<boolean> {
+    private async doesRaceExistById(raceId: number): Promise<Race> {
         try {
-            await this.getById(raceId);
-            return true;
+            return await this.getById(raceId);
         } catch (error: unknown) {
             if (error instanceof NotFoundException) {
-                return false;
+                return null;
             }
             throw error;
         }
     }
 
-    private async doesRaceExistByName(raceName: string): Promise<boolean> {
+    private async doesRaceExistByName(raceName: string): Promise<Race> {
         try {
-            await this.getByName(raceName);
-            return true;
+            return await this.getByName(raceName);
         } catch (error: unknown) {
             if (error instanceof NotFoundException) {
-                return false;
+                return null;
             }
             throw error;
         }
@@ -156,5 +160,15 @@ export class RaceService {
             return undefined;
         }
         return { traits: { trait: { name: hasTrait } } };
+    }
+
+    private async handlePersistingTraits(traits: Trait[]): Promise<Trait[]> {
+        const handledTraits = [];
+
+        for (const trait of traits) {
+            if (trait.id) continue;
+            handledTraits.push(await this.traitService.create(trait));
+        }
+        return handledTraits;
     }
 }

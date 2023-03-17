@@ -1,5 +1,5 @@
-import { OverviewPage } from '@vue-app/app/pages';
-import { type RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+import { OverviewPage } from './pages';
 
 const routes: RouteRecordRaw[] = [
     {

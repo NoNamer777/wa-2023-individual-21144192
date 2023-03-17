@@ -1,11 +1,13 @@
 CREATE DATABASE  IF NOT EXISTS `dmadb`;
 USE `dmadb`;
 
+DROP TABLE IF EXISTS `race-trait`;
+DROP TABLE IF EXISTS `trait`;
+DROP TABLE IF EXISTS `race`;
+
 --
 -- Table structure for table `race`
 --
-DROP TABLE IF EXISTS `race`;
-
 CREATE TABLE `race` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -13,61 +15,59 @@ CREATE TABLE `race` (
   `speed` int NOT NULL,
   `imageUrl` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_race_name` (`name`)
+  UNIQUE KEY `raceNameUniqueIdk` (`name`)
 );
 
 --
 -- Dumping data for table `race`
 --
 INSERT INTO `race` VALUES
-    (1, "Dwarf", "Medium", 25, "http://localhost:8080/assets/images/races/dwarf.png"),
-    (2, "Elf", "Medium", 30, "http://localhost:8080/assets/images/races/elf.png"),
-    (3, "Halfling", "Small", 25, "http://localhost:8080/assets/images/races/halfling.png"),
-    (4, "Human", "Medium", 30, "http://localhost:8080/assets/images/races/human.png"),
-    (5, "Dragonborn", "Medium", 30, "http://localhost:8080/assets/images/races/dragonborn.png"),
-    (6, "Gnome", "Small", 25, "http://localhost:8080/assets/images/races/gnome.png"),
-    (7, "Half-Elf", "Medium", 30, "http://localhost:8080/assets/images/races/half-elf.png"),
-    (8, "Half-Orc", "Medium", 30, "http://localhost:8080/assets/images/races/half-orc.png"),
-    (9, "Tiefling", "Medium", 30, "http://localhost:8080/assets/images/races/tiefling.png"),
-    (10, "Aasimar", "Medium", 30, "http://localhost:8080/assets/images/races/aasimar.png"),
-    (11, "Firbolg", "Medium", 30, "http://localhost:8080/assets/images/races/firbolg.png"),
-    (12, "Goliath", "Medium", 30, "http://localhost:8080/assets/images/races/goliath.png"),
-    (13, "Kenku", "Medium", 30, "http://localhost:8080/assets/images/races/kenku.png"),
-    (14, "Lizardfolk", "Medium", 30, "http://localhost:8080/assets/images/races/lizardfolk.png"),
-    (15, "Tabaxi", "Medium", 30, "http://localhost:8080/assets/images/races/tabaxi.png"),
-    (16, "Triton", "Medium", 30, "http://localhost:8080/assets/images/races/triton.png"),
-    (17, "Bugbear", "Medium", 30, "http://localhost:8080/assets/images/races/bugbear.png"),
-    (18, "Goblin", "Small", 30, "http://localhost:8080/assets/images/races/goblin.png"),
-    (19, "Hobgoblin", "Medium", 30, "http://localhost:8080/assets/images/races/hobgoblin.png"),
-    (20, "Kobold", "Small", 30, "http://localhost:8080/assets/images/races/kobold.png"),
-    (21, "Orc", "Medium", 30, "http://localhost:8080/assets/images/races/orc.png"),
-    (22, "Yuan-ti Pureblood", "Medium", 30, "http://localhost:8080/assets/images/races/yuan-ti-pureblood.png"),
-    (23, "Tortle", "Medium", 30, "http://localhost:8080/assets/images/races/tortle.png"),
-    (24, "Changeling", "Medium", 30, "http://localhost:8080/assets/images/races/changeling.png"),
-    (25, "Kalashtar", "Medium", 30, "http://localhost:8080/assets/images/races/kalashtar.png"),
-    (26, "Shifter", "Medium", 30, "http://localhost:8080/assets/images/races/shifter.png"),
-    (27, "Warforged", "Medium", 30, "http://localhost:8080/assets/images/races/warforged.png"),
-    (28, "Centaur", "Medium", 40, "http://localhost:8080/assets/images/races/centaur.png"),
-    (29, "Loxodon", "Medium", 30, "http://localhost:8080/assets/images/races/loxodon.png"),
-    (30, "Minotaur", "Medium", 30, "http://localhost:8080/assets/images/races/minotaur.png"),
-    (31, "Simic Hybrid", "Medium", 30, "http://localhost:8080/assets/images/races/simic-hybrid.png"),
-    (32, "Vedalken", "Medium", 30, "http://localhost:8080/assets/images/races/vedalken.png"),
-    (33, "Aarakocra", "Medium", 25, "http://localhost:8080/assets/images/races/aarakocra.png"),
-    (34, "Deep Gnome", "Small", 25, "http://localhost:8080/assets/images/races/deep-gnome.png"),
-    (35, "Genasi", "Medium", 30, "http://localhost:8080/assets/images/races/genasi.png");
+    (1, "Dwarf", "Medium", 25, "assets/images/race/dwarf.png"),
+    (2, "Elf", "Medium", 30, "assets/images/race/elf.png"),
+    (3, "Halfling", "Small", 25, "assets/images/race/halfling.png"),
+    (4, "Human", "Medium", 30, "assets/images/race/human.png"),
+    (5, "Dragonborn", "Medium", 30, "assets/images/race/dragonborn.png"),
+    (6, "Gnome", "Small", 25, "assets/images/race/gnome.png"),
+    (7, "Half-Elf", "Medium", 30, "assets/images/race/half-elf.png"),
+    (8, "Half-Orc", "Medium", 30, "assets/images/race/half-orc.png"),
+    (9, "Tiefling", "Medium", 30, "assets/images/race/tiefling.png"),
+    (10, "Aasimar", "Medium", 30, "assets/images/race/aasimar.png"),
+    (11, "Firbolg", "Medium", 30, "assets/images/race/firbolg.png"),
+    (12, "Goliath", "Medium", 30, "assets/images/race/goliath.png"),
+    (13, "Kenku", "Medium", 30, "assets/images/race/kenku.png"),
+    (14, "Lizardfolk", "Medium", 30, "assets/images/race/lizardfolk.png"),
+    (15, "Tabaxi", "Medium", 30, "assets/images/race/tabaxi.png"),
+    (16, "Triton", "Medium", 30, "assets/images/race/triton.png"),
+    (17, "Bugbear", "Medium", 30, "assets/images/race/bugbear.png"),
+    (18, "Goblin", "Small", 30, "assets/images/race/goblin.png"),
+    (19, "Hobgoblin", "Medium", 30, "assets/images/race/hobgoblin.png"),
+    (20, "Kobold", "Small", 30, "assets/images/race/kobold.png"),
+    (21, "Orc", "Medium", 30, "assets/images/race/orc.png"),
+    (22, "Yuan-ti Pureblood", "Medium", 30, "assets/images/race/yuan-ti-pureblood.png"),
+    (23, "Tortle", "Medium", 30, "assets/images/race/tortle.png"),
+    (24, "Changeling", "Medium", 30, "assets/images/race/changeling.png"),
+    (25, "Kalashtar", "Medium", 30, "assets/images/race/kalashtar.png"),
+    (26, "Shifter", "Medium", 30, "assets/images/race/shifter.png"),
+    (27, "Warforged", "Medium", 30, "assets/images/race/warforged.png"),
+    (28, "Centaur", "Medium", 40, "assets/images/race/centaur.png"),
+    (29, "Loxodon", "Medium", 30, "assets/images/race/loxodon.png"),
+    (30, "Minotaur", "Medium", 30, "assets/images/race/minotaur.png"),
+    (31, "Simic Hybrid", "Medium", 30, "assets/images/race/simic-hybrid.png"),
+    (32, "Vedalken", "Medium", 30, "assets/images/race/vedalken.png"),
+    (33, "Aarakocra", "Medium", 25, "assets/images/race/aarakocra.png"),
+    (34, "Deep Gnome", "Small", 25, "assets/images/race/deep-gnome.png"),
+    (35, "Genasi", "Medium", 30, "assets/images/race/genasi.png");
 
 
 --
 -- Table structure for table `trait`
 --
-DROP TABLE IF EXISTS `trait`;
-
 CREATE TABLE `trait` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `description` mediumtext,
+  `description` text,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `IDX_40cfcb24b87e9a95b2901a9fc9` (`name`)
+  UNIQUE KEY `traitUniqueNameIdk` (`name`)
 );
 
 --
@@ -183,16 +183,13 @@ INSERT INTO `trait` VALUES
 --
 -- Table structure for table `race-trait`
 --
-DROP TABLE IF EXISTS `race-trait`;
-
 CREATE TABLE `race-trait` (
   `raceId` int NOT NULL,
   `traitId` int NOT NULL,
-  `description` mediumtext,
+  `description` text,
   PRIMARY KEY (`raceId`,`traitId`),
-  KEY `FK_2c8becbff005219cc37689fe100` (`traitId`),
-  CONSTRAINT `FK_2c8becbff005219cc37689fe100` FOREIGN KEY (`traitId`) REFERENCES `trait` (`id`),
-  CONSTRAINT `FK_75e11937d4b94dd24dc7bfaca07` FOREIGN KEY (`raceId`) REFERENCES `race` (`id`)
+  CONSTRAINT `racialTraitTraitFK` FOREIGN KEY (`traitId`) REFERENCES `trait` (`id`),
+  CONSTRAINT `racialTraitRaceFK` FOREIGN KEY (`raceId`) REFERENCES `race` (`id`)
 );
 
 --

@@ -1,30 +1,28 @@
 <template>
-    <span class="navbar-text me-3">Showing {{ activeCollectionSize }} Races</span>
+    <span class="navbar-text me-3">Showing {{ pagination.totalResults }} Races</span>
     <ul class="pagination pagination-sm mb-0">
-        <PaginationLinkComponent :disabled="isOnFirstPage" :pageNumber="previousPage" label="Previous" />
+        <PaginationLinkComponent :disabled="pagination.first" :pageNumber="previousPage" label="Previous" />
         <PaginationLinkComponent
-            v-for="pageNumber of paginationStore.totalNumberOfPages"
+            v-for="pageNumber of [...Array(pagination.totalPages).keys()].map((page) => page + 1)"
             :key="pageNumber"
             :page-number="pageNumber"
             :label="pageNumber.toString()"
-            :active="pageNumber"
+            :active="pagination.page"
         />
-        <PaginationLinkComponent :disabled="isOnLastPage" :pageNumber="nextPage" label="Next" />
+        <PaginationLinkComponent :disabled="pagination.last" :pageNumber="nextPage" label="Next" />
     </ul>
 </template>
 
 <script setup lang="ts">
-import { usePaginationStore, useRaceStore } from '@vue-app/app/stores';
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
+import { usePaginationStore } from '../../stores';
 import PaginationLinkComponent from '../pagination-link/pagination-link.component.vue';
 
-const paginationStore = usePaginationStore();
+const { pagination } = storeToRefs(usePaginationStore());
 
-const isOnFirstPage = computed<boolean>(() => paginationStore.currentPage === 1);
-const isOnLastPage = computed<boolean>(() => paginationStore.currentPage === paginationStore.totalNumberOfPages);
-const previousPage = computed<number>(() => (isOnFirstPage.value ? 1 : paginationStore.currentPage - 1));
+const previousPage = computed<number>(() => (pagination.value.page === 1 ? 1 : pagination.value.page - 1));
 const nextPage = computed<number>(() =>
-    isOnLastPage.value ? paginationStore.totalNumberOfPages : paginationStore.currentPage + 1
+    pagination.value.page === pagination.value.totalPages ? pagination.value.totalPages : pagination.value.page + 1
 );
-const activeCollectionSize = computed<number>(() => useRaceStore().getActiveCollectionSize);
 </script>

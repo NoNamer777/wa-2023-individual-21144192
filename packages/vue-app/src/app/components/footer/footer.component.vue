@@ -20,5 +20,5 @@ footer {
 </style>
 
 <script setup lang="ts">
-import logo from '@vue-app/assets/images/logo.png';
+import logo from '../../../assets/images/logo.png';
 </script>

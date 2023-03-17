@@ -1,8 +1,17 @@
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
-import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionOptions';
+
+interface ServerEnvironmentValues {
+    host: string;
+    port?: number;
+    secure?: boolean;
+    cors?: {
+        allowedOrigins: string[];
+    };
+}
 
 interface EnvironmentValues {
-    database?: MysqlConnectionOptions | SqliteConnectionOptions;
+    database?: MysqlConnectionOptions;
+    server?: ServerEnvironmentValues;
 }
 
 export const environment: EnvironmentValues = {};

@@ -1,24 +1,43 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { NestApplicationOptions } from '@nestjs/common/interfaces/nest-application-options.interface';
 import { NestFactory } from '@nestjs/core';
-
+import * as fs from 'fs';
+import { join } from 'path';
 import { AppModule } from './app';
 import { setupSwaggerModule } from './app/configs';
+import { buildServerUrl, DEFAULT_SERVER_HOSTNAME, DEFAULT_SERVER_PORT } from './app/shared/constants';
+import { environment } from './environments/environment';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
-    const port = process.env.PORT || 8080;
+    // TODO: Adjustable path for Docker containers
+    const applicationOptions: NestApplicationOptions = environment.server?.secure
+        ? {
+              httpsOptions: {
+                  key: fs.readFileSync(join(__dirname, '..', '..', 'certificate-key.pem')),
+                  cert: fs.readFileSync(join(__dirname, '..', '..', 'certificate.pem')),
+              },
+          }
+        : {};
 
-    app.useGlobalPipes(
-        new ValidationPipe({
-            transform: true,
-        })
-    );
+    const app = await NestFactory.create(AppModule, { ...applicationOptions });
 
+    const { host, port, secure } = {
+        host: DEFAULT_SERVER_HOSTNAME,
+        port: DEFAULT_SERVER_PORT,
+        secure: false,
+        ...environment.server,
+    };
+
+    app.useGlobalPipes(new ValidationPipe({ transform: true }));
+    app.enableCors({
+        origin: [...(environment.server?.cors?.allowedOrigins ?? [])],
+        methods: 'GET,PUT,POST,DELETE',
+    });
     setupSwaggerModule(app);
 
-    await app.listen(port);
+    await app.listen(port, host);
 
-    Logger.log(`Application is running on: http://localhost:${port}/`);
+    Logger.log(`Application is running on: ${buildServerUrl({ secure, host, port })}`);
 }
 
 bootstrap();

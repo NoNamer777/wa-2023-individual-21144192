@@ -18,10 +18,11 @@
         </div>
         <hr class="flex-grow-0 flex-shrink-0" />
         <section class="flex-grow-1 flex-shrink-1 d-flex flex-wrap justify-content-center align-items-center gap-3">
-            <div class="spinner-border" v-if="!shouldShowRaces"></div>
-            <template v-else v-for="race in races" :key="race.name">
-                <race-card-component :race="race" />
+            <div class="spinner-border" v-if="loading"></div>
+            <template v-if="pagination.totalResults > 0">
+                <race-card-component v-for="race in pagination.results" :key="race.id" :race="race" />
             </template>
+            <p v-else>No data to show...</p>
         </section>
         <button
             type="button"
@@ -39,7 +40,7 @@
             <button type="button" class="btn btn-close" data-bs-dismiss="offcanvas" />
         </section>
         <section class="offcanvas-body">
-            <filtering-sorting-panel-component :racial-traits="racialTraits" />
+            <!--            <filtering-sorting-panel-component :racial-traits="racialTraits" />-->
         </section>
     </aside>
 
@@ -60,75 +61,42 @@
 </style>
 
 <script setup lang="ts">
-import {
-    CreateRaceDialogComponent,
-    FilteringSortingPanelComponent,
-    RaceCardComponent,
-} from '@vue-app/app/components';
-import {
-    DEFAULT_FILTERS,
-    DEFAULT_SORTING,
-    isValidSortableByAttribute,
-    isValidSortingOrder,
-} from '@vue-app/app/models';
-import type { SortingFilteringQueryParams, Race, TraitOption } from '@vue-app/app/models';
-import { usePaginationStore, useRaceStore } from '@vue-app/app/stores';
-import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import { onBeforeMount, ref } from 'vue';
+import { CreateRaceDialogComponent, RaceCardComponent } from '../../components';
+import { RaceService } from '../../services';
+import { usePaginationStore, useRaceStore } from '../../stores';
 
+const raceService = RaceService.instance;
 const paginationStore = usePaginationStore();
 const raceStore = useRaceStore();
 
-const shouldShowRaces = computed<boolean>(() => paginationStore.totalNumberOfPages > 0);
+const loading = ref(false);
 
-const races = ref<Race[]>([]);
-const racialTraits = ref<TraitOption[]>([]);
+const { pagination } = storeToRefs(paginationStore);
 
-const unsubscribeRouterQueryParams = useRouter().afterEach((to) =>
-    updatePagination(to.query as SortingFilteringQueryParams)
-);
-
-onBeforeMount(async () => {
-    const queryParams = useRoute().query as SortingFilteringQueryParams;
-
-    await raceStore.initialize();
-
-    updatePagination(queryParams);
-
-    racialTraits.value = raceStore.getAllTraits;
-    races.value = raceStore.getFilteredRaces;
+onBeforeMount(() => {
+    getData();
 });
 
-onBeforeUnmount(() => {
-    unsubscribeRouterQueryParams();
-});
+async function getData(): Promise<void> {
+    loading.value = true;
 
-function onChange(): void {
-    races.value = raceStore.getFilteredRaces;
-}
+    const response = await raceService.getAll();
+    loading.value = false;
 
-function updatePagination(queryParams: SortingFilteringQueryParams): void {
-    if (queryParams.pageNumber) {
-        paginationStore.setCurrentPage(parseInt(queryParams.pageNumber));
-    } else if (paginationStore.currentPage !== 1) {
-        paginationStore.setCurrentPage(1);
-    }
-    if (isValidSortingOrder(queryParams.sortingOrder)) {
-        paginationStore.setSorting({ order: queryParams.sortingOrder });
-    } else if (paginationStore.sorting.order !== DEFAULT_SORTING.order) {
-        paginationStore.setSorting({ order: DEFAULT_SORTING.order });
-    }
-    if (isValidSortableByAttribute(queryParams.sortingByAttribute)) {
-        paginationStore.setSorting({ onAttribute: queryParams.sortingByAttribute });
-    } else if (paginationStore.sorting.onAttribute !== DEFAULT_SORTING.onAttribute) {
-        paginationStore.setSorting({ onAttribute: DEFAULT_SORTING.onAttribute });
-    }
-    if (queryParams.filteringByTrait) {
-        paginationStore.setFilters({ byTrait: queryParams.filteringByTrait });
-    } else if (paginationStore.filters.byTrait !== DEFAULT_FILTERS.byTrait) {
-        paginationStore.setFilters({ byTrait: DEFAULT_FILTERS.byTrait });
+    paginationStore.patchState({
+        page: response.page,
+        totalPages: response.numberOfPages,
+        pageSize: response.pageSize,
+        first: response.first,
+        last: response.last,
+        totalResults: response.totalResults,
+        results: response.results,
+    });
+
+    for (const race of response.results) {
+        raceStore.addRace(race);
     }
 }
-
-paginationStore.$onAction(({ after }) => after(() => onChange()));
 </script>

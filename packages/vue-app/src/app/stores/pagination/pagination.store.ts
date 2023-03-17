@@ -1,56 +1,72 @@
-import { DEFAULT_FILTERS, DEFAULT_PAGE_SIZE, DEFAULT_SORTING } from '@vue-app/app/models';
-import type { FilterOptions, SortingOptions } from '@vue-app/app/models';
+import { DEFAULT_PAGE_SIZE, Race } from '@dnd-mapp/data';
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
-import { useRaceStore } from '../race/race.store';
+import { ref } from 'vue';
+
+interface Pagination {
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    first: boolean;
+    last: boolean;
+    totalResults: number;
+    results: Race[];
+}
 
 export const usePaginationStore = defineStore('pagination', () => {
-    const raceStore = useRaceStore();
-
-    const page = ref<number>(1);
-    const pageSize = ref<number>(DEFAULT_PAGE_SIZE);
-    const sorting = ref<SortingOptions>({ ...DEFAULT_SORTING });
-    const filters = ref<FilterOptions>({ ...DEFAULT_FILTERS });
-
-    const totalNumberOfPages = computed<number>(() => {
-        const numberOfRaces: number = raceStore.getActiveCollectionSize;
-        return Math.ceil(numberOfRaces / pageSize.value);
+    const pagination = ref<Pagination>({
+        page: 1,
+        pageSize: DEFAULT_PAGE_SIZE,
+        totalPages: 1,
+        first: true,
+        last: true,
+        totalResults: 0,
+        results: [],
     });
 
-    function setCurrentPage(pageNumber: number): void {
-        if (pageNumber <= 0 || pageNumber > totalNumberOfPages.value) return;
-        page.value = pageNumber;
-    }
-
-    function setSorting(sortingValue: Partial<SortingOptions>): void {
-        sorting.value = {
-            ...sorting.value,
-            ...sortingValue,
+    function patchState(value: Partial<Pagination>): void {
+        pagination.value = {
+            ...pagination.value,
+            ...value,
         };
     }
 
-    function setFilters(filterValue: Partial<FilterOptions>): void {
-        filters.value = {
-            ...filters.value,
-            ...filterValue,
-        };
+    function setPage(page: number): void {
+        pagination.value = { ...pagination.value, page };
     }
 
-    function reset(): void {
-        page.value = 1;
-        sorting.value = { ...DEFAULT_SORTING };
-        filters.value = { ...DEFAULT_FILTERS };
+    function setPageSize(pageSize: number): void {
+        pagination.value = { ...pagination.value, pageSize };
+    }
+
+    function setTotalPages(totalPages: number): void {
+        pagination.value = { ...pagination.value, totalPages };
+    }
+
+    function setFirst(first: boolean): void {
+        pagination.value = { ...pagination.value, first };
+    }
+
+    function setLast(last: boolean): void {
+        pagination.value = { ...pagination.value, last };
+    }
+
+    function setTotalResults(totalResults: number): void {
+        pagination.value = { ...pagination.value, totalResults };
+    }
+
+    function setResults(results: Race[]): void {
+        pagination.value = { ...pagination.value, results };
     }
 
     return {
-        currentPage: page,
-        pageSize,
-        sorting,
-        filters,
-        totalNumberOfPages,
-        setCurrentPage,
-        setSorting,
-        setFilters,
-        reset,
+        pagination,
+        patchState,
+        setPage,
+        setPageSize,
+        setTotalPages,
+        setFirst,
+        setLast,
+        setTotalResults,
+        setResults,
     };
 });

@@ -1,6 +1,6 @@
 <template>
     <div class="card shadow-sm">
-        <img :src="race.imgSrc" :alt="race.name + ' image'" class="card-img-top border-bottom race-image" />
+        <img :src="race.imageUrl" :alt="race.name + ' image'" class="card-img-top border-bottom race-image" />
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <h5 class="card-title mb-0">{{ race.name }}</h5>
@@ -48,12 +48,11 @@
 </style>
 
 <script setup lang="ts">
-import RaceDetailsDialogComponent from '../race-details-dialog/race-details-dialog.component.vue';
-import type { Race } from '@vue-app/app/models';
 import { computed } from 'vue';
+import RaceDetailsDialogComponent from '../race-details-dialog/race-details-dialog.component.vue';
 
 interface RaceCardProps {
-    race: Race;
+    race: { name: string };
 }
 
 const props = defineProps<RaceCardProps>();
