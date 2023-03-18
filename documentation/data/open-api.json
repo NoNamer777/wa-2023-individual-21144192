@@ -1,0 +1,564 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/assets/{path}": {
+            "get": {
+                "operationId": "AssetHandlingController_getAsset",
+                "parameters": [{
+                    "name": "path",
+                    "required": true,
+                    "in": "path",
+                    "description": "The path, file name, and file extension of the asset to get.",
+                    "schema": {
+                        "type": "string"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": ""
+                    }
+                },
+                "tags": ["assets"]
+            }
+        },
+        "/api/race": {
+            "get": {
+                "operationId": "RaceController_getAll",
+                "parameters": [{
+                    "name": "page",
+                    "required": false,
+                    "in": "query",
+                    "description": "The slice of data to get.",
+                    "schema": {
+                        "type": "number"
+                    }
+                }, {
+                    "name": "pageSize",
+                    "required": false,
+                    "in": "query",
+                    "description": "How many items are in one slice of data.",
+                    "schema": {
+                        "type": "number"
+                    }
+                }, {
+                    "name": "hasTrait",
+                    "required": false,
+                    "in": "query",
+                    "description": "Filters the data on a the condition that they have a particular Trait with the provided name",
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "sortByAttribute",
+                    "required": false,
+                    "in": "query",
+                    "description": "On which attribute the data should be sorted.",
+                    "schema": {
+                        "enum": ["name", "size", "speed"],
+                        "type": "string"
+                    }
+                }, {
+                    "name": "order",
+                    "required": false,
+                    "in": "query",
+                    "description": "In which order the data should be sorted.",
+                    "schema": {
+                        "$ref": "#/components/schemas/SortOrder"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "All Races are successfully returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [{
+                                        "$ref": "#/components/schemas/PaginationResponse"
+                                    }, {
+                                        "properties": {
+                                            "results": {
+                                                "type": "array",
+                                                "items": {
+                                                    "$ref": "#/components/schemas/Race"
+                                                }
+                                            }
+                                        }
+                                    }]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Something went wrong while trying to get all Races within certain parameters which can be resolved by the User. "
+                    }
+                },
+                "tags": ["api/race"]
+            },
+            "post": {
+                "operationId": "RaceController_create",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateRaceData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "A new Race was successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Race"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Something went wrong while trying to create a new Race which can be resolved by the User."
+                    }
+                },
+                "tags": ["api/race"]
+            }
+        },
+        "/api/race/{id}": {
+            "get": {
+                "operationId": "RaceController_getById",
+                "parameters": [{
+                    "name": "id",
+                    "required": true,
+                    "in": "path",
+                    "description": "The ID of the Race to get.",
+                    "schema": {
+                        "type": "number"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "A Race was found by the provided ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Race"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Something went wrong while trying to get a Race by ID which can be resolved by the User."
+                    },
+                    "404": {
+                        "description": "The Race by the provided ID was not found."
+                    }
+                },
+                "tags": ["api/race"]
+            },
+            "put": {
+                "operationId": "RaceController_update",
+                "parameters": [{
+                    "name": "id",
+                    "required": true,
+                    "in": "path",
+                    "description": "The ID of the Race to update.",
+                    "schema": {
+                        "type": "number"
+                    }
+                }],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Race"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The race was successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Race"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Something went wrong while trying to update a Race which can be resolved by the User."
+                    },
+                    "404": {
+                        "description": "Could not update a Race because it wasn't found."
+                    }
+                },
+                "tags": ["api/race"]
+            },
+            "delete": {
+                "operationId": "RaceController_delete",
+                "parameters": [{
+                    "name": "id",
+                    "required": true,
+                    "in": "path",
+                    "description": "The ID of the Race to delete.",
+                    "schema": {
+                        "type": "number"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "The Race is successfully removed"
+                    },
+                    "400": {
+                        "description": "Something went wrong while trying to remove the Race which can be resolved by the User."
+                    },
+                    "404": {
+                        "description": "Could not find the Race to remove."
+                    }
+                },
+                "tags": ["api/race"]
+            }
+        },
+        "/api/trait": {
+            "get": {
+                "operationId": "TraitController_getAll",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "All Traits have been successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Trait"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": ["api/trait"]
+            },
+            "post": {
+                "operationId": "TraitController_create",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTraitData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "A Trait has been created."
+                    },
+                    "400": {
+                        "description": "Something went wrong while trying to create a Trait, which can be resolved by the User."
+                    }
+                },
+                "tags": ["api/trait"]
+            }
+        },
+        "/api/trait/{id}": {
+            "get": {
+                "operationId": "TraitController_getById",
+                "parameters": [{
+                    "name": "id",
+                    "required": true,
+                    "in": "path",
+                    "description": "The ID of the Trait to get.",
+                    "schema": {
+                        "type": "number"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "The Trait has been successfully retrieved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Trait"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Something went wrong while trying to retrieve a Trait, which can be resolved by the User."
+                    },
+                    "404": {
+                        "description": "Could not retrieve the Trait."
+                    }
+                },
+                "tags": ["api/trait"]
+            },
+            "put": {
+                "operationId": "TraitController_update",
+                "parameters": [{
+                    "name": "id",
+                    "required": true,
+                    "in": "path",
+                    "description": "The ID of the Trait to update.",
+                    "schema": {
+                        "type": "number"
+                    }
+                }],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Trait"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The Trait has been successfully updated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Trait"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Something went wrong while trying to update a Trait, which can be resolved by the User."
+                    },
+                    "404": {
+                        "description": "Could not update a Trait because it was not found. "
+                    }
+                },
+                "tags": ["api/trait"]
+            },
+            "delete": {
+                "operationId": "TraitController_delete",
+                "parameters": [{
+                    "name": "id",
+                    "required": true,
+                    "in": "path",
+                    "description": "The ID of the Trait to remove.",
+                    "schema": {
+                        "type": "number"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "A Trait has been removed."
+                    },
+                    "400": {
+                        "description": "Something went wrong while trying to remove a Trait, which can be resolved by the User."
+                    },
+                    "404": {
+                        "description": "No Trait has been found to remove."
+                    }
+                },
+                "tags": ["api/trait"]
+            }
+        }
+    },
+    "info": {
+        "title": "DnD Mapp - Races",
+        "description": "A server providing a collection of part of all the available Race options in Dungeons and Dragons 5th edition when a player is creating a new playable character.",
+        "version": "v0.0.1",
+        "contact": {
+            "name": "Oscar Wellner",
+            "url": "https://github.com/nonamer777",
+            "email": "oscar.wellner@gmail.com"
+        }
+    },
+    "tags": [{
+        "name": "api/race",
+        "description": ""
+    }, {
+        "name": "api/trait",
+        "description": ""
+    }, {
+        "name": "assets",
+        "description": ""
+    }],
+    "servers": [],
+    "components": {
+        "schemas": {
+            "SortOrder": {
+                "type": "string",
+                "enum": ["asc", "desc"]
+            },
+            "SortableAttribute": {
+                "type": "string",
+                "enum": ["", "name", "size", "speed"]
+            },
+            "PaginationResponse": {
+                "type": "object",
+                "properties": {
+                    "pageSize": {
+                        "type": "number",
+                        "minimum": 1
+                    },
+                    "page": {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "numberOfPages": {
+                        "type": "number",
+                        "minimum": 1,
+                        "default": 1
+                    },
+                    "last": {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "totalResults": {
+                        "type": "number",
+                        "minimum": 0,
+                        "default": 0
+                    },
+                    "sorting": {
+                        "type": "object",
+                        "properties": {
+                            "order": {
+                                "$ref": "#/components/schemas/SortOrder"
+                            },
+                            "byAttribute": {
+                                "$ref": "#/components/schemas/SortableAttribute"
+                            }
+                        }
+                    },
+                    "filters": {
+                        "type": "object",
+                        "properties": {
+                            "hasTrait": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "required": ["pageSize", "page", "numberOfPages", "last", "totalResults", "sorting", "filters"]
+            },
+            "Size": {
+                "type": "string",
+                "enum": ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"]
+            },
+            "Trait": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "minimum": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of a Trait"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "A text describing what a Trait does, which is specific to this Trait only."
+                    }
+                },
+                "required": ["id", "name", "description"]
+            },
+            "RacialTrait": {
+                "type": "object",
+                "properties": {
+                    "trait": {
+                        "description": "The base Trait that a Race has inherited.",
+                        "allOf": [{
+                            "$ref": "#/components/schemas/Trait"
+                        }]
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "A descriptive text of a Trait that is tied to a particular Race."
+                    }
+                },
+                "required": ["trait", "description"]
+            },
+            "Race": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "minimum": 1
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "description": "How tall and how much space a character of this Race takes up.",
+                        "$ref": "#/components/schemas/Size"
+                    },
+                    "speed": {
+                        "type": "number",
+                        "description": "The base walking speed in a combat round of a character of this Race."
+                    },
+                    "imageUrl": {
+                        "type": "string"
+                    },
+                    "traits": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RacialTrait"
+                        }
+                    }
+                },
+                "required": ["id", "name", "size", "speed", "imageUrl", "traits"]
+            },
+            "CreateRaceData": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "description": "How tall and how much space a character of this Race takes up.",
+                        "$ref": "#/components/schemas/Size"
+                    },
+                    "speed": {
+                        "type": "number",
+                        "description": "The base walking speed in a combat round of a character of this Race."
+                    },
+                    "imageUrl": {
+                        "type": "string"
+                    },
+                    "traits": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RacialTrait"
+                        }
+                    }
+                },
+                "required": ["name", "size", "speed", "imageUrl", "traits"]
+            },
+            "CreateTraitData": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of a Trait"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "A text describing what a Trait does, which is specific to this Trait only."
+                    }
+                },
+                "required": ["name"]
+            }
+        }
+    }
+}

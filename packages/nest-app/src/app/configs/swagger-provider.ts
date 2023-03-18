@@ -1,4 +1,6 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { writeFileSync } from 'fs';
+import { join } from 'path';
 
 const swaggerConfig = new DocumentBuilder()
     .setTitle('DnD Mapp - Races')
@@ -15,5 +17,7 @@ const swaggerConfig = new DocumentBuilder()
 export function setupSwaggerModule(app): void {
     const swaggerDoc = SwaggerModule.createDocument(app, swaggerConfig);
 
-    SwaggerModule.setup('api', app, swaggerDoc);
+    writeFileSync(join(__dirname, 'open-api.json'), JSON.stringify(swaggerDoc));
+
+    SwaggerModule.setup('/', app, swaggerDoc);
 }
