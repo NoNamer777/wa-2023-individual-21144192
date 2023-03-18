@@ -7,6 +7,9 @@ const swaggerConfig = new DocumentBuilder()
     )
     .setVersion('v0.0.1')
     .addTag('api/race')
+    .addTag('api/trait')
+    .addTag('assets')
+    .setContact('Oscar Wellner', 'https://github.com/nonamer777', 'oscar.wellner@gmail.com')
     .build();
 
 export function setupSwaggerModule(app): void {
