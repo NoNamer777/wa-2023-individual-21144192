@@ -4,15 +4,17 @@
         "/assets/{path}": {
             "get": {
                 "operationId": "AssetHandlingController_getAsset",
-                "parameters": [{
-                    "name": "path",
-                    "required": true,
-                    "in": "path",
-                    "description": "The path, file name, and file extension of the asset to get.",
-                    "schema": {
-                        "type": "string"
+                "parameters": [
+                    {
+                        "name": "path",
+                        "required": true,
+                        "in": "path",
+                        "description": "The path, file name, and file extension of the asset to get.",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
-                }],
+                ],
                 "responses": {
                     "200": {
                         "description": ""
@@ -27,66 +29,75 @@
         "/api/race": {
             "get": {
                 "operationId": "RaceController_getAll",
-                "parameters": [{
-                    "name": "page",
-                    "required": false,
-                    "in": "query",
-                    "description": "The slice of data to get.",
-                    "schema": {
-                        "type": "number"
+                "parameters": [
+                    {
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "description": "The slice of data to get.",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "required": false,
+                        "in": "query",
+                        "description": "How many items are in one slice of data.",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "hasTrait",
+                        "required": false,
+                        "in": "query",
+                        "description": "Filters the data on a the condition that they have a particular Trait with the provided name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sortByAttribute",
+                        "required": false,
+                        "in": "query",
+                        "description": "On which attribute the data should be sorted.",
+                        "schema": {
+                            "enum": ["name", "size", "speed"],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "required": false,
+                        "in": "query",
+                        "description": "In which order the data should be sorted.",
+                        "schema": {
+                            "$ref": "#/components/schemas/SortOrder"
+                        }
                     }
-                }, {
-                    "name": "pageSize",
-                    "required": false,
-                    "in": "query",
-                    "description": "How many items are in one slice of data.",
-                    "schema": {
-                        "type": "number"
-                    }
-                }, {
-                    "name": "hasTrait",
-                    "required": false,
-                    "in": "query",
-                    "description": "Filters the data on a the condition that they have a particular Trait with the provided name",
-                    "schema": {
-                        "type": "string"
-                    }
-                }, {
-                    "name": "sortByAttribute",
-                    "required": false,
-                    "in": "query",
-                    "description": "On which attribute the data should be sorted.",
-                    "schema": {
-                        "enum": ["name", "size", "speed"],
-                        "type": "string"
-                    }
-                }, {
-                    "name": "order",
-                    "required": false,
-                    "in": "query",
-                    "description": "In which order the data should be sorted.",
-                    "schema": {
-                        "$ref": "#/components/schemas/SortOrder"
-                    }
-                }],
+                ],
                 "responses": {
                     "200": {
                         "description": "All Races are successfully returned",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "allOf": [{
-                                        "$ref": "#/components/schemas/PaginationResponse"
-                                    }, {
-                                        "properties": {
-                                            "results": {
-                                                "type": "array",
-                                                "items": {
-                                                    "$ref": "#/components/schemas/Race"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/PaginationResponse"
+                                        },
+                                        {
+                                            "properties": {
+                                                "results": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Race"
+                                                    }
                                                 }
                                             }
                                         }
-                                    }]
+                                    ]
                                 }
                             }
                         }
@@ -131,15 +142,17 @@
         "/api/race/{id}": {
             "get": {
                 "operationId": "RaceController_getById",
-                "parameters": [{
-                    "name": "id",
-                    "required": true,
-                    "in": "path",
-                    "description": "The ID of the Race to get.",
-                    "schema": {
-                        "type": "number"
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of the Race to get.",
+                        "schema": {
+                            "type": "number"
+                        }
                     }
-                }],
+                ],
                 "responses": {
                     "200": {
                         "description": "A Race was found by the provided ID",
@@ -162,15 +175,17 @@
             },
             "put": {
                 "operationId": "RaceController_update",
-                "parameters": [{
-                    "name": "id",
-                    "required": true,
-                    "in": "path",
-                    "description": "The ID of the Race to update.",
-                    "schema": {
-                        "type": "number"
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of the Race to update.",
+                        "schema": {
+                            "type": "number"
+                        }
                     }
-                }],
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -203,15 +218,17 @@
             },
             "delete": {
                 "operationId": "RaceController_delete",
-                "parameters": [{
-                    "name": "id",
-                    "required": true,
-                    "in": "path",
-                    "description": "The ID of the Race to delete.",
-                    "schema": {
-                        "type": "number"
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of the Race to delete.",
+                        "schema": {
+                            "type": "number"
+                        }
                     }
-                }],
+                ],
                 "responses": {
                     "200": {
                         "description": "The Race is successfully removed"
@@ -274,15 +291,17 @@
         "/api/trait/{id}": {
             "get": {
                 "operationId": "TraitController_getById",
-                "parameters": [{
-                    "name": "id",
-                    "required": true,
-                    "in": "path",
-                    "description": "The ID of the Trait to get.",
-                    "schema": {
-                        "type": "number"
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of the Trait to get.",
+                        "schema": {
+                            "type": "number"
+                        }
                     }
-                }],
+                ],
                 "responses": {
                     "200": {
                         "description": "The Trait has been successfully retrieved.",
@@ -305,15 +324,17 @@
             },
             "put": {
                 "operationId": "TraitController_update",
-                "parameters": [{
-                    "name": "id",
-                    "required": true,
-                    "in": "path",
-                    "description": "The ID of the Trait to update.",
-                    "schema": {
-                        "type": "number"
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of the Trait to update.",
+                        "schema": {
+                            "type": "number"
+                        }
                     }
-                }],
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -346,15 +367,17 @@
             },
             "delete": {
                 "operationId": "TraitController_delete",
-                "parameters": [{
-                    "name": "id",
-                    "required": true,
-                    "in": "path",
-                    "description": "The ID of the Trait to remove.",
-                    "schema": {
-                        "type": "number"
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of the Trait to remove.",
+                        "schema": {
+                            "type": "number"
+                        }
                     }
-                }],
+                ],
                 "responses": {
                     "200": {
                         "description": "A Trait has been removed."
@@ -380,16 +403,20 @@
             "email": "oscar.wellner@gmail.com"
         }
     },
-    "tags": [{
-        "name": "api/race",
-        "description": ""
-    }, {
-        "name": "api/trait",
-        "description": ""
-    }, {
-        "name": "assets",
-        "description": ""
-    }],
+    "tags": [
+        {
+            "name": "api/race",
+            "description": ""
+        },
+        {
+            "name": "api/trait",
+            "description": ""
+        },
+        {
+            "name": "assets",
+            "description": ""
+        }
+    ],
     "servers": [],
     "components": {
         "schemas": {
@@ -476,9 +503,11 @@
                 "properties": {
                     "trait": {
                         "description": "The base Trait that a Race has inherited.",
-                        "allOf": [{
-                            "$ref": "#/components/schemas/Trait"
-                        }]
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Trait"
+                            }
+                        ]
                     },
                     "description": {
                         "type": "string",
