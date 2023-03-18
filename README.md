@@ -10,7 +10,7 @@ of the projects themselves.
 The projects can be found here:
 
 | Project name    | Location                      | Technologies used                         |
-|-----------------|-------------------------------|-------------------------------------------|
+| --------------- | ----------------------------- | ----------------------------------------- |
 | static          | [static](packages/static)     | HTML, CSS, and vanilla JavaScript         |
 | --------------- | ----------------------------- | ----------------------------------------- |
 | app-data        | [app-data](packages/app-data) | TypeScript                                |
@@ -37,8 +37,8 @@ npm install
 ```
 
 2. After that you'll need to provide the environment details for the back-end. Find the environment file
-[here](packages/nest-app/src/environments/environment.ts) and provide the information that suits your local environment
-best using the following format:
+   [here](packages/nest-app/src/environments/environment.ts) and provide the information that suits your local environment
+   best using the following format:
 
 ```typescript
 export const environment: EnvironmentValues = {
@@ -61,13 +61,13 @@ export const environment: EnvironmentValues = {
 ```
 
 3. Make sure to grab the sql script, that you can find [here](documentation/data/data.sql), and run that script on your
-lokal MySQL database so that it will be populated with some initial data.
+   lokal MySQL database so that it will be populated with some initial data.
 
 NOTE: Make sure that the name of the database/schema that will be created via that script is the same that is provided
 in the back-end environment setup in step 3.
 
 4. Next is running the back- and front-end applications. This you can do by running the following commands in two different
-terminals:
+   terminals:
 
 ```shell
 # This will serve the front-end application
@@ -78,8 +78,9 @@ nx run vue-app:serve
 # This will serve the back-end application
 nx run nest-app:serve
 ```
+
 At this point you'll have both the front- and back-end running and they should be able to work together to show you the
-part of the available Race options for when a player creates a new player character in Dungeons and Dragons, 5th edition. 
+part of the available Race options for when a player creates a new player character in Dungeons and Dragons, 5th edition.
 
 ## Icons
 
