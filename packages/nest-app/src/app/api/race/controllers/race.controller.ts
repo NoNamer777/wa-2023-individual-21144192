@@ -26,7 +26,17 @@ import {
     UseInterceptors,
     UsePipes,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+    ApiBadRequestResponse,
+    ApiCreatedResponse,
+    ApiExtraModels,
+    ApiNotFoundResponse,
+    ApiOkResponse,
+    ApiParam,
+    ApiQuery,
+    ApiTags,
+    getSchemaPath,
+} from '@nestjs/swagger';
 import { HttpStatusCode } from 'axios';
 import { RaceResponseInterceptor } from '../interceptors/race-response.interceptor';
 import { createRaceDataSchema, existingRaceDataSchema, RaceValidationPipe } from '../pipes/race-validation.pipe';
@@ -38,9 +48,56 @@ import { RaceService } from '../services/race.service';
 @Controller({
     path: 'api/race',
 })
+@ApiExtraModels(PaginationResponse)
 export class RaceController {
     constructor(private raceService: RaceService) {}
 
+    @ApiQuery({ name: 'page', type: Number, required: false, description: 'The slice of data to get.' })
+    @ApiQuery({
+        name: 'pageSize',
+        type: Number,
+        required: false,
+        description: 'How many items are in one slice of data.',
+    })
+    @ApiQuery({
+        name: 'order',
+        enum: ['asc', 'desc'],
+        enumName: 'SortOrder',
+        required: false,
+        description: 'In which order the data should be sorted.',
+    })
+    @ApiQuery({
+        name: 'sortByAttribute',
+        enum: ['name', 'size', 'speed'],
+        required: false,
+        description: 'On which attribute the data should be sorted.',
+    })
+    @ApiQuery({
+        name: 'hasTrait',
+        type: String,
+        required: false,
+        description: 'Filters the data on a the condition that they have a particular Trait with the provided name',
+    })
+    @ApiOkResponse({
+        description: 'All Races are successfully returned',
+        schema: {
+            allOf: [
+                { $ref: getSchemaPath(PaginationResponse) },
+                {
+                    properties: {
+                        results: {
+                            type: 'array',
+                            items: { $ref: getSchemaPath(Race) },
+                        },
+                    },
+                },
+            ],
+        },
+    })
+    @ApiBadRequestResponse({
+        description:
+            'Something went wrong while trying to get all Races within certain parameters which can be resolved by the User. ',
+    })
     @Get()
     async getAll(
         @Query(QueryParamKeys.PAGE, new DefaultValuePipe(DEFAULT_PAGE), ParseIntPipe) page: number,
@@ -58,11 +115,23 @@ export class RaceController {
         return await this.raceService.getAll(page, pageSize, order, sortByAttribute, hasTrait);
     }
 
+    @ApiParam({ name: 'id', type: Number, required: true, description: 'The ID of the Race to get.' })
+    @ApiOkResponse({ description: 'A Race was found by the provided ID', type: Race })
+    @ApiNotFoundResponse({ description: 'The Race by the provided ID was not found.' })
+    @ApiBadRequestResponse({
+        description: 'Something went wrong while trying to get a Race by ID which can be resolved by the User.',
+    })
     @Get(':id')
     async getById(@Param('id', ParseIntPipe) idPath: number): Promise<Race> {
         return await this.raceService.getById(idPath);
     }
 
+    @ApiParam({ name: 'id', type: Number, required: true, description: 'The ID of the Race to update.' })
+    @ApiOkResponse({ description: 'The race was successfully updated.', type: Race })
+    @ApiNotFoundResponse({ description: `Could not update a Race because it wasn't found.` })
+    @ApiBadRequestResponse({
+        description: 'Something went wrong while trying to update a Race which can be resolved by the User.',
+    })
     @UsePipes(new RaceValidationPipe(existingRaceDataSchema))
     @Put(':id')
     async update(@Param('id', ParseIntPipe) idPath: number, @Body() raceData: Race): Promise<Race> {
@@ -74,6 +143,10 @@ export class RaceController {
         return await this.raceService.update(raceData);
     }
 
+    @ApiCreatedResponse({ description: 'A new Race was successfully created', type: Race })
+    @ApiBadRequestResponse({
+        description: 'Something went wrong while trying to create a new Race which can be resolved by the User.',
+    })
     @UsePipes(new RaceValidationPipe(createRaceDataSchema))
     @Post()
     @HttpCode(HttpStatusCode.Created)
@@ -81,6 +154,12 @@ export class RaceController {
         return await this.raceService.create(raceData);
     }
 
+    @ApiParam({ name: 'id', type: Number, required: true, description: 'The ID of the Race to delete.' })
+    @ApiOkResponse({ description: 'The Race is successfully removed' })
+    @ApiNotFoundResponse({ description: 'Could not find the Race to remove.' })
+    @ApiBadRequestResponse({
+        description: 'Something went wrong while trying to remove the Race which can be resolved by the User.',
+    })
     @Delete(':id')
     async delete(@Param('id', ParseIntPipe) idPath: number): Promise<void> {
         await this.raceService.deleteById(idPath);
