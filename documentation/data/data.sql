@@ -1,5 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `dmadb`;
-USE `dmadb`;
+CREATE DATABASE  IF NOT EXISTS `my-db`;
+USE `my-db`;
 
 DROP TABLE IF EXISTS `race-trait`;
 DROP TABLE IF EXISTS `trait`;
