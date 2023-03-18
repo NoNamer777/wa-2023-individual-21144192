@@ -2,35 +2,12 @@
 
 This project is created with Vue 3 in vite. On top of that, this project uses Bootstrap for styling, TypeScript, and SCSS.
 
+This front-end application resolve around displaying a part of a collection of available Race options that D&D players
+can choose when creating a player character with the 5e rule system.
+
 ## Running the application
 
-First, make sure that you've installed the dependencies for the repository, if you've not done this already,
-by running the following command in the root of the repository (`./wa-2023-individual-21144192/`):
-
-```shell
-npm install
-```
-
-Now you need to make a build of the project. This, you can do by running the following command in your terminal, while
-in the vue-app directory (`./wa-2023-individual-21144192/packages/vue-app/`):
-
-```shell
-npm run vue-app:build
-```
-
-If all goes well, in the project structure panel (directories and files), you should find a build output in the root of
-the repository under the following path: `dist/vue-app/`.
-
-After that it's only a matter of running Servor by using the following command in the same directory as the previous command
-and using the link in the terminal output to open the web application is your browser:
-
-```shell
-npm run vue-app:start
-```
-
-Alternatively, you can run the command above, and open a browser yourself and navigate to the following address:
-
-http://localhost:4200/
+Instructions on how to run this application you can find in the [README](../../README.md) in the root of this repository.
 
 ### Availability local private network
 
