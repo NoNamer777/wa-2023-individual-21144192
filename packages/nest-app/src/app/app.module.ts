@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigModuleOptions } from '@nestjs/config/dist/interfaces';
 import { environment } from '../environments/environment';
-import { RaceModule, TraitModule } from './api';
+import { RaceModule, RacialTraitModule, TraitModule } from './api';
 import { AssetHandlingModule } from './asset-handling';
 import { DatabaseProviderModule } from './configs';
 
@@ -16,6 +16,7 @@ const configOptions: ConfigModuleOptions = {
         DatabaseProviderModule,
         AssetHandlingModule,
         RaceModule,
+        RacialTraitModule,
         TraitModule,
     ],
 })
