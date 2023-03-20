@@ -46,7 +46,7 @@ export class TraitService {
 
     async create(traitData: CreateTraitData): Promise<Trait> {
         if (await this.doesTraitExistByName(traitData.name)) {
-            throw Error(
+            throw new BadRequestException(
                 `Cannot create a new Trait with name: '${traitData.name}' because a Trait already exists by that name.`
             );
         }
@@ -56,7 +56,8 @@ export class TraitService {
 
     async deleteById(traitId: number): Promise<void> {
         if (!(await this.doesTraitExistById(traitId))) {
-            throw Error(`Cannot delete Trait with ID: '${traitId}' because it does not exist.`);
+            throw new BadRequestException(`Cannot delete Trait with ID: '${traitId}' because it does not exist.`);
+        }
         }
         await this.traitRepository.delete({ id: traitId });
     }
