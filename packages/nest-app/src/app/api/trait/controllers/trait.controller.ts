@@ -10,6 +10,7 @@ import {
     ParseIntPipe,
     Post,
     Put,
+    UsePipes,
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse,
@@ -20,6 +21,7 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 import { HttpStatusCode } from 'axios';
+import { createTraitDataSchema, existingTraitDataSchema, TraitValidationPipe } from '../pipes/trait-validation.pipe';
 import { TraitService } from '../services/trait.service';
 import { CreateTraitData } from '../trait.schema';
 
@@ -51,6 +53,7 @@ export class TraitController {
     @ApiBadRequestResponse({
         description: 'Something went wrong while trying to update a Trait, which can be resolved by the User.',
     })
+    @UsePipes(new TraitValidationPipe(existingTraitDataSchema))
     @Put(':id')
     async update(@Param('id', new ParseIntPipe()) idPath: number, @Body() traitData: Trait): Promise<Trait> {
         if (traitData.id !== idPath) {
@@ -65,6 +68,7 @@ export class TraitController {
     @ApiBadRequestResponse({
         description: 'Something went wrong while trying to create a Trait, which can be resolved by the User.',
     })
+    @UsePipes(new TraitValidationPipe(createTraitDataSchema))
     @Post()
     @HttpCode(HttpStatusCode.Created)
     async create(@Body() traitData: CreateTraitData): Promise<Trait> {
