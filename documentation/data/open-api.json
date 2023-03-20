@@ -17,10 +17,17 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "The asset found on the provided path."
                     },
                     "404": {
-                        "description": ""
+                        "description": "When no asset is found on the provdied path.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": ["assets"]
@@ -103,7 +110,14 @@
                         }
                     },
                     "400": {
-                        "description": "Something went wrong while trying to get all Races within certain parameters which can be resolved by the User. "
+                        "description": "Something went wrong while trying to get all Races within certain parameters which can be resolved by the User. ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": ["api/race"]
@@ -133,7 +147,14 @@
                         }
                     },
                     "400": {
-                        "description": "Something went wrong while trying to create a new Race which can be resolved by the User."
+                        "description": "Something went wrong while trying to create a new Race which can be resolved by the User.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": ["api/race"]
@@ -165,10 +186,24 @@
                         }
                     },
                     "400": {
-                        "description": "Something went wrong while trying to get a Race by ID which can be resolved by the User."
+                        "description": "Something went wrong while trying to get a Race by ID which can be resolved by the User.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "The Race by the provided ID was not found."
+                        "description": "The Race by the provided ID was not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": ["api/race"]
@@ -208,10 +243,24 @@
                         }
                     },
                     "400": {
-                        "description": "Something went wrong while trying to update a Race which can be resolved by the User."
+                        "description": "Something went wrong while trying to update a Race which can be resolved by the User.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Could not update a Race because it wasn't found."
+                        "description": "Could not update a Race because it wasn't found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": ["api/race"]
@@ -234,10 +283,24 @@
                         "description": "The Race is successfully removed"
                     },
                     "400": {
-                        "description": "Something went wrong while trying to remove the Race which can be resolved by the User."
+                        "description": "Something went wrong while trying to remove the Race which can be resolved by the User.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Could not find the Race to remove."
+                        "description": "Could not find the Race to remove.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": ["api/race"]
@@ -282,7 +345,14 @@
                         "description": "A Trait has been created."
                     },
                     "400": {
-                        "description": "Something went wrong while trying to create a Trait, which can be resolved by the User."
+                        "description": "Something went wrong while trying to create a Trait, which can be resolved by the User.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": ["api/trait"]
@@ -314,10 +384,24 @@
                         }
                     },
                     "400": {
-                        "description": "Something went wrong while trying to retrieve a Trait, which can be resolved by the User."
+                        "description": "Something went wrong while trying to retrieve a Trait, which can be resolved by the User.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Could not retrieve the Trait."
+                        "description": "Could not retrieve the Trait.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": ["api/trait"]
@@ -357,10 +441,24 @@
                         }
                     },
                     "400": {
-                        "description": "Something went wrong while trying to update a Trait, which can be resolved by the User."
+                        "description": "Something went wrong while trying to update a Trait, which can be resolved by the User.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Could not update a Trait because it was not found. "
+                        "description": "Could not update a Trait because it was not found. ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": ["api/trait"]
@@ -383,10 +481,24 @@
                         "description": "A Trait has been removed."
                     },
                     "400": {
-                        "description": "Something went wrong while trying to remove a Trait, which can be resolved by the User."
+                        "description": "Something went wrong while trying to remove a Trait, which can be resolved by the User.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "No Trait has been found to remove."
+                        "description": "No Trait has been found to remove.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": ["api/trait"]
@@ -406,20 +518,44 @@
     "tags": [
         {
             "name": "api/race",
-            "description": ""
+            "description": "Allows making CRUD operations on Races."
         },
         {
             "name": "api/trait",
-            "description": ""
+            "description": "Allows making CRUD operations on Traits."
         },
         {
             "name": "assets",
-            "description": ""
+            "description": "Allows retrieving assets from the server."
         }
     ],
-    "servers": [],
+    "servers": [
+        {
+            "url": "{{server_protocol}}://{{server_host}}:{{server_port}}",
+            "description": "Local development server"
+        },
+        {
+            "url": "{{mock_server_url}}",
+            "description": "Postman mock server"
+        }
+    ],
     "components": {
         "schemas": {
+            "ErrorResponse": {
+                "type": "object",
+                "properties": {
+                    "statusCode": {
+                        "type": "number"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "error": {
+                        "type": "string"
+                    }
+                },
+                "required": ["statusCode", "message", "error"]
+            },
             "SortOrder": {
                 "type": "string",
                 "enum": ["asc", "desc"]
@@ -436,17 +572,22 @@
                         "minimum": 1
                     },
                     "page": {
-                        "type": "boolean",
-                        "default": false
+                        "type": "number",
+                        "minimum": 1,
+                        "default": 1
                     },
                     "numberOfPages": {
                         "type": "number",
                         "minimum": 1,
                         "default": 1
                     },
+                    "first": {
+                        "type": "boolean",
+                        "default": true
+                    },
                     "last": {
                         "type": "boolean",
-                        "default": false
+                        "default": true
                     },
                     "totalResults": {
                         "type": "number",
@@ -473,7 +614,7 @@
                         }
                     }
                 },
-                "required": ["pageSize", "page", "numberOfPages", "last", "totalResults", "sorting", "filters"]
+                "required": ["pageSize", "numberOfPages", "page", "last", "totalResults", "sorting"]
             },
             "Size": {
                 "type": "string",
@@ -545,7 +686,7 @@
                         }
                     }
                 },
-                "required": ["id", "name", "size", "speed", "imageUrl", "traits"]
+                "required": ["id", "name", "size", "speed", "imageUrl"]
             },
             "CreateRaceData": {
                 "type": "object",

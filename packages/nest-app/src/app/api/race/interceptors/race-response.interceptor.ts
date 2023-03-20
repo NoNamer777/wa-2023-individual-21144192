@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { ModuleRef } from '@nestjs/core';
 import { map, Observable } from 'rxjs';
 import { buildServerUrl, DEFAULT_SERVER_HOSTNAME, DEFAULT_SERVER_PORT } from '../../../shared/constants';
-import { RacialTraitRelation } from '../racial-trait.schema';
+import { RacialTraitRelation } from '../../race-trait';
 
 @Injectable()
 export class RaceResponseInterceptor<T> implements NestInterceptor<T>, OnModuleInit {

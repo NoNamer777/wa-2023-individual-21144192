@@ -1,12 +1,23 @@
 import { Trait } from '@dnd-mapp/data';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { RacialTraitService } from '../../race-trait';
 import { CreateTraitData, TraitSchema } from '../trait.schema';
 
 @Injectable()
-export class TraitService {
-    constructor(@InjectRepository(TraitSchema) private traitRepository: Repository<Trait>) {}
+export class TraitService implements OnModuleInit {
+    private racialTraitService: RacialTraitService;
+
+    constructor(
+        @InjectRepository(TraitSchema) private traitRepository: Repository<Trait>,
+        private moduleRef: ModuleRef
+    ) {}
+
+    async onModuleInit(): Promise<void> {
+        this.racialTraitService = await this.moduleRef.get(RacialTraitService, { strict: false });
+    }
 
     async getAll(): Promise<Trait[]> {
         return await this.traitRepository.find();
@@ -46,7 +57,7 @@ export class TraitService {
 
     async create(traitData: CreateTraitData): Promise<Trait> {
         if (await this.doesTraitExistByName(traitData.name)) {
-            throw Error(
+            throw new BadRequestException(
                 `Cannot create a new Trait with name: '${traitData.name}' because a Trait already exists by that name.`
             );
         }
@@ -56,7 +67,14 @@ export class TraitService {
 
     async deleteById(traitId: number): Promise<void> {
         if (!(await this.doesTraitExistById(traitId))) {
-            throw Error(`Cannot delete Trait with ID: '${traitId}' because it does not exist.`);
+            throw new BadRequestException(`Cannot delete Trait with ID: '${traitId}' because it does not exist.`);
+        }
+        const racialTraits = await this.racialTraitService.getAllByTrait(traitId);
+
+        if (racialTraits.length > 0) {
+            throw new BadRequestException(
+                `Cannot delete Trait with ID: '${traitId}' because it is still used by a Race.`
+            );
         }
         await this.traitRepository.delete({ id: traitId });
     }

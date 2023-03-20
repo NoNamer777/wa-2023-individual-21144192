@@ -3,22 +3,20 @@ import { BadRequestException, Injectable, NotFoundException, OnModuleInit } from
 import { ModuleRef } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
+import { RacialTraitService } from '../../race-trait';
 import { TraitService } from '../../trait';
 import { CreateRaceData, RaceSchema } from '../race.schema';
-import { RacialTraitRelation, RacialTraitSchema } from '../racial-trait.schema';
 
 @Injectable()
 export class RaceService implements OnModuleInit {
     private traitService: TraitService;
+    private racialTraitService: RacialTraitService;
 
-    constructor(
-        private moduleRef: ModuleRef,
-        @InjectRepository(RaceSchema) private raceRepository: Repository<Race>,
-        @InjectRepository(RacialTraitSchema) private racialTraitRepository: Repository<RacialTraitRelation>
-    ) {}
+    constructor(private moduleRef: ModuleRef, @InjectRepository(RaceSchema) private raceRepository: Repository<Race>) {}
 
     async onModuleInit(): Promise<void> {
         this.traitService = await this.moduleRef.get(TraitService, { strict: false });
+        this.racialTraitService = await this.moduleRef.get(RacialTraitService, { strict: false });
     }
 
     async getAll(
@@ -112,7 +110,7 @@ export class RaceService implements OnModuleInit {
         if (!(await this.doesRaceExistById(raceId))) {
             throw new NotFoundException(`Cannot delete Race with ID: '${raceId}' because it does not exist.`);
         }
-        await this.racialTraitRepository.delete({ _raceId: raceId });
+        await this.racialTraitService.deleteAllFromRace(raceId);
         await this.raceRepository.delete({ id: raceId });
     }
 
